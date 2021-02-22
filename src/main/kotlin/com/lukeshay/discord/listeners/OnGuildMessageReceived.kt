@@ -16,7 +16,7 @@ class OnGuildMessageReceived @Autowired constructor(private val commands: List<C
     init {
         println("Avaliable commands:")
         for (command in commands) {
-            println("    !${command.command}")
+            println("    ${command.command}")
         }
     }
 
@@ -26,7 +26,12 @@ class OnGuildMessageReceived @Autowired constructor(private val commands: List<C
         info(event, "message - ${event.author.name}: ${event.message.contentRaw}")
 
         for (command in commands) {
-            if (command.handle(event)) {
+            if (event.message.contentRaw.startsWith(
+                    command.command,
+                    ignoreCase = true
+                )
+            ) {
+                command.run(event)
                 return
             }
 

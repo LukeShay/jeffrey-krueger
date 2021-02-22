@@ -37,3 +37,7 @@ tasks.withType<KotlinCompile>() {
 application {
     mainClassName = "com.lukeshay.discord.MainKt"
 }
+
+tasks.distTar {
+    archiveFileName.set("discord-bot.tar")
+}

@@ -1,0 +1,23 @@
+name: Actions
+on: [ push ]
+
+jobs:
+  test:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@latest
+      - run: |
+          docker run --rm \
+              -v "$PWD":/usr/src/myapp \
+              -w /usr/src/myapp \
+              openjdk:11-jdk \
+              ./gradlew --no-daemon check
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@latest
+      - run: make login
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: make build
+      - run: make push

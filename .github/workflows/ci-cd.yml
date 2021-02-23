@@ -5,7 +5,7 @@ jobs:
   test:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@latest
+      - uses: actions/checkout@v2
       - run: |
           docker run --rm \
               -v "$PWD":/usr/src/myapp \
@@ -15,7 +15,7 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@latest
+      - uses: actions/checkout@v2
       - run: make login
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -18,6 +18,6 @@ run:
 	docker run --rm \
 		-v "$(PWD)":/usr/src/myapp \
 		-w /usr/src/myapp \
-		openjdk:11-jdk \
+		openjdk:15-jdk \
 		./gradlew --no-daemon $(CMD)
 .PHONY: run

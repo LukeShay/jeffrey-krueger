@@ -2,7 +2,21 @@ package com.lukeshay.discord
 
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.Region
-import net.dv8tion.jda.api.entities.*
+import net.dv8tion.jda.api.entities.Category
+import net.dv8tion.jda.api.entities.Emote
+import net.dv8tion.jda.api.entities.Guild
+import net.dv8tion.jda.api.entities.GuildChannel
+import net.dv8tion.jda.api.entities.GuildVoiceState
+import net.dv8tion.jda.api.entities.Icon
+import net.dv8tion.jda.api.entities.Invite
+import net.dv8tion.jda.api.entities.ListedEmote
+import net.dv8tion.jda.api.entities.Member
+import net.dv8tion.jda.api.entities.Role
+import net.dv8tion.jda.api.entities.StoreChannel
+import net.dv8tion.jda.api.entities.TextChannel
+import net.dv8tion.jda.api.entities.User
+import net.dv8tion.jda.api.entities.VoiceChannel
+import net.dv8tion.jda.api.entities.Webhook
 import net.dv8tion.jda.api.managers.AudioManager
 import net.dv8tion.jda.api.managers.GuildManager
 import net.dv8tion.jda.api.requests.RestAction

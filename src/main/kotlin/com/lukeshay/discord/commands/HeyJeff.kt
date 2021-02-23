@@ -7,10 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-open class Hey @Autowired constructor(private val rand: Rand) :
-    Command("hey", FeatureStatus.RELEASE) {
+open class HeyJeff @Autowired constructor(private val rand: Rand) :
+    Command("hey jeff", "I will say hi back to you!", false, FeatureStatus.RELEASE) {
     override fun run(event: GuildMessageReceivedEvent) {
-        if (event.message.contentRaw.startsWith("hey jeff", ignoreCase = true))
         event.message.reply("Hey ${rand.randomVerb()}").queue()
     }
 }

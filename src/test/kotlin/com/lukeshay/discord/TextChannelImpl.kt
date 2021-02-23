@@ -1,10 +1,28 @@
 package com.lukeshay.discord
 
 import net.dv8tion.jda.api.JDA
-import net.dv8tion.jda.api.entities.*
+import net.dv8tion.jda.api.entities.Category
+import net.dv8tion.jda.api.entities.ChannelType
+import net.dv8tion.jda.api.entities.Emote
+import net.dv8tion.jda.api.entities.Guild
+import net.dv8tion.jda.api.entities.GuildChannel
+import net.dv8tion.jda.api.entities.IPermissionHolder
+import net.dv8tion.jda.api.entities.Invite
+import net.dv8tion.jda.api.entities.Member
+import net.dv8tion.jda.api.entities.Message
+import net.dv8tion.jda.api.entities.MessageEmbed
+import net.dv8tion.jda.api.entities.PermissionOverride
+import net.dv8tion.jda.api.entities.TextChannel
+import net.dv8tion.jda.api.entities.User
+import net.dv8tion.jda.api.entities.Webhook
 import net.dv8tion.jda.api.managers.ChannelManager
 import net.dv8tion.jda.api.requests.RestAction
-import net.dv8tion.jda.api.requests.restaction.*
+import net.dv8tion.jda.api.requests.restaction.AuditableRestAction
+import net.dv8tion.jda.api.requests.restaction.ChannelAction
+import net.dv8tion.jda.api.requests.restaction.InviteAction
+import net.dv8tion.jda.api.requests.restaction.MessageAction
+import net.dv8tion.jda.api.requests.restaction.PermissionOverrideAction
+import net.dv8tion.jda.api.requests.restaction.WebhookAction
 
 class TextChannelImpl(private val messageAction: MessageAction) : TextChannel {
     override fun sendMessage(text: CharSequence): MessageAction {

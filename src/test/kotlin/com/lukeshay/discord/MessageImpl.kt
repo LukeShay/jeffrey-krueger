@@ -1,14 +1,30 @@
 package com.lukeshay.discord
 
 import net.dv8tion.jda.api.JDA
-import net.dv8tion.jda.api.entities.*
+import net.dv8tion.jda.api.entities.Category
+import net.dv8tion.jda.api.entities.ChannelType
+import net.dv8tion.jda.api.entities.Emote
+import net.dv8tion.jda.api.entities.Guild
+import net.dv8tion.jda.api.entities.IMentionable
+import net.dv8tion.jda.api.entities.Member
+import net.dv8tion.jda.api.entities.Message
+import net.dv8tion.jda.api.entities.MessageActivity
+import net.dv8tion.jda.api.entities.MessageChannel
+import net.dv8tion.jda.api.entities.MessageEmbed
+import net.dv8tion.jda.api.entities.MessageReaction
+import net.dv8tion.jda.api.entities.MessageType
+import net.dv8tion.jda.api.entities.PrivateChannel
+import net.dv8tion.jda.api.entities.Role
+import net.dv8tion.jda.api.entities.TextChannel
+import net.dv8tion.jda.api.entities.User
 import net.dv8tion.jda.api.requests.RestAction
 import net.dv8tion.jda.api.requests.restaction.AuditableRestAction
 import net.dv8tion.jda.api.requests.restaction.MessageAction
 import net.dv8tion.jda.api.requests.restaction.pagination.ReactionPaginationAction
 import org.apache.commons.collections4.Bag
 import java.time.OffsetDateTime
-import java.util.*
+import java.util.EnumSet
+import java.util.Formatter
 
 class MessageImpl(private val author: User, private val contentRaw: String) : Message {
     override fun getIdLong(): Long {

@@ -1,8 +1,10 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
     kotlin("jvm") version "1.4.10"
     application
+    id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
 }
 
 group = "com.lukeshay.discord"
@@ -42,4 +44,16 @@ application {
 
 tasks.distTar {
     archiveFileName.set("discord-bot.tar")
+}
+
+ktlint {
+    verbose.set(true)
+    outputToConsole.set(true)
+    coloredOutput.set(true)
+    reporters {
+        reporter(ReporterType.CHECKSTYLE)
+    }
+    filter {
+        exclude("**/style-violations.kt")
+    }
 }

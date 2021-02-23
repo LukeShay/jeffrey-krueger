@@ -31,7 +31,6 @@ class OnGuildMessageReceived @Autowired constructor(private val commands: Mutabl
             cmds += "\"${command.command}\", "
         }
 
-
         logger.info("avaliable commands - [${cmds.substring(0, cmds.length - 2)}]")
     }
 

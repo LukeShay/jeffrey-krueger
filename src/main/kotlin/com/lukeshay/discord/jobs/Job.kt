@@ -4,7 +4,7 @@ import com.lukeshay.discord.logging.DBLogger
 import net.dv8tion.jda.api.JDA
 
 abstract class Job(private val name: String, private val delay: Long) : Runnable {
-    lateinit var jda: JDA;
+    lateinit var jda: JDA
 
     companion object {
         val logger = DBLogger("Job")

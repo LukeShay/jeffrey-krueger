@@ -4,6 +4,7 @@ import com.lukeshay.discord.GuildImpl
 import com.lukeshay.discord.MessageImpl
 import com.lukeshay.discord.TextChannelImpl
 import com.lukeshay.discord.UserImpl
+import com.lukeshay.discord.commands.Command
 import com.lukeshay.discord.commands.Ping
 import com.lukeshay.discord.listeners.exceptions.NoCommandRuntimeException
 import net.dv8tion.jda.api.entities.Guild
@@ -24,12 +25,11 @@ internal class OnGuildMessageReceivedTest {
 
     private lateinit var onGuildMessageReceived: OnGuildMessageReceived
 
-    private val commands = listOf(Ping())
+    private val commands = mutableListOf(Ping() as Command)
     private lateinit var message: Message
     private lateinit var author: User
     private lateinit var guild: Guild
     private lateinit var channel: TextChannel
-
 
     @BeforeEach
     fun setUp() {

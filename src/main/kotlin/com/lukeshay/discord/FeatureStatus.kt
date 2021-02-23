@@ -22,8 +22,10 @@ enum class FeatureStatus {
      * Checks if the feature is allowed in the given category.
      */
     fun isAllowed(category: Category?): Boolean {
-        return category != null && (allowedCategories() == null || allowedCategories()?.contains(
-            category.id
-        ) == true)
+        return category != null && (
+            allowedCategories() == null || allowedCategories()?.contains(
+                category.id
+            ) == true
+            )
     }
 }

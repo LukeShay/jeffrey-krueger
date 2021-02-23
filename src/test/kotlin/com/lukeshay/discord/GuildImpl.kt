@@ -18,7 +18,8 @@ import net.dv8tion.jda.api.utils.cache.MemberCacheView
 import net.dv8tion.jda.api.utils.cache.SnowflakeCacheView
 import net.dv8tion.jda.api.utils.cache.SortedSnowflakeCacheView
 import net.dv8tion.jda.api.utils.concurrent.Task
-import java.util.*
+import java.util.EnumSet
+import java.util.Locale
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 

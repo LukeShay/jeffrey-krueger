@@ -14,7 +14,7 @@ class DBLogger(clazz: String) {
         logger.useParentHandlers = false
         logger.handlers.forEach { handler -> logger.removeHandler(handler) }
 
-        val consoleHandler = ConsoleHandler();
+        val consoleHandler = ConsoleHandler()
 
         consoleHandler.formatter = LogFormatter()
 

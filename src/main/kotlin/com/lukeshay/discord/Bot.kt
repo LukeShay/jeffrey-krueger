@@ -3,7 +3,6 @@ package com.lukeshay.discord
 import com.lukeshay.discord.jobs.Job
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
-import net.dv8tion.jda.api.OnlineStatus
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component

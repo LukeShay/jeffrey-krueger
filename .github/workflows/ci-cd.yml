@@ -2,20 +2,13 @@ name: Actions
 on: [ push ]
 
 jobs:
-  test:
+  check:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - run: make run
         env:
           CMD: check
-  lint:
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v2
-      - run: make run
-        env:
-          CMD: ktlintCheck
   build:
     runs-on: ubuntu-20.04
     steps:
@@ -27,7 +20,7 @@ jobs:
       - run: make push
   deploy:
     runs-on: ubuntu-20.04
-    needs: [test, lint, build]
+    needs: [check, build]
     if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v2

@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class OnGuildMessageReceived @Autowired constructor(private val commands: MutableList<Command>) :
+class OnGuildMessageReceived @Autowired constructor(
+    private val commands: MutableList<Command>,
+) :
     ListenerAdapter() {
 
     companion object {
@@ -39,26 +41,29 @@ class OnGuildMessageReceived @Autowired constructor(private val commands: Mutabl
 
         logger.info(event, "message - ${event.author.name}: ${event.message.contentRaw}")
 
-        for (command in commands) {
-            if (event.message.contentRaw.startsWith(
+        val command = findCommand(event)
+
+        if (command != null) {
+            logger.info(event, "running command - ${command.command}")
+            command.run(event)
+        } else {
+            logger.info(event, "no command found for message - ${event.message.contentRaw}")
+
+            throw NoCommandRuntimeException("no command found for message - ${event.message.contentRaw}")
+        }
+    }
+
+    private fun findCommand(event: GuildMessageReceivedEvent): Command? {
+        return try {
+            commands.first { command ->
+                event.message.contentRaw.startsWith(
                     command.command,
                     ignoreCase = true
-                )
-            ) {
-                if (isAllowed(command, event)) {
-                    logger.info(event, "running command - ${command.command}")
-                    command.run(event)
-                } else {
-                    logger.info(event, "would have ran command - ${command.command}")
-                }
-
-                return
+                ) && isAllowed(command, event)
             }
+        } catch (e: NoSuchElementException) {
+            null
         }
-
-        logger.info(event, "no command found for message - ${event.message.contentRaw}")
-
-        throw NoCommandRuntimeException("no command found for message - ${event.message.contentRaw}")
     }
 
     private fun isAllowed(command: Command, event: GuildMessageReceivedEvent): Boolean {

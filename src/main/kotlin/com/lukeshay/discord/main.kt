@@ -1,7 +1,10 @@
 package com.lukeshay.discord
 
-import org.springframework.context.support.ClassPathXmlApplicationContext
+import com.lukeshay.discord.config.Config
+import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 fun main() {
-    ClassPathXmlApplicationContext("context.xml").getBean(Bot::class.java).start()
+    val ctx = AnnotationConfigApplicationContext(Config::class.java)
+
+    ctx.getBean(Bot::class.java).start()
 }

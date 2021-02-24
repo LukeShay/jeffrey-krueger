@@ -1,10 +1,23 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
+val kotlinVersion = "1.4.30"
+val springVersion = "5.3.4"
+val hibernateVersion = "6.0.0.Alpha6"
+val junit5Version = "5.6.0"
+
+buildscript {
+    dependencies {
+        classpath("org.jetbrains.kotlin:kotlin-allopen:1.4.30")
+    }
+}
+
 plugins {
-    kotlin("jvm") version "1.4.10"
+    kotlin("jvm") version "1.4.30"
     application
     id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
+    id("org.jetbrains.kotlin.plugin.spring") version "1.4.30"
+    id("org.jetbrains.kotlin.plugin.jpa") version "1.4.30"
 }
 
 group = "com.lukeshay.discord"
@@ -16,17 +29,38 @@ repositories {
 }
 
 dependencies {
+    // Discord dependencies
     implementation("net.dv8tion:JDA:4.2.0_228") {
         exclude("opus-java")
     }
-    implementation("org.springframework:spring-beans:5.3.4")
-    implementation("org.springframework:spring-context:5.3.4")
 
+    // Spring dependencies
+    implementation("org.springframework:spring-context:$springVersion")
+    implementation("org.springframework:spring-beans:$springVersion")
+    implementation("org.springframework.data:spring-data-jpa:2.4.5")
+
+    // Hibernate dependencies
+    implementation("org.hibernate.orm:hibernate-core:$hibernateVersion")
+
+    // Postgres dependencies
+    implementation("org.postgresql:postgresql:42.2.19")
+
+    // Kotlin dependencies
+    runtimeOnly("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
+
+    // Test dependencies
+    // JUnit5 dependencies
     testImplementation(kotlin("test-junit5"))
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:$junit5Version")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junit5Version")
 
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.0")
+    // Hibernate dependencies
+    testImplementation("org.hibernate.orm:hibernate-testing:$hibernateVersion")
 
+    // H2 dependencies
+    implementation("com.h2database:h2:1.4.200")
+
+    // Mockito dependencies
     testImplementation("org.mockito:mockito-core:2.+")
 }
 
@@ -36,6 +70,11 @@ tasks.test {
 
 tasks.withType<KotlinCompile>() {
     kotlinOptions.jvmTarget = "11"
+}
+
+configure<JavaPluginConvention> {
+    sourceCompatibility = JavaVersion.VERSION_15
+    targetCompatibility = JavaVersion.VERSION_15
 }
 
 application {

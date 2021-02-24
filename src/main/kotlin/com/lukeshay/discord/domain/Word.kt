@@ -1,5 +1,6 @@
 package com.lukeshay.discord.domain
 
+import com.lukeshay.discord.utils.specialCharacters
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import java.time.Instant
@@ -14,11 +15,19 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "words")
-data class Word(
+class Word(
     @Id @GeneratedValue(strategy = GenerationType.AUTO) val id: Long = 0,
-    @CreatedDate @Column(name = "created_date") val createdDate: Instant = Instant.now(),
-    @LastModifiedDate @Column(name = "last_modified_date") val lastModifiedDate: Instant = Instant.now(),
-    @Enumerated(value = EnumType.STRING) @Column(length = 9) val type: WordType = WordType.VERB,
-    val singular: String = "",
-    val plural: String = ""
-)
+    @CreatedDate val createdDate: Instant = Instant.now(),
+    @LastModifiedDate val lastModifiedDate: Instant = Instant.now(),
+    @Enumerated(value = EnumType.STRING) @Column(columnDefinition = "CHAR(9) NOT NULL") val type: WordType = WordType.VERB,
+    @Column(columnDefinition = "CHAR(30) NOT NULL") val singular: String = "",
+    @Column(columnDefinition = "CHAR(32)") val plural: String = ""
+) {
+    @Column(columnDefinition = "CHAR(71) NOT NULL UNIQUE")
+    val slug = "${specialCharacters.replace(singular.toLowerCase(), "")}-${
+    specialCharacters.replace(
+        plural.toLowerCase(),
+        ""
+    )
+    }-$type"
+}

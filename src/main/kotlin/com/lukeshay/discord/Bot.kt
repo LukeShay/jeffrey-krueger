@@ -11,15 +11,10 @@ import org.springframework.stereotype.Component
 @Component
 class Bot @Autowired constructor(
     private val listeners: List<ListenerAdapter>,
-    private val jobs: List<Job>
+    private val jobs: List<Job>,
+    private val builder: JDABuilder,
 ) {
     fun start(): JDA {
-        val builder =
-            JDABuilder.createDefault(System.getenv("DISCORD_TOKEN").orEmpty())
-
-        builder.setAutoReconnect(true)
-        builder.setStatus(OnlineStatus.ONLINE)
-
         for (listener in listeners) {
             builder.addEventListeners(listener)
         }

@@ -3,45 +3,24 @@ package com.lukeshay.discord
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.entities.Category
 import net.dv8tion.jda.api.entities.ChannelType
-import net.dv8tion.jda.api.entities.Emote
 import net.dv8tion.jda.api.entities.Guild
 import net.dv8tion.jda.api.entities.GuildChannel
 import net.dv8tion.jda.api.entities.IPermissionHolder
 import net.dv8tion.jda.api.entities.Invite
 import net.dv8tion.jda.api.entities.Member
-import net.dv8tion.jda.api.entities.Message
-import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.entities.PermissionOverride
+import net.dv8tion.jda.api.entities.StoreChannel
 import net.dv8tion.jda.api.entities.TextChannel
-import net.dv8tion.jda.api.entities.User
-import net.dv8tion.jda.api.entities.Webhook
+import net.dv8tion.jda.api.entities.VoiceChannel
 import net.dv8tion.jda.api.managers.ChannelManager
 import net.dv8tion.jda.api.requests.RestAction
 import net.dv8tion.jda.api.requests.restaction.AuditableRestAction
 import net.dv8tion.jda.api.requests.restaction.ChannelAction
 import net.dv8tion.jda.api.requests.restaction.InviteAction
-import net.dv8tion.jda.api.requests.restaction.MessageAction
 import net.dv8tion.jda.api.requests.restaction.PermissionOverrideAction
-import net.dv8tion.jda.api.requests.restaction.WebhookAction
+import net.dv8tion.jda.api.requests.restaction.order.CategoryOrderAction
 
-class TextChannelImpl(private val id: Long, private val messageAction: MessageAction) :
-    TextChannel {
-    override fun sendMessage(text: CharSequence): MessageAction {
-        return messageAction
-    }
-
-    override fun sendMessage(embed: MessageEmbed): MessageAction {
-        return messageAction
-    }
-
-    override fun sendMessage(msg: Message): MessageAction {
-        return messageAction
-    }
-
-    override fun sendMessageFormat(format: String, vararg args: Any?): MessageAction {
-        return messageAction
-    }
-
+class CategoryImpl(private val id: Long, private val channels: List<GuildChannel>) : Category {
     override fun getIdLong(): Long {
         return id
     }
@@ -102,11 +81,11 @@ class TextChannelImpl(private val id: Long, private val messageAction: MessageAc
         TODO("Not yet implemented")
     }
 
-    override fun createCopy(guild: Guild): ChannelAction<TextChannel> {
+    override fun createCopy(guild: Guild): ChannelAction<Category> {
         TODO("Not yet implemented")
     }
 
-    override fun createCopy(): ChannelAction<TextChannel> {
+    override fun createCopy(): ChannelAction<Category> {
         TODO("Not yet implemented")
     }
 
@@ -134,79 +113,35 @@ class TextChannelImpl(private val id: Long, private val messageAction: MessageAc
         TODO("Not yet implemented")
     }
 
-    override fun getLatestMessageIdLong(): Long {
+    override fun getChannels(): MutableList<GuildChannel> {
+        return channels.toMutableList()
+    }
+
+    override fun getStoreChannels(): MutableList<StoreChannel> {
         TODO("Not yet implemented")
     }
 
-    override fun hasLatestMessage(): Boolean {
+    override fun getTextChannels(): MutableList<TextChannel> {
         TODO("Not yet implemented")
     }
 
-    override fun removeReactionById(
-        messageId: String,
-        unicode: String,
-        user: User
-    ): RestAction<Void> {
+    override fun getVoiceChannels(): MutableList<VoiceChannel> {
         TODO("Not yet implemented")
     }
 
-    override fun getAsMention(): String {
+    override fun createTextChannel(name: String): ChannelAction<TextChannel> {
         TODO("Not yet implemented")
     }
 
-    override fun getTopic(): String? {
+    override fun createVoiceChannel(name: String): ChannelAction<VoiceChannel> {
         TODO("Not yet implemented")
     }
 
-    override fun isNSFW(): Boolean {
+    override fun modifyTextChannelPositions(): CategoryOrderAction {
         TODO("Not yet implemented")
     }
 
-    override fun isNews(): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override fun getSlowmode(): Int {
-        TODO("Not yet implemented")
-    }
-
-    override fun retrieveWebhooks(): RestAction<MutableList<Webhook>> {
-        TODO("Not yet implemented")
-    }
-
-    override fun createWebhook(name: String): WebhookAction {
-        TODO("Not yet implemented")
-    }
-
-    override fun deleteMessages(messages: MutableCollection<Message>): RestAction<Void> {
-        TODO("Not yet implemented")
-    }
-
-    override fun deleteMessagesByIds(messageIds: MutableCollection<String>): RestAction<Void> {
-        TODO("Not yet implemented")
-    }
-
-    override fun deleteWebhookById(id: String): AuditableRestAction<Void> {
-        TODO("Not yet implemented")
-    }
-
-    override fun clearReactionsById(messageId: String): RestAction<Void> {
-        TODO("Not yet implemented")
-    }
-
-    override fun clearReactionsById(messageId: String, unicode: String): RestAction<Void> {
-        TODO("Not yet implemented")
-    }
-
-    override fun clearReactionsById(messageId: String, emote: Emote): RestAction<Void> {
-        TODO("Not yet implemented")
-    }
-
-    override fun canTalk(): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override fun canTalk(member: Member): Boolean {
+    override fun modifyVoiceChannelPositions(): CategoryOrderAction {
         TODO("Not yet implemented")
     }
 }

@@ -1,10 +1,10 @@
-FROM openjdk:15-jdk as BUILD
+FROM openjdk:11-jdk as BUILD
 
 COPY . /src
 WORKDIR /src
 RUN ./gradlew --no-daemon distTar
 
-FROM openjdk:15-jdk-slim-buster
+FROM openjdk:11-jre
 
 COPY --from=BUILD /src/build/distributions/discord-bot.tar /bin/runner/run.tar
 WORKDIR /bin/runner

@@ -2,7 +2,6 @@ package com.lukeshay.discord.listeners
 
 import com.lukeshay.discord.commands.Command
 import com.lukeshay.discord.commands.Help
-import com.lukeshay.discord.commands.Options
 import com.lukeshay.discord.listeners.exceptions.NoCommandRuntimeException
 import com.lukeshay.discord.logging.DBLogger
 import net.dv8tion.jda.api.entities.Category
@@ -27,7 +26,6 @@ class OnGuildMessageReceived @Autowired constructor(
         val commandsCopy = commands.toList()
 
         commands.add(Help(commandsCopy))
-        commands.add(Options(commandsCopy))
 
         for (command in commands) {
             cmds += "\"${command.command}\", "
@@ -56,18 +54,11 @@ class OnGuildMessageReceived @Autowired constructor(
     private fun findCommand(event: GuildMessageReceivedEvent): Command? {
         return try {
             commands.first { command ->
-                event.message.contentRaw.startsWith(
-                    command.command,
-                    ignoreCase = true
-                ) && isAllowed(command, event)
+                command.matches(event.message.contentRaw) && command.isAllowed(getCategoryOfChannel(event))
             }
         } catch (e: NoSuchElementException) {
             null
         }
-    }
-
-    private fun isAllowed(command: Command, event: GuildMessageReceivedEvent): Boolean {
-        return command.status.isAllowed(getCategoryOfChannel(event))
     }
 
     private fun getCategoryOfChannel(event: GuildMessageReceivedEvent): Category? {

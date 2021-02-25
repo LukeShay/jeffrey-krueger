@@ -1,23 +1,23 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
-val kotlinVersion = "1.4.30"
+val kotlinVersion = "1.4.31"
 val springVersion = "5.3.4"
 val hibernateVersion = "6.0.0.Alpha6"
 val junit5Version = "5.6.0"
 
 buildscript {
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-allopen:1.4.30")
+        classpath("org.jetbrains.kotlin:kotlin-allopen:1.4.31")
     }
 }
 
 plugins {
-    kotlin("jvm") version "1.4.30"
+    kotlin("jvm") version "1.4.31"
     application
     id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
-    id("org.jetbrains.kotlin.plugin.spring") version "1.4.30"
-    id("org.jetbrains.kotlin.plugin.jpa") version "1.4.30"
+    id("org.jetbrains.kotlin.plugin.spring") version "1.4.31"
+    id("org.jetbrains.kotlin.plugin.jpa") version "1.4.31"
 }
 
 group = "com.lukeshay.discord"

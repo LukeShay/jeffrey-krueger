@@ -1,6 +1,7 @@
 package com.lukeshay.discord.commands
 
 import com.lukeshay.discord.FeatureStatus
+import com.lukeshay.discord.utils.ListUtils
 import com.lukeshay.discord.utils.leaderChar
 import net.dv8tion.jda.api.entities.Category
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
@@ -15,7 +16,9 @@ abstract class Command(
 
     val command = "${if (leader) leaderChar else ""}${cmd.toLowerCase()}"
     val aliases = als.map { alias -> "${if (leader) leaderChar else ""}${alias.toLowerCase()}" }
-    val description = "$desc ${listToAliasesStr(aliases)}"
+    val description = "$desc${listToAliasesStr(aliases)}"
+
+    abstract fun run(event: GuildMessageReceivedEvent)
 
     companion object {
         private fun listToAliasesStr(l: List<String>): String {
@@ -23,7 +26,7 @@ abstract class Command(
 
             l.forEach { i -> str += "$i, " }
 
-            return if (str.length < 2) "" else "- aliases: ${str.substring(0, str.length - 2)}"
+            return if (str.length < 2) "" else " - aliases: ${str.substring(0, str.length - 2)}"
         }
     }
 
@@ -40,5 +43,7 @@ abstract class Command(
         return status.isAllowed(category)
     }
 
-    abstract fun run(event: GuildMessageReceivedEvent)
+    override fun toString(): String {
+        return "$command: $description"
+    }
 }

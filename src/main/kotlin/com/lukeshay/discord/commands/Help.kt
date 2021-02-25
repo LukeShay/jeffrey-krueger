@@ -1,11 +1,12 @@
 package com.lukeshay.discord.commands
 
+import com.lukeshay.discord.Environment
 import com.lukeshay.discord.FeatureStatus
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
 import java.awt.Color
 
-class Help(private val commands: List<Command>) :
+class Help(private val commands: List<Command>, private val environment: Environment) :
     Command("help", "Displays this message.", true, FeatureStatus.RELEASE, listOf("options")) {
 
     override fun run(event: GuildMessageReceivedEvent) {
@@ -21,6 +22,10 @@ class Help(private val commands: List<Command>) :
             }
 
         msgEmbedBuilder.addField("!help", description, false)
+
+        if (environment != Environment.PRODUCTION) {
+            msgEmbedBuilder.addField("environment", environment.toString(), true)
+        }
 
         event.channel.sendMessage(msgEmbedBuilder.build()).queue()
     }

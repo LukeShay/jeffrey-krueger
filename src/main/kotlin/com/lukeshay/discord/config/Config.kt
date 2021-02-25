@@ -1,5 +1,6 @@
 package com.lukeshay.discord.config
 
+import com.lukeshay.discord.Environment
 import com.lukeshay.discord.jobs.Job
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.OnlineStatus
@@ -20,5 +21,10 @@ class Config {
         builder.setStatus(OnlineStatus.ONLINE)
 
         return builder
+    }
+
+    @Bean
+    fun environment(): Environment {
+        return Environment.determineEnv()
     }
 }

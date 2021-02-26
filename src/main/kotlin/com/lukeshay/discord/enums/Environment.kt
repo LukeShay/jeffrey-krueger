@@ -41,4 +41,8 @@ enum class Environment {
             ) == true
             )
     }
+
+    override fun toString(): String {
+        return super.toString().toLowerCase()
+    }
 }

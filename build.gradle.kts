@@ -88,7 +88,7 @@ tasks.distTar {
     archiveFileName.set("discord-bot.tar")
 }
 
-tasks.build {
+tasks.jar {
     val details = versionDetails()
     File("src/main/resources/application.properties").writeText("commit=${details.gitHash}")
 }

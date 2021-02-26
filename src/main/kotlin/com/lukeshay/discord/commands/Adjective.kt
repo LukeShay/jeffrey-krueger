@@ -1,6 +1,7 @@
 package com.lukeshay.discord.commands
 
 import com.lukeshay.discord.domain.WordType
+import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.enums.FeatureStatus
 import com.lukeshay.discord.services.WordService
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
@@ -9,10 +10,19 @@ import org.springframework.dao.DataAccessException
 import org.springframework.stereotype.Component
 
 @Component
-class Adjective @Autowired constructor(private val wordService: WordService) :
-    Command("adjective", "adds the adjective to the database", true, FeatureStatus.PRE_ALPHA) {
+class Adjective @Autowired constructor(
+    private val wordService: WordService,
+    environment: Environment
+) :
+    Command(
+        "adjective",
+        "adds the adjective to the database",
+        true,
+        FeatureStatus.PRE_ALPHA,
+        environment
+    ) {
     override fun run(event: GuildMessageReceivedEvent) {
-        val splitMessage = event.message.contentRaw.split(" ")
+        val splitMessage = getRawContent(event).split(" ")
 
         if (splitMessage.size != 2) {
             event.message.reply("That is an invalid number of arguments. Example !adjective small")

@@ -1,6 +1,7 @@
 package com.lukeshay.discord.commands
 
 import com.lukeshay.discord.domain.WordType
+import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.enums.FeatureStatus
 import com.lukeshay.discord.services.MemberService
 import com.lukeshay.discord.services.WordService
@@ -12,11 +13,12 @@ import org.springframework.stereotype.Component
 @Component
 class Verb @Autowired constructor(
     private val wordService: WordService,
-    private val memberService: MemberService
+    private val memberService: MemberService,
+    environment: Environment
 ) :
-    Command("verb", "adds the verbs to the database", true, FeatureStatus.PRE_ALPHA) {
+    Command("verb", "adds the verbs to the database", true, FeatureStatus.PRE_ALPHA, environment) {
     override fun run(event: GuildMessageReceivedEvent) {
-        val splitMessage = event.message.contentRaw.split(" ")
+        val splitMessage = getRawContent(event).split(" ")
 
         memberService.getMemberRoles(event, event.author.idLong)
 

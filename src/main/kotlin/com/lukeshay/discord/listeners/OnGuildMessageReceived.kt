@@ -35,6 +35,10 @@ class OnGuildMessageReceived @Autowired constructor(
     override fun onGuildMessageReceived(event: GuildMessageReceivedEvent) {
         if (event.author.isBot) return
 
+        if (environment != Environment.PRODUCTION && !event.message.contentRaw.startsWith(environment.toString())) {
+            return
+        }
+
         logger.info(event, "message - ${event.author.name}: ${event.message.contentRaw}")
 
         val category = getCategoryOfChannel(
@@ -65,7 +69,7 @@ class OnGuildMessageReceived @Autowired constructor(
     private fun findCommand(event: GuildMessageReceivedEvent): Command? {
         return try {
             commands.first { command ->
-                command.matches(event.message.contentRaw) && command.isAllowed(
+                command.matches(event.message.contentRaw.removePrefix("$environment ")) && command.isAllowed(
                     getCategoryOfChannel(
                         event
                     )

@@ -6,8 +6,15 @@ import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
 import java.awt.Color
 
-class Help(private val commands: List<Command>, private val environment: Environment) :
-    Command("help", "Displays this message.", true, FeatureStatus.RELEASE, listOf("options")) {
+class Help(private val commands: List<Command>, environment: Environment) :
+    Command(
+        "help",
+        "Displays this message.",
+        true,
+        FeatureStatus.RELEASE,
+        environment,
+        listOf("options")
+    ) {
 
     override fun run(event: GuildMessageReceivedEvent) {
         val msgEmbedBuilder = EmbedBuilder()

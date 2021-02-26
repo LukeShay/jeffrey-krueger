@@ -31,7 +31,7 @@ internal class OnGuildMessageReceivedTest {
 
     private lateinit var onGuildMessageReceived: OnGuildMessageReceived
 
-    private val commands = mutableListOf(Ping() as Command)
+    private val commands = mutableListOf(Ping(environment) as Command)
     private lateinit var message: Message
     private lateinit var author: User
     private lateinit var guild: Guild

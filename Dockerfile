@@ -13,7 +13,7 @@ WORKDIR /bin/runner
 
 RUN tar -xvf run.tar && \
     cp -r discord-bot-0.0.1-SNAPSHOT/* . && \
-    rm -r discord-bot-0.0.1-SNAPSHOT.tar run.tar
+    rm -r discord-bot-0.0.1-SNAPSHOT run.tar
 
 CMD ["sh"]
 ENTRYPOINT ["./bin/discord-bot"]

@@ -19,7 +19,7 @@ class Word(
     @Id @GeneratedValue(strategy = GenerationType.AUTO) val id: Long = 0,
     @CreatedDate val createdDate: Instant = Instant.now(),
     @LastModifiedDate val lastModifiedDate: Instant = Instant.now(),
-    @Enumerated(value = EnumType.STRING) @Column(columnDefinition = "CHAR(9) NOT NULL") val type: WordType = WordType.VERB,
+    @Column(columnDefinition = "CHAR(9) NOT NULL") val type: String = "NOUN",
     @Column(columnDefinition = "CHAR(30) NOT NULL") val singular: String = "",
     @Column(columnDefinition = "CHAR(32)") val plural: String = ""
 ) {

@@ -35,7 +35,7 @@ class OnGuildMessageReceived @Autowired constructor(
     override fun onGuildMessageReceived(event: GuildMessageReceivedEvent) {
         if (event.author.isBot) return
 
-        if (environment != Environment.PRODUCTION && !event.message.contentRaw.startsWith(environment.toString())) {
+        if (environment != Environment.PRODUCTION && !event.message.contentRaw.startsWith(environment.toString().toLowerCase())) {
             return
         }
 
@@ -69,7 +69,7 @@ class OnGuildMessageReceived @Autowired constructor(
     private fun findCommand(event: GuildMessageReceivedEvent): Command? {
         return try {
             commands.first { command ->
-                command.matches(event.message.contentRaw.removePrefix("$environment ")) && command.isAllowed(
+                command.matches(event.message.contentRaw.removePrefix("${environment.toString().toLowerCase()} ")) && command.isAllowed(
                     getCategoryOfChannel(
                         event
                     )

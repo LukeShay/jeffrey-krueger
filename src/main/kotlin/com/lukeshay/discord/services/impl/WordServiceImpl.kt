@@ -2,6 +2,7 @@ package com.lukeshay.discord.services.impl
 
 import com.lukeshay.discord.domain.Word
 import com.lukeshay.discord.domain.WordType
+import com.lukeshay.discord.logging.DBLogger
 import com.lukeshay.discord.repositories.WordRepository
 import com.lukeshay.discord.services.WordService
 import org.springframework.beans.factory.annotation.Autowired
@@ -12,32 +13,52 @@ import javax.transaction.Transactional
 @Transactional
 class WordServiceImpl @Autowired constructor(private val wordRepository: WordRepository) :
     WordService {
+    companion object {
+        private val logger = DBLogger("WordServiceImpl")
+    }
+
     override fun randomPluralVerb(): String {
-        val plural = wordRepository.findAllByType(WordType.VERB).random().plural
-        return if (plural != "") plural else "summoners"
+        return try {
+            wordRepository.findAllByType(WordType.VERB.toString()).random().plural
+        } catch (e: Exception) {
+            logger.warning("error getting verb: $e")
+            "summoners"
+        }
     }
 
     override fun randomSingularVerb(): String {
-        val singular = wordRepository.findAllByType(WordType.VERB).random().singular
-        return if (singular != "") singular else "summoner"
+        return try {
+            wordRepository.findAllByType(WordType.VERB.toString()).random().singular
+        } catch (e: Exception) {
+            logger.warning("error getting verb: $e")
+            "summoner"
+        }
     }
 
     override fun randomPluralNoun(): String {
-        val plural = wordRepository.findAllByType(WordType.NOUN).random().plural
-        return if (plural != "") plural else "summoners"
+        return try {
+            wordRepository.findAllByType(WordType.NOUN.toString()).random().plural
+        } catch (e: Exception) {
+            logger.warning("error getting noun: $e")
+            "summoners"
+        }
     }
 
     override fun randomSingularNoun(): String {
-        val singular = wordRepository.findAllByType(WordType.NOUN).random().singular
-        return if (singular != "") singular else "summoner"
+        return try {
+            wordRepository.findAllByType(WordType.NOUN.toString()).random().singular
+        } catch (e: Exception) {
+            logger.warning("error getting noun: $e")
+            "summoner"
+        }
     }
 
     override fun save(singular: String, plural: String, type: WordType): Word {
-        return wordRepository.save(Word(type = type, singular = singular, plural = plural))
+        return wordRepository.save(Word(type = type.toString(), singular = singular, plural = plural))
     }
 
     override fun new(singular: String, plural: String, type: WordType): Word? {
-        val newWord = Word(type = type, singular = singular, plural = plural)
+        val newWord = Word(type = type.toString(), singular = singular, plural = plural)
 
         val word = wordRepository.getBySlug(newWord.slug)
 

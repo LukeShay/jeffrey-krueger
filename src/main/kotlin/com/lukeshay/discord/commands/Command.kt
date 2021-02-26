@@ -44,7 +44,7 @@ abstract class Command(
     }
 
     fun getRawContent(event: GuildMessageReceivedEvent): String {
-        return event.message.contentRaw.removePrefix("$environment ")
+        return event.message.contentRaw.removePrefix("${environment.toString().toLowerCase()} ")
     }
 
     override fun toString(): String {

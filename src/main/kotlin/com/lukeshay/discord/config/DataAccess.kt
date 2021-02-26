@@ -28,7 +28,7 @@ class DataAccess {
 
         val dataSource =
             DriverManagerDataSource(
-                "jdbc:postgresql://${groups["domain"]!!.value}",
+                "jdbc:postgresql://${groups["domain"]!!.value}?stringtype=unspecified",
                 groups["username"]!!.value,
                 groups["password"]!!.value,
             )

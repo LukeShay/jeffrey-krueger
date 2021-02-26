@@ -8,7 +8,7 @@ RUN ./gradlew --no-daemon ${TARGET}
 
 FROM openjdk:11-jre
 
-COPY --from=BUILD /src/build/distributions/discord-bot.tar /bin/runner/run.tar
+COPY --from=BUILD /src/build/distributions/discord-bot-0.0.1-SNAPSHOT.tar /bin/runner/run.tar
 WORKDIR /bin/runner
 
 RUN tar -xvf run.tar && \

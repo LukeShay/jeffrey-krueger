@@ -2,7 +2,7 @@ FROM openjdk:11-jdk as BUILD
 
 COPY . /src
 WORKDIR /src
-RUN ./gradlew --no-daemon distTar
+RUN ./gradlew --no-daemon build
 
 FROM openjdk:11-jre
 

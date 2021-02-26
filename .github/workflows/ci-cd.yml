@@ -17,9 +17,17 @@ jobs:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_app_name: "jeffrey-krueger-dev"
           heroku_email: "shay.luke17@gmail.com"
-      - if: github.ref == 'refs/heads/master'
+      - if: github.ref == 'refs/heads/master' && success()
         uses: appleboy/discord-action@master
         with:
           webhook_id: ${{ secrets.WEBHOOK_ID }}
           webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
-          args: Deployed ${GITHUB_REF} to DEVELOPMENT
+          color: "#00FF00"
+          args: "Deployed ${GITHUB_REF} to DEVELOPMENT"
+      - if: github.ref == 'refs/heads/master' && failure()
+        uses: appleboy/discord-action@master
+        with:
+          webhook_id: ${{ secrets.WEBHOOK_ID }}
+          webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
+          color: "#FF0000"
+          args: "Failed to deploy ${{ github.sha }} to DEVELOPMENT"

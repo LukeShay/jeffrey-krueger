@@ -89,8 +89,11 @@ tasks.distTar {
 }
 
 tasks.jar {
-    val details = versionDetails()
-    File("src/main/resources/application.properties").writeText("commit=${details.gitHash}")
+    try {
+        val details = versionDetails()
+        File("src/main/resources/application.properties").writeText("commit=${details.gitHash}")
+    } catch (e: Exception) {
+    }
 }
 
 ktlint {

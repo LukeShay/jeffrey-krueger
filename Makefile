@@ -1,4 +1,4 @@
-IMAGE_NAME = docker.pkg.github.com/lukeshay/discord-bot/app
+IMAGE_NAME = docker.pkg.github.com/lukeshay/jeffrey-krueger/app
 TAG = $(shell git rev-parse --short HEAD)
 CMD ?= check
 

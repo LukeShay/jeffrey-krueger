@@ -11,20 +11,25 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: make build
       - run: make push
-      - if: github.ref == 'refs/heads/master'
-        uses: akhileshns/heroku-deploy@v3.12.12
+  deploy:
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-20.04
+    needs: [ build ]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_app_name: "jeffrey-krueger-dev"
           heroku_email: "shay.luke17@gmail.com"
-      - if: github.ref == 'refs/heads/master' && success()
+      - if: success()
         uses: appleboy/discord-action@master
         with:
           webhook_id: ${{ secrets.WEBHOOK_ID }}
           webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
           color: "#00FF00"
           args: "Deployed ${{ github.sha }} to DEVELOPMENT"
-      - if: github.ref == 'refs/heads/master' && failure()
+      - if: failure()
         uses: appleboy/discord-action@master
         with:
           webhook_id: ${{ secrets.WEBHOOK_ID }}

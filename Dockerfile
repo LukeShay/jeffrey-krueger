@@ -12,8 +12,8 @@ COPY --from=BUILD /src/build/distributions/discord-bot-0.0.1-SNAPSHOT.tar /bin/r
 WORKDIR /bin/runner
 
 RUN tar -xvf run.tar && \
-    cp -r discord-bot/* . && \
-    rm -r discord-bot run.tar
+    cp -r discord-bot-0.0.1-SNAPSHOT.tar/* . && \
+    rm -r discord-bot-0.0.1-SNAPSHOT.tar run.tar
 
 CMD ["sh"]
 ENTRYPOINT ["./bin/discord-bot"]

@@ -23,7 +23,7 @@ jobs:
           webhook_id: ${{ secrets.WEBHOOK_ID }}
           webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
           color: "#00FF00"
-          args: "Deployed ${GITHUB_REF} to DEVELOPMENT"
+          args: "Deployed ${{ github.sha }} to DEVELOPMENT"
       - if: github.ref == 'refs/heads/master' && failure()
         uses: appleboy/discord-action@master
         with:

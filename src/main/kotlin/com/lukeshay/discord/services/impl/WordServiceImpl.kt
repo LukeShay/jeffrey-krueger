@@ -13,12 +13,22 @@ import javax.transaction.Transactional
 class WordServiceImpl @Autowired constructor(private val wordRepository: WordRepository) :
     WordService {
     override fun randomPluralVerb(): String {
-        val plural = wordRepository.findAll().random().plural
+        val plural = wordRepository.findAllByType(WordType.VERB).random().plural
         return if (plural != "") plural else "summoners"
     }
 
     override fun randomSingularVerb(): String {
-        val singular = wordRepository.findAll().random().singular
+        val singular = wordRepository.findAllByType(WordType.VERB).random().singular
+        return if (singular != "") singular else "summoner"
+    }
+
+    override fun randomPluralNoun(): String {
+        val plural = wordRepository.findAllByType(WordType.NOUN).random().plural
+        return if (plural != "") plural else "summoners"
+    }
+
+    override fun randomSingularNoun(): String {
+        val singular = wordRepository.findAllByType(WordType.NOUN).random().singular
         return if (singular != "") singular else "summoner"
     }
 

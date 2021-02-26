@@ -17,6 +17,6 @@ class OnGuildMemberJoin @Autowired constructor(private val wordService: WordServ
     override fun onGuildMemberJoin(event: GuildMemberJoinEvent) {
         logger.info(event, "join - ${event.member.effectiveName}")
 
-        event.guild.defaultChannel?.sendMessage("Everyone, say hello to the newest ${wordService.randomSingularVerb()} - ${event.member.asMention}")
+        event.guild.defaultChannel?.sendMessage("Everyone, say hello to the newest ${wordService.randomSingularNoun()} - ${event.member.asMention}")
     }
 }

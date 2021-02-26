@@ -11,6 +11,6 @@ class Greeting @Autowired constructor(
     override fun execute() {
         jda.getGuildById(1)?.members
         jda.getTextChannelById(705810781710712903)!!
-            .sendMessage("Hey ${wordService.randomPluralVerb()}, How is it going?").queue()
+            .sendMessage("Hey ${wordService.randomPluralNoun()}, How is it going?").queue()
     }
 }

@@ -21,6 +21,6 @@ class HeyJeff @Autowired constructor(
         listOf("hi jeff", "hello jeff")
     ) {
     override fun run(event: GuildMessageReceivedEvent) {
-        event.message.reply("Hey ${wordService.randomSingularVerb()}").queue()
+        event.message.reply("Hey ${wordService.randomSingularNoun()}").queue()
     }
 }

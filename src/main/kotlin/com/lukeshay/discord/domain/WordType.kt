@@ -1,5 +1,5 @@
 package com.lukeshay.discord.domain
 
 enum class WordType {
-    VERB, ADJECTIVE
+    VERB, ADJECTIVE, NOUN
 }

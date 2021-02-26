@@ -17,3 +17,8 @@ jobs:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_app_name: "jeffrey-krueger-dev"
           heroku_email: "shay.luke17@gmail.com"
+      - if: github.ref == 'refs/heads/master'
+        run: |
+          curl -X POST -d '{"content": "Deployed $(git rev-parse --short HEAD)"} to DEVELOPMENT' -H "Content-type: application/json" ${DISCORD_WEBHOOK_URL}
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}

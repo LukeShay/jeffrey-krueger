@@ -2,13 +2,6 @@ name: Actions
 on: [ push ]
 
 jobs:
-  check:
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v2
-      - run: make run
-        env:
-          CMD: check
   build:
     runs-on: ubuntu-20.04
     steps:
@@ -18,13 +11,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: make build
       - run: make push
-  deploy:
-    runs-on: ubuntu-20.04
-    needs: [check, build]
-    if: github.ref == 'refs/heads/master'
-    steps:
-      - uses: actions/checkout@v2
-      - uses: akhileshns/heroku-deploy@v3.12.12
+      - if: github.ref == 'refs/heads/master'
+        uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_app_name: "lukeshay-discord-bot"

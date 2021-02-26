@@ -1,6 +1,6 @@
 package com.lukeshay.discord.commands
 
-import com.lukeshay.discord.FeatureStatus
+import com.lukeshay.discord.enums.FeatureStatus
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
 import org.springframework.stereotype.Component
 

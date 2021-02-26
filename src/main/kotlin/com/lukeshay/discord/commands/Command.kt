@@ -1,7 +1,6 @@
 package com.lukeshay.discord.commands
 
-import com.lukeshay.discord.FeatureStatus
-import com.lukeshay.discord.utils.ListUtils
+import com.lukeshay.discord.enums.FeatureStatus
 import com.lukeshay.discord.utils.leaderChar
 import net.dv8tion.jda.api.entities.Category
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent

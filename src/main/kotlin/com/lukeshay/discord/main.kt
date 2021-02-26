@@ -1,6 +1,7 @@
 package com.lukeshay.discord
 
 import com.lukeshay.discord.config.Config
+import com.lukeshay.discord.enums.Environment
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 fun main() {

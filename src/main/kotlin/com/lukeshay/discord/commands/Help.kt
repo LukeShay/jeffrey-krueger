@@ -1,7 +1,7 @@
 package com.lukeshay.discord.commands
 
-import com.lukeshay.discord.Environment
-import com.lukeshay.discord.FeatureStatus
+import com.lukeshay.discord.enums.Environment
+import com.lukeshay.discord.enums.FeatureStatus
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
 import java.awt.Color

@@ -1,4 +1,4 @@
-package com.lukeshay.discord
+package com.lukeshay.discord.enums
 
 import net.dv8tion.jda.api.entities.Category
 

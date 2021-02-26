@@ -7,6 +7,7 @@ import com.lukeshay.discord.TextChannelImpl
 import com.lukeshay.discord.UserImpl
 import com.lukeshay.discord.commands.Command
 import com.lukeshay.discord.commands.Ping
+import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.listeners.exceptions.NoCommandRuntimeException
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.entities.Category
@@ -26,6 +27,7 @@ internal class OnGuildMessageReceivedTest {
     private val guildMessageReceivedEvent = Mockito.mock(GuildMessageReceivedEvent::class.java)
     private val messageAction = Mockito.mock(MessageAction::class.java)
     private val jda = Mockito.mock(JDA::class.java)
+    private val environment = Environment.PRODUCTION
 
     private lateinit var onGuildMessageReceived: OnGuildMessageReceived
 
@@ -38,7 +40,7 @@ internal class OnGuildMessageReceivedTest {
 
     @BeforeEach
     fun setUp() {
-        onGuildMessageReceived = OnGuildMessageReceived(commands)
+        onGuildMessageReceived = OnGuildMessageReceived(commands, environment)
 
         author = UserImpl("Tyler Krueger", false)
         message = MessageImpl(author, "!ping this is a ping command")

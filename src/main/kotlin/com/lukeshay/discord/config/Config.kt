@@ -1,6 +1,6 @@
 package com.lukeshay.discord.config
 
-import com.lukeshay.discord.Environment
+import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.jobs.Job
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.OnlineStatus
@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.PropertySource
-import java.lang.Exception
 
 @Configuration
 @ComponentScan("com.lukeshay.discord")

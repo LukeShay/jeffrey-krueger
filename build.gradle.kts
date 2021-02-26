@@ -6,8 +6,6 @@ val springVersion = "5.3.4"
 val hibernateVersion = "6.0.0.Alpha6"
 val junit5Version = "5.6.0"
 
-val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by extra
-
 buildscript {
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-allopen:1.4.31")
@@ -20,7 +18,6 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
     id("org.jetbrains.kotlin.plugin.spring") version "1.4.31"
     id("org.jetbrains.kotlin.plugin.jpa") version "1.4.31"
-    id("com.palantir.git-version") version "0.12.3"
 }
 
 group = "com.lukeshay.discord"
@@ -86,14 +83,6 @@ application {
 
 tasks.distTar {
     archiveFileName.set("discord-bot.tar")
-}
-
-tasks.jar {
-    try {
-        val details = versionDetails()
-        File("src/main/resources/application.properties").writeText("commit=${details.gitHash}")
-    } catch (e: Exception) {
-    }
 }
 
 ktlint {

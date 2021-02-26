@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Jeffrey Krueger Support
+    url: https://github.com/LukeShay/jeffrey-krueger/issues?q=is%3Aissue
+    about: Please ask and answer questions here.
+  - name: Jeffrey Krueger Documentation
+    url: https://github.com/LukeShay/jeffrey-krueger/wiki
+    about: Please refor more information on using Jeffrey Krueger.

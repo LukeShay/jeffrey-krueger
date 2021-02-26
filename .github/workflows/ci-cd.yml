@@ -18,7 +18,8 @@ jobs:
           heroku_app_name: "jeffrey-krueger-dev"
           heroku_email: "shay.luke17@gmail.com"
       - if: github.ref == 'refs/heads/master'
-        run: |
-          curl -X POST -d '{"content": "Deployed $(git rev-parse --short HEAD)"} to DEVELOPMENT' -H "Content-type: application/json" ${DISCORD_WEBHOOK_URL}
-        env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        uses: appleboy/discord-action@master
+        with:
+          webhook_id: ${{ secrets.WEBHOOK_ID }}
+          webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
+          args: Deployed ${GITHUB_REF} to DEVELOPMENT

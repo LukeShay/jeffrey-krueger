@@ -5,13 +5,21 @@ import com.lukeshay.discord.jobs.Job
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.OnlineStatus
 import net.dv8tion.jda.api.hooks.ListenerAdapter
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.PropertySource
+import java.lang.Exception
 
 @Configuration
 @ComponentScan("com.lukeshay.discord")
+@PropertySource("classpath:application.properties")
 class Config {
+
+    @Value("\${commit}")
+    private val commit = ""
+
     @Bean
     fun jdaBuilder(listeners: List<ListenerAdapter>, jobs: List<Job>): JDABuilder {
         val builder =
@@ -26,5 +34,10 @@ class Config {
     @Bean
     fun environment(): Environment {
         return Environment.determineEnv()
+    }
+
+    @Bean(name = ["commit"])
+    fun commit(): String {
+        return commit
     }
 }

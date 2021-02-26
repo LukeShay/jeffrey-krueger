@@ -1,8 +1,10 @@
 FROM openjdk:11-jdk as BUILD
 
+ARG TARGET=build
+
 COPY . /src
 WORKDIR /src
-RUN ./gradlew --no-daemon build
+RUN ./gradlew --no-daemon ${TARGET}
 
 FROM openjdk:11-jre
 

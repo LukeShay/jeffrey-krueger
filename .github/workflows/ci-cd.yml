@@ -17,7 +17,7 @@ jobs:
     needs: [ build ]
     steps:
       - uses: actions/checkout@v2
-      - run: ./gradlew deployHeroku
+      - run: ./gradlew deployHeroku --stacktrace --debug
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       - if: success()

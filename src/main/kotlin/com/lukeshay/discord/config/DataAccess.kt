@@ -1,9 +1,9 @@
 package com.lukeshay.discord.config
 
+import com.mchange.v2.c3p0.ComboPooledDataSource
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
-import org.springframework.jdbc.datasource.DriverManagerDataSource
 import org.springframework.orm.jpa.JpaTransactionManager
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
@@ -26,13 +26,11 @@ class DataAccess {
 
         val groups = dbURLRegex.toRegex().matchEntire(dbURL)!!.groups
 
-        val dataSource =
-            DriverManagerDataSource(
-                "jdbc:postgresql://${groups["domain"]!!.value}?stringtype=unspecified",
-                groups["username"]!!.value,
-                groups["password"]!!.value,
-            )
-        dataSource.setDriverClassName("org.postgresql.Driver")
+        val dataSource = ComboPooledDataSource()
+        dataSource.jdbcUrl = "jdbc:postgresql://${groups["domain"]!!.value}"
+        dataSource.user = groups["username"]!!.value
+        dataSource.password = groups["password"]!!.value
+        dataSource.driverClass = "org.postgresql.Driver"
 
         return dataSource
     }

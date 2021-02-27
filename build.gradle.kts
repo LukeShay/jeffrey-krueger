@@ -48,6 +48,8 @@ dependencies {
     // Kotlin dependencies
     runtimeOnly("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
 
+    implementation("com.mchange:c3p0:0.9.5.5")
+
     // Test dependencies
     // JUnit5 dependencies
     testImplementation(kotlin("test-junit5"))

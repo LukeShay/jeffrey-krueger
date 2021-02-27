@@ -1,4 +1,4 @@
-IMAGE_NAME = docker.pkg.github.com/lukeshay/jeffrey-krueger/jeffrey-krueger
+IMAGE_NAME = docker.pkg.github.com/lukeshay/jeffery-krueger/jeffery-krueger
 TAG = $(shell git rev-parse --short HEAD)
 CMD ?= check
 

@@ -1,4 +1,4 @@
-package com.lukeshay.discord.commands
+package com.lukeshay.discord.listeners.commands
 
 import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.enums.FeatureStatus

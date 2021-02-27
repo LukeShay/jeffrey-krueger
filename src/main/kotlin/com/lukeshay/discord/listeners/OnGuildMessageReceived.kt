@@ -1,7 +1,7 @@
 package com.lukeshay.discord.listeners
 
-import com.lukeshay.discord.commands.Command
-import com.lukeshay.discord.commands.Help
+import com.lukeshay.discord.listeners.commands.Command
+import com.lukeshay.discord.listeners.commands.Help
 import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.listeners.exceptions.NoCommandRuntimeException
 import com.lukeshay.discord.logging.DBLogger

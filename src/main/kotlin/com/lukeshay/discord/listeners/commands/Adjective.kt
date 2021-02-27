@@ -1,8 +1,9 @@
-package com.lukeshay.discord.commands
+package com.lukeshay.discord.listeners.commands
 
 import com.lukeshay.discord.domain.WordType
 import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.enums.FeatureStatus
+import com.lukeshay.discord.logging.DBLogger
 import com.lukeshay.discord.services.WordService
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,6 +22,11 @@ class Adjective @Autowired constructor(
         FeatureStatus.PRE_ALPHA,
         environment
     ) {
+
+    companion object {
+        private val logger = DBLogger("Adjective")
+    }
+
     override fun run(event: GuildMessageReceivedEvent) {
         val splitMessage = getRawContent(event).split(" ")
 
@@ -39,6 +45,7 @@ class Adjective @Autowired constructor(
                     event.message.reply("That adjective already exists").queue()
                 }
             } catch (e: DataAccessException) {
+                logger.severe("error saving noun: $e")
                 event.message.reply("There was an error saving your adjective!").queue()
             }
         }

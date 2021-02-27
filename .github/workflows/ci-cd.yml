@@ -61,23 +61,16 @@ jobs:
           webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
           color: "#FF0000"
           args: "Failed to deploy ${{ github.sha }} to jeffrey-krueger-staging"
-  deploy:
-    if: github.ref == 'refs/heads/master'
+  deploy-prod:
+    if: github.ref == 'refs/heads/prod'
     runs-on: ubuntu-20.04
     needs: [ build ]
-    strategy:
-      matrix:
-        app:
-          - jeffrey-krueger-dev
-          - jeffrey-krueger-staging
-          - jeffrey-krueger-prod
-    name: deploy-${{ matrix.app }}
     steps:
       - uses: actions/checkout@v2
       - uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: ${{ matrix.app }}
+          heroku_app_name: jeffrey-krueger-prod
           heroku_email: "shay.luke17@gmail.com"
       - if: success()
         uses: appleboy/discord-action@master
@@ -85,11 +78,11 @@ jobs:
           webhook_id: ${{ secrets.WEBHOOK_ID }}
           webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
           color: "#00FF00"
-          args: "Deployed ${{ github.sha }} to ${{ matrix.app }}"
+          args: "Deployed ${{ github.sha }} to jeffrey-krueger-prod"
       - if: failure()
         uses: appleboy/discord-action@master
         with:
           webhook_id: ${{ secrets.WEBHOOK_ID }}
           webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
           color: "#FF0000"
-          args: "Failed to deploy ${{ github.sha }} to ${{ matrix.app }}"
+          args: "Failed to deploy ${{ github.sha }} to jeffrey-krueger-prod"

@@ -44,6 +44,7 @@ class Verb @Autowired constructor(
                     event.message.reply("Those verbs already exists").queue()
                 }
             } catch (e: DataAccessException) {
+                e.printStackTrace()
                 logger.severe("error saving verb: $e")
                 event.message.reply("There was an error saving your verbs!").queue()
             }

@@ -45,6 +45,7 @@ class Adjective @Autowired constructor(
                     event.message.reply("That adjective already exists").queue()
                 }
             } catch (e: DataAccessException) {
+                e.printStackTrace()
                 logger.severe("error saving noun: $e")
                 event.message.reply("There was an error saving your adjective!").queue()
             }

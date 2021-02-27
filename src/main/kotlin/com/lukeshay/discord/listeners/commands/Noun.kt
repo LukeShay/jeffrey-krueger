@@ -44,6 +44,7 @@ class Noun @Autowired constructor(
                     event.message.reply("Those nouns already exists").queue()
                 }
             } catch (e: DataAccessException) {
+                e.printStackTrace()
                 logger.severe("error saving noun: $e")
                 event.message.reply("There was an error saving your nouns!").queue()
             }

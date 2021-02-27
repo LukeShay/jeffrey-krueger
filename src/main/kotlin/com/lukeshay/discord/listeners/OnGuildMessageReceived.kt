@@ -1,8 +1,8 @@
 package com.lukeshay.discord.listeners
 
+import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.listeners.commands.Command
 import com.lukeshay.discord.listeners.commands.Help
-import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.listeners.exceptions.NoCommandRuntimeException
 import com.lukeshay.discord.logging.DBLogger
 import com.lukeshay.discord.utils.ListUtils
@@ -35,7 +35,10 @@ class OnGuildMessageReceived @Autowired constructor(
     override fun onGuildMessageReceived(event: GuildMessageReceivedEvent) {
         if (event.author.isBot) return
 
-        if (environment != Environment.PRODUCTION && !event.message.contentRaw.startsWith(environment.toString().toLowerCase())) {
+        if (environment != Environment.PRODUCTION && !event.message.contentRaw.startsWith(
+                environment.toString().toLowerCase()
+            )
+        ) {
             return
         }
 
@@ -69,7 +72,13 @@ class OnGuildMessageReceived @Autowired constructor(
     private fun findCommand(event: GuildMessageReceivedEvent): Command? {
         return try {
             commands.first { command ->
-                command.matches(event.message.contentRaw.removePrefix("${environment.toString().toLowerCase()} ")) && command.isAllowed(
+                command.matches(
+                    event.message.contentRaw.removePrefix(
+                        "${
+                        environment.toString().toLowerCase()
+                        } "
+                    )
+                ) && command.isAllowed(
                     getCategoryOfChannel(
                         event
                     )

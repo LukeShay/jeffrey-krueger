@@ -7,7 +7,7 @@ enum class Environment {
 
     companion object {
         fun determineEnv(): Environment {
-            val env = System.getenv("ENVIRONMENT")
+            val env = System.getenv("ENVIRONMENT") ?: ""
 
             return when (env.toLowerCase()) {
                 "production" -> PRODUCTION

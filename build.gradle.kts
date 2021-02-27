@@ -18,6 +18,8 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
     id("org.jetbrains.kotlin.plugin.spring") version "1.4.31"
     id("org.jetbrains.kotlin.plugin.jpa") version "1.4.31"
+    id("com.heroku.sdk.heroku-gradle") version "2.0.0"
+    id("com.github.johnrengelman.shadow") version "6.1.0"
 }
 
 group = "com.lukeshay.discord"
@@ -41,14 +43,13 @@ dependencies {
 
     // Hibernate dependencies
     implementation("org.hibernate.orm:hibernate-core:$hibernateVersion")
+    implementation("com.mchange:c3p0:0.9.5.5")
 
     // Postgres dependencies
     implementation("org.postgresql:postgresql:42.2.19")
 
     // Kotlin dependencies
     runtimeOnly("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
-
-    implementation("com.mchange:c3p0:0.9.5.5")
 
     // Test dependencies
     // JUnit5 dependencies
@@ -64,7 +65,16 @@ dependencies {
 
     // Mockito dependencies
     testImplementation("org.mockito:mockito-core:2.+")
+
+    // Spring dependencies
+    testImplementation("org.springframework:spring-test:$springVersion")
 }
+
+// tasks.jar {
+//    manifest {
+//        attributes(mapOf("Main-Class" to mainClass))
+//    }
+// }
 
 tasks.test {
     useJUnitPlatform()
@@ -72,6 +82,16 @@ tasks.test {
 
 tasks.withType<KotlinCompile>() {
     kotlinOptions.jvmTarget = "11"
+}
+
+tasks.shadowJar {
+    minimize {
+        exclude(dependency(".*:.*:.*"))
+        include(dependency("net.dv8tion:.*:.*"))
+        include(dependency("org.postgresql:postgresql:.*"))
+        include(dependency("org.hibernate.orm:hibernate-core:.*"))
+        include(dependency("com.mchange:c3p0:.*"))
+    }
 }
 
 configure<JavaPluginConvention> {
@@ -93,4 +113,11 @@ ktlint {
     filter {
         exclude("**/style-violations.kt")
     }
+}
+
+heroku {
+    appName = System.getProperty("heroku.app.name", "jeffery-krueger-dev")
+    jdkVersion = "11"
+    processTypes = mapOf("worker" to "java \$JAVA_OPTS -jar build/libs/discord-bot-$version-all.jar")
+    buildpacks = listOf("heroku/jvm")
 }

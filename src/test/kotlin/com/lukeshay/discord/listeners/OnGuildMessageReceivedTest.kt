@@ -5,9 +5,9 @@ import com.lukeshay.discord.GuildImpl
 import com.lukeshay.discord.MessageImpl
 import com.lukeshay.discord.TextChannelImpl
 import com.lukeshay.discord.UserImpl
+import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.listeners.commands.Command
 import com.lukeshay.discord.listeners.commands.Ping
-import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.listeners.exceptions.NoCommandRuntimeException
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.entities.Category

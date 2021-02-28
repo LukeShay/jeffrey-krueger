@@ -23,7 +23,7 @@ plugins {
 }
 
 group = "com.lukeshay.discord"
-version = "0.0.3"
+version = System.getProperty("app.version", "version")
 
 repositories {
     mavenCentral()
@@ -120,4 +120,6 @@ heroku {
     jdkVersion = "11"
     processTypes = mapOf("worker" to "java \$JAVA_OPTS -jar build/libs/discord-bot-$version-all.jar")
     buildpacks = listOf("heroku/jvm")
+    includes = listOf("build/libs/discord-bot-$version-all.jar")
+    isIncludeBuildDir = false
 }

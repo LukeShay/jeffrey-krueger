@@ -1,0 +1,20 @@
+# Requirements
+
+OpenJDK 11
+Make
+Docker
+
+## Running the app
+
+Required environment variables:
+
+```
+DISCORD_TOKEN=ODEzMTQ0MjE4ODMzNzgwNzQ4.YDLBkQ.FWEIfj2K4ydQD9GUEsK3-8CmiDc
+SKIP_JOBS=true
+DATABASE_URL=postgres://username:password@localhost:5432/postgres
+ENVIRONMENT=local
+```
+
+```bash
+./gradlew run
+```

@@ -1,10 +1,11 @@
 FROM openjdk:11-jdk as BUILD
 
 ARG TARGET=shadowJar
+ARG SHA=asdf12
 
 COPY . /src
 WORKDIR /src
-RUN ./gradlew --no-daemon ${TARGET}
+RUN ./gradlew --no-daemon ${TARGET} --Dapp.version=${SHA}
 
 FROM openjdk:11-jre
 

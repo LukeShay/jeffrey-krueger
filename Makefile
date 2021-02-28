@@ -23,5 +23,5 @@ run:
 .PHONY: run
 
 version:
-	find . -maxdepth 1 -type f -exec sed -i '' 's/0.0.1-SNAPSHOT/$(VERSION)/g' {} \;
+	find . -maxdepth 1 -type f -exec sed -i '' 's/\$(OLD)/$(NEW)/g' {} \;
 .PHONY: version

@@ -20,7 +20,7 @@ class Help(private val commands: List<Command>, environment: Environment) :
         val msgEmbedBuilder = EmbedBuilder()
         msgEmbedBuilder.setTitle("Available Commands")
         msgEmbedBuilder.setColor(Color.GREEN)
-        msgEmbedBuilder.descriptionBuilder.append("Hey! My name is Jeffrey Krueger. You may know my degenerate brother, Tyler Krueger. Here is a list of what I am capable of.")
+        msgEmbedBuilder.descriptionBuilder.append("Hey! My name is Jeffrey Krueger. Here is a list of what I am capable of.")
         msgEmbedBuilder.setFooter("All of my commands are case insensitive. That means !HeLp will work.")
 
         commands.filter { command -> command.status == FeatureStatus.RELEASE }

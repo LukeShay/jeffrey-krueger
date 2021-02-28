@@ -24,6 +24,6 @@ class Quote(
     @Column(name = "date", columnDefinition = "VARCHAR(17)") val date: String? = "",
 ) {
     fun format(): String {
-        return "\"$quote\" - $author ${if (date != null && date != "") ", $date" else ""}"
+        return "\"$quote\" - $author${if (date != null && date != "") ", $date" else ""}"
     }
 }

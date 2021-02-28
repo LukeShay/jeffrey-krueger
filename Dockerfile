@@ -1,7 +1,7 @@
 FROM openjdk:11-jdk as BUILD
 
 ARG TARGET=shadowJar
-ARG SHA
+ARG SHA=asdf12
 
 COPY . /src
 WORKDIR /src

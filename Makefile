@@ -1,9 +1,9 @@
 IMAGE_NAME = docker.pkg.github.com/lukeshay/jeffery-krueger/jeffery-krueger
-TAG = $(shell git rev-parse --short HEAD)
+TAG = $(shell git rev-parse HEAD)
 CMD ?= check
 
 build:
-	docker build -f Dockerfile -t $(IMAGE_NAME):$(TAG) .
+	docker build --build_arg SHA=$(TAG) -f Dockerfile -t $(IMAGE_NAME):$(TAG) .
 .PHONY: build
 
 push:

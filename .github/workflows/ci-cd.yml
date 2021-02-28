@@ -5,6 +5,8 @@ jobs:
 
   build:
     runs-on: ubuntu-20.04
+    env:
+      SHA8: ${GITHUB_SHA::8}
     steps:
       - uses: actions/checkout@v2
       - uses: docker/login-action@v1
@@ -19,12 +21,14 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: docker.pkg.github.com/lukeshay/jeffery-krueger/jeffery-krueger:$(git rev-parse --short HEAD)
+          tags: docker.pkg.github.com/lukeshay/jeffery-krueger/jeffery-krueger:${{ github.sha }}
       - run: echo ${{ steps.docker_build.outputs.digest }}
   deploy-dev:
     if: github.ref == 'refs/heads/master'
     needs: [ build ]
     runs-on: ubuntu-20.04
+    env:
+      SHA8: ${GITHUB_SHA::8}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
@@ -35,7 +39,7 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - run: ./gradlew build deployHeroku --stacktrace -Dapp.version=$(git rev-parse --short HEAD)
+      - run: ./gradlew build deployHeroku --stacktrace -Dapp.version=${{ github.sha }}
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       - if: success()

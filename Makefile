@@ -21,3 +21,7 @@ run:
 		openjdk:11-jdk \
 		./gradlew --no-daemon $(CMD)
 .PHONY: run
+
+version:
+	find . -maxdepth 1 -type f -exec sed -i '' 's/0.0.1-SNAPSHOT/$(VERSION)/g' {} \;
+.PHONY: version

@@ -1,7 +1,7 @@
 package com.lukeshay.discord.services
 
-import com.lukeshay.discord.domain.Word
-import com.lukeshay.discord.domain.WordType
+import com.lukeshay.discord.entities.Word
+import com.lukeshay.discord.entities.WordType
 
 interface WordService {
     fun new(singular: String, plural: String, type: WordType): Word?

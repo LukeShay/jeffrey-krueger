@@ -1,11 +1,11 @@
 package com.lukeshay.discord.listeners.commands
 
+import com.lukeshay.discord.domain.CommandEvent
 import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.enums.FeatureStatus
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
+import com.lukeshay.discord.services.WordService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import com.lukeshay.discord.services.WordService
 
 @Component
 class HeyJeff @Autowired constructor(
@@ -20,7 +20,7 @@ class HeyJeff @Autowired constructor(
         environment,
         listOf("hi jeff", "hello jeff")
     ) {
-    override fun run(event: GuildMessageReceivedEvent) {
-        event.message.reply("Hey ${wordService.randomSingularNoun()}").queue()
+    override fun run(event: CommandEvent) {
+        event.reply("Hey ${wordService.randomSingularNoun()}").queue()
     }
 }

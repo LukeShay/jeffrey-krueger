@@ -1,6 +1,6 @@
 package com.lukeshay.discord.services
 
-import com.lukeshay.discord.domain.Quote
+import com.lukeshay.discord.entities.Quote
 
 interface QuoteService {
     fun findAuthors(): Set<String>

@@ -1,12 +1,12 @@
 package com.lukeshay.discord.services.impl
 
-import com.lukeshay.discord.domain.Word
-import com.lukeshay.discord.domain.WordType
+import com.lukeshay.discord.entities.Word
+import com.lukeshay.discord.entities.WordType
 import com.lukeshay.discord.logging.DBLogger
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Service
 import com.lukeshay.discord.repositories.WordRepository
 import com.lukeshay.discord.services.WordService
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
 import javax.transaction.Transactional
 
 @Service

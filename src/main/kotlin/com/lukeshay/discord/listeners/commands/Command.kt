@@ -1,10 +1,11 @@
 package com.lukeshay.discord.listeners.commands
 
+import com.lukeshay.discord.domain.CommandEvent
 import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.enums.FeatureStatus
+import com.lukeshay.discord.utils.leaderChar
 import net.dv8tion.jda.api.entities.Category
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
-import com.lukeshay.discord.utils.leaderChar
 
 abstract class Command(
     cmd: String,
@@ -18,7 +19,7 @@ abstract class Command(
     val aliases = als.map { alias -> "${if (leader) leaderChar else ""}${alias.toLowerCase()}" }
     val description = "$desc${listToAliasesStr(aliases)}"
 
-    abstract fun run(event: GuildMessageReceivedEvent)
+    abstract fun run(event: CommandEvent)
 
     fun matches(s: String): Boolean {
         return s.startsWith(command, ignoreCase = true) || aliases.find { alias ->

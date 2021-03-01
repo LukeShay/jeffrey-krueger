@@ -1,6 +1,6 @@
 package com.lukeshay.discord.services
 
-import com.lukeshay.discord.domain.GuildConfig
+import com.lukeshay.discord.entities.GuildConfig
 
 interface GuildConfigService {
     fun findAll(): List<GuildConfig>

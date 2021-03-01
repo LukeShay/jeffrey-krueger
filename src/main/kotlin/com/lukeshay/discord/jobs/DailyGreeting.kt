@@ -1,10 +1,10 @@
 package com.lukeshay.discord.jobs
 
 import com.lukeshay.discord.logging.DBLogger
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Component
 import com.lukeshay.discord.services.GuildConfigService
 import com.lukeshay.discord.services.WordService
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Component
 
 @Component
 class DailyGreeting @Autowired constructor(

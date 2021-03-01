@@ -1,4 +1,4 @@
-package com.lukeshay.discord.domain
+package com.lukeshay.discord.entities
 
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate

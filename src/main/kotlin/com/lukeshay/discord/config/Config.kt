@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-@ComponentScan("com.lukeshay.discrod")
+@ComponentScan("com.lukeshay.discord")
 class Config {
 
     @Bean

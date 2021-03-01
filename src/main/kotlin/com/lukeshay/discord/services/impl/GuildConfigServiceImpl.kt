@@ -1,11 +1,11 @@
 package com.lukeshay.discord.services.impl
 
-import com.lukeshay.discord.domain.GuildConfig
+import com.lukeshay.discord.entities.GuildConfig
 import com.lukeshay.discord.logging.DBLogger
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Service
 import com.lukeshay.discord.repositories.GuildConfigRepository
 import com.lukeshay.discord.services.GuildConfigService
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
 
 @Service
 class GuildConfigServiceImpl @Autowired constructor(private val guildConfigRepository: GuildConfigRepository) :

@@ -1,8 +1,8 @@
-package com.lukeshay.discord.domain
+package com.lukeshay.discord.entities
 
+import com.lukeshay.discord.utils.specialCharacters
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
-import com.lukeshay.discord.utils.specialCharacters
 import java.time.Instant
 import javax.persistence.Column
 import javax.persistence.Entity

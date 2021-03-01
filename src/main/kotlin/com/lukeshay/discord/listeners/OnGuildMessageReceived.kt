@@ -1,5 +1,6 @@
 package com.lukeshay.discord.listeners
 
+import com.lukeshay.discord.domain.CommandEvent
 import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.listeners.commands.Command
 import com.lukeshay.discord.listeners.commands.Help
@@ -28,9 +29,11 @@ class OnGuildMessageReceived @Autowired constructor(
         logger.info("available commands -\n\n${ListUtils.toString(commands, ",", "    ", true)}\n")
     }
 
-    override fun onGuildMessageReceived(event: GuildMessageReceivedEvent) {
-        if (event.author.isBot || (
-            environment != Environment.PRODUCTION && !event.message.contentRaw.startsWith(
+    override fun onGuildMessageReceived(e: GuildMessageReceivedEvent) {
+        val event = CommandEvent(e, environment)
+
+        if (event.isBot || (
+            environment != Environment.PRODUCTION && !event.contentRaw.startsWith(
                     environment.toString().toLowerCase()
                 )
             )
@@ -38,12 +41,12 @@ class OnGuildMessageReceived @Autowired constructor(
             return
         }
 
-        logger.info(event, "message - ${event.author.name}: ${event.message.contentRaw}")
+        logger.info(e, "message - ${event.author.name}: ${event.contentRaw}")
 
         val category = getCategoryOfChannel(
-            event
+            e
         )
-        val command = findCommand(event)
+        val command = findCommand(e)
 
         if (command != null) {
             if (!environment.isAllowed(
@@ -51,17 +54,17 @@ class OnGuildMessageReceived @Autowired constructor(
                 )
             ) {
                 logger.info(
-                    event,
+                    e,
                     "environment $environment not allowed in this category - ${category?.id}"
                 )
             } else {
-                logger.info(event, "running command - ${command.command}")
+                logger.info(e, "running command - ${command.command}")
                 command.run(event)
             }
         } else {
-            logger.info(event, "no command found for message - ${event.message.contentRaw}")
+            logger.info(e, "no command found for message - ${event.contentRaw}")
 
-            throw NoCommandRuntimeException("no command found for message - ${event.message.contentRaw}")
+            throw NoCommandRuntimeException("no command found for message - ${event.contentRaw}")
         }
     }
 

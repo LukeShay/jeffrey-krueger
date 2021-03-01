@@ -1,12 +1,12 @@
 package com.lukeshay.discord.listeners.commands
 
+import com.lukeshay.discord.domain.CommandEvent
 import com.lukeshay.discord.enums.Emoji
 import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.enums.FeatureStatus
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
+import com.lukeshay.discord.services.QuoteService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import com.lukeshay.discord.services.QuoteService
 
 @Component
 class Quote @Autowired constructor(
@@ -20,8 +20,8 @@ class Quote @Autowired constructor(
         FeatureStatus.RELEASE,
         environment
     ) {
-    override fun run(event: GuildMessageReceivedEvent) {
-        event.message.reply(
+    override fun run(event: CommandEvent) {
+        event.reply(
             quoteService.findOne()?.format() ?: "A quote could not be found ${Emoji.CRY}"
         )
             .queue()

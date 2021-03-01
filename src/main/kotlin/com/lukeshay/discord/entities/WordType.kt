@@ -1,4 +1,4 @@
-package com.lukeshay.discord.domain
+package com.lukeshay.discord.entities
 
 enum class WordType {
     VERB, ADJECTIVE, NOUN;

@@ -1,8 +1,8 @@
 package com.lukeshay.discord
 
-import com.mchange.v2.c3p0.ComboPooledDataSource
 import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.jobs.Job
+import com.mchange.v2.c3p0.ComboPooledDataSource
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.OnlineStatus
 import net.dv8tion.jda.api.hooks.ListenerAdapter
@@ -53,13 +53,13 @@ class SpringConfig {
 
     @Bean
     @Profile("test")
-    fun entityManagerFactory(): LocalContainerEntityManagerFactoryBean {
+    fun entityManagerFactory(dataSource: DataSource): LocalContainerEntityManagerFactoryBean {
         val vendorAdapter = HibernateJpaVendorAdapter()
         vendorAdapter.setGenerateDdl(true)
         val factory = LocalContainerEntityManagerFactoryBean()
         factory.jpaVendorAdapter = vendorAdapter
-        factory.setPackagesToScan("com.lukeshay.discord.domain")
-        factory.dataSource = dataSource()
+        factory.setPackagesToScan("com.lukeshay.discord.entities")
+        factory.dataSource = dataSource
         return factory
     }
 

@@ -1,5 +1,6 @@
 package com.lukeshay.discord.listeners.commands
 
+import com.lukeshay.discord.domain.CommandEvent
 import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.enums.FeatureStatus
 import net.dv8tion.jda.api.EmbedBuilder
@@ -16,7 +17,7 @@ class Help(private val commands: List<Command>, environment: Environment) :
         listOf("options")
     ) {
 
-    override fun run(event: GuildMessageReceivedEvent) {
+    override fun run(event: CommandEvent) {
         val msgEmbedBuilder = EmbedBuilder()
         msgEmbedBuilder.setTitle("Available Commands")
         msgEmbedBuilder.setColor(Color.GREEN)
@@ -34,6 +35,6 @@ class Help(private val commands: List<Command>, environment: Environment) :
             msgEmbedBuilder.addField("environment", environment.toString(), true)
         }
 
-        event.channel.sendMessage(msgEmbedBuilder.build()).queue()
+        event.sendMessage(msgEmbedBuilder.build()).queue()
     }
 }

@@ -5,11 +5,15 @@ import net.dv8tion.jda.api.entities.Guild
 import net.dv8tion.jda.api.entities.PrivateChannel
 import net.dv8tion.jda.api.entities.User
 import net.dv8tion.jda.api.requests.RestAction
-import java.util.EnumSet
+import java.util.*
 
-class UserImpl(private val name: String, private val isBot: Boolean) : User {
+class UserImpl(
+    private val name: String,
+    private val isBot: Boolean,
+    private val userId: String = Math.random().toLong().toString()
+) : User {
     override fun getIdLong(): Long {
-        TODO("Not yet implemented")
+        return userId.toLongOrNull(10) ?: Math.random().toLong()
     }
 
     override fun getAsMention(): String {

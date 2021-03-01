@@ -1,11 +1,11 @@
 package com.lukeshay.discord.services.impl
 
-import com.lukeshay.discord.domain.Quote
+import com.lukeshay.discord.entities.Quote
 import com.lukeshay.discord.logging.DBLogger
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Service
 import com.lukeshay.discord.repositories.QuoteRepository
 import com.lukeshay.discord.services.QuoteService
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
 
 @Service
 class QuoteServiceImpl @Autowired constructor(private val quoteRepository: QuoteRepository) :

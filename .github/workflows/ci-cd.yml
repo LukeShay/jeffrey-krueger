@@ -20,7 +20,7 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - run: ./gradlew build
+      - run: ./gradlew build -Dapp.version=${{ github.sha }}
   docker:
     runs-on: ubuntu-20.04
     steps:

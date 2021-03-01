@@ -5,12 +5,12 @@ import com.lukeshay.discord.listeners.commands.Command
 import com.lukeshay.discord.listeners.commands.Help
 import com.lukeshay.discord.listeners.exceptions.NoCommandRuntimeException
 import com.lukeshay.discord.logging.DBLogger
+import com.lukeshay.discord.utils.ListUtils
 import net.dv8tion.jda.api.entities.Category
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import com.lukeshay.discord.utils.ListUtils
 
 @Component
 class OnGuildMessageReceived @Autowired constructor(
@@ -29,10 +29,10 @@ class OnGuildMessageReceived @Autowired constructor(
     }
 
     override fun onGuildMessageReceived(event: GuildMessageReceivedEvent) {
-        if (event.author.isBot) return
-
-        if (environment != Environment.PRODUCTION && !event.message.contentRaw.startsWith(
-                environment.toString().toLowerCase()
+        if (event.author.isBot || (
+            environment != Environment.PRODUCTION && !event.message.contentRaw.startsWith(
+                    environment.toString().toLowerCase()
+                )
             )
         ) {
             return

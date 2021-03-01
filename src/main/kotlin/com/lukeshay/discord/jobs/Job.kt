@@ -1,26 +1,31 @@
 package com.lukeshay.discord.jobs
 
 import com.lukeshay.discord.logging.DBLogger
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import net.dv8tion.jda.api.JDA
 import java.time.Clock
 import java.time.LocalDateTime
 
-abstract class Job(private val name: String) : Runnable {
+abstract class Job(private val name: String) {
     lateinit var jda: JDA
 
-    abstract fun execute()
+    abstract suspend fun execute()
 
-    override fun run() {
-        logger.info("starting job - $name")
-
+    fun run() {
         jda.awaitReady()
 
-        while (true) {
-            Thread.sleep(1000 * 60 * 60)
+        GlobalScope.launch {
+            logger.info("starting job - $name")
 
-            if (LocalDateTime.now(Clock.systemUTC()).hour == 23) {
-                logger.info("executing job - $name")
-                execute()
+            while (true) {
+                delay(1000 * 60 * 60)
+
+                if (LocalDateTime.now(Clock.systemUTC()).hour == 23) {
+                    logger.info("executing job - $name")
+                    execute()
+                }
             }
         }
     }

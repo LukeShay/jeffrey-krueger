@@ -50,6 +50,7 @@ dependencies {
 
     // Kotlin dependencies
     runtimeOnly("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
 
     // Test dependencies
     // JUnit5 dependencies

@@ -15,7 +15,7 @@ class DailyGreeting @Autowired constructor(
         private val logger = DBLogger("DailyGreeting")
     }
 
-    override fun execute() {
+    override suspend fun execute() {
         guildConfigService.findAll().filter { it.dailyGreeting }.map { it.defaultChannelId }
             .forEach {
                 jda.getTextChannelById(it)

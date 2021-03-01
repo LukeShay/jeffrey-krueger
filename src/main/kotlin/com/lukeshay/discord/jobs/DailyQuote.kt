@@ -15,7 +15,7 @@ class DailyQuote @Autowired constructor(
         private val logger = DBLogger("DailyQuote")
     }
 
-    override fun execute() {
+    override suspend fun execute() {
         quoteService.findOne()?.let {
             guildConfigService.findAll().filter { it.dailyQuote }.map { it.defaultChannelId }
                 .forEach {

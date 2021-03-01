@@ -118,8 +118,8 @@ ktlint {
 heroku {
     appName = System.getProperty("heroku.app.name", "jeffery-krueger-dev")
     jdkVersion = "11"
-    processTypes = mapOf("worker" to "java \$JAVA_OPTS -jar build/libs/discord-bot-$version-all.jar")
+    processTypes = mapOf("worker" to "java \$JAVA_OPTS -jar build/libs/jeffery-krueger-$version-all.jar")
     buildpacks = listOf("heroku/jvm")
-    includes = listOf("build/libs/discord-bot-$version-all.jar")
+    includes = listOf("build/libs/jeffery-krueger-$version-all.jar")
     isIncludeBuildDir = false
 }

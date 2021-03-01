@@ -4,17 +4,111 @@ OpenJDK 11
 Make
 Docker
 
-## Running the app
+# Running the app
 
 Required environment variables:
 
-```
-DISCORD_TOKEN=ODEzMTQ0MjE4ODMzNzgwNzQ4.YDLBkQ.FWEIfj2K4ydQD9GUEsK3-8CmiDc
-SKIP_JOBS=true
-DATABASE_URL=postgres://username:password@localhost:5432/postgres
+```bash
+DISCORD_TOKEN=<get from discord> // Create your own app for testing
+DATABASE_URL=postgres://username:password@localhost:5432/postgres // This can be ran where every you want
 ENVIRONMENT=local
 ```
 
 ```bash
 ./gradlew run
 ```
+
+# Building
+
+## Using Docker
+
+Using Make:
+
+```bash
+CMD=build make run
+```
+
+Manually:
+
+```bash
+docker run --rm \
+    -v "${PWD}":/usr/src/myapp \
+    -w /usr/src/myapp \
+    openjdk:11-jdk \
+    ./gradlew --no-daemon build
+```
+
+## Using Gradle
+
+```bash
+./gradlew build -Dapp.version=$(git rev-parse HEAD)
+```
+
+# Building Docker image
+
+Using Make:
+
+```bash
+make build
+```
+
+Manually:
+
+```bash
+docker build --build_arg SHA=$(git rev-parse HEAD) \
+    -f Dockerfile \
+    -t docker.pkg.github.com/lukeshay/jeffery-krueger/jeffery-krueger:$(git rev-parse HEAD) .
+```
+
+# Linting
+
+## Using Docker
+
+Using Make:
+
+```bash
+CMD=ktlintCheck make run
+```
+
+Manually:
+
+```bash
+docker run --rm \
+    -v "${PWD}":/usr/src/myapp \
+    -w /usr/src/myapp \
+    openjdk:11-jdk \
+    ./gradlew --no-daemon ktlintCheck
+```
+
+## Using Gradle
+
+```bash
+./gradlew ktlintCheck
+```
+
+# Formatting
+
+## Using Docker
+
+Using Make:
+
+```bash
+CMD=ktlintFormat make run
+```
+
+Manually:
+
+```bash
+docker run --rm \
+    -v "${PWD}":/usr/src/myapp \
+    -w /usr/src/myapp \
+    openjdk:11-jdk \
+    ./gradlew --no-daemon ktlintFormat
+```
+
+## Using Gradle
+
+```bash
+./gradlew ktlintFormat
+```
+

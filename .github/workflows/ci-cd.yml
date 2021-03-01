@@ -2,8 +2,26 @@ name: Actions
 on: [ push ]
 
 jobs:
-
   build:
+    strategy:
+      matrix:
+        os:
+          - ubuntu-20.04
+          - macos-11.0
+    name: build-${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - run: ./gradlew build
+  docker:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
@@ -25,7 +43,7 @@ jobs:
       - run: echo ${{ steps.docker_build.outputs.digest }}
   deploy-dev:
     if: github.ref == 'refs/heads/master'
-    needs: [ build ]
+    needs: [ build, docker ]
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2

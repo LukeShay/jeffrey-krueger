@@ -11,7 +11,7 @@ FROM openjdk:11-jre
 
 ARG SHA=asdf12
 
-COPY --from=BUILD /src/build/libs/discord-bot-${SHA}-all.jar /bin/runner/app.jar
+COPY --from=BUILD /src/build/libs/jeffery-krueger-${SHA}-all.jar /bin/runner/app.jar
 WORKDIR /bin/runner
 
 CMD ["sh"]

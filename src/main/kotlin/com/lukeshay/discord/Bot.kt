@@ -20,12 +20,10 @@ class Bot @Autowired constructor(
 
         val jda = builder.build()
 
-        if (System.getenv("SKIP_JOBS") != "true") {
-            jobs.forEach { job ->
-                run {
-                    job.jda = jda
-                    job.run()
-                }
+        jobs.forEach { job ->
+            run {
+                job.jda = jda
+                job.run()
             }
         }
 

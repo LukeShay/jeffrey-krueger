@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component
 class DailyQuote @Autowired constructor(
     private val guildConfigService: GuildConfigService,
     private val quoteService: QuoteService
-) : Job("daily quote", 1000 * 30) {
+) : Job("daily quote") {
     companion object {
         private val logger = DBLogger("DailyQuote")
     }

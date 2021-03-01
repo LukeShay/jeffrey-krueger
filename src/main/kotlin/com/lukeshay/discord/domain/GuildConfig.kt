@@ -27,5 +27,9 @@ data class GuildConfig(
     @Column(
         name = "daily_quote",
         columnDefinition = "BOOLEAN NOT NULL DEFAULT false"
-    ) val dailyQuote: Boolean = false
+    ) val dailyQuote: Boolean = false,
+    @Column(
+        name = "daily_greeting",
+        columnDefinition = "BOOLEAN NOT NULL DEFAULT false"
+    ) val dailyGreeting: Boolean = false
 )

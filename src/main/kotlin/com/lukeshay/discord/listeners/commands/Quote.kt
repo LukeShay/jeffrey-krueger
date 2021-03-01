@@ -1,5 +1,6 @@
 package com.lukeshay.discord.listeners.commands
 
+import com.lukeshay.discord.enums.Emoji
 import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.enums.FeatureStatus
 import com.lukeshay.discord.services.QuoteService
@@ -20,7 +21,9 @@ class Quote @Autowired constructor(
         environment
     ) {
     override fun run(event: GuildMessageReceivedEvent) {
-        event.message.reply(quoteService.findOne()?.format() ?: "A quote could not be found :cry:")
+        event.message.reply(
+            quoteService.findOne()?.format() ?: "A quote could not be found ${Emoji.CRY}"
+        )
             .queue()
     }
 }

@@ -1,4 +1,4 @@
-package com.lukeshay.discord
+package com.lukeshay.discord.config
 
 import com.lukeshay.discord.jobs.Job
 import net.dv8tion.jda.api.JDA

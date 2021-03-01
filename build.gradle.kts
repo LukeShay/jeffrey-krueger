@@ -70,12 +70,6 @@ dependencies {
     testImplementation("org.springframework:spring-test:$springVersion")
 }
 
-// tasks.jar {
-//    manifest {
-//        attributes(mapOf("Main-Class" to mainClass))
-//    }
-// }
-
 tasks.test {
     useJUnitPlatform()
 }

@@ -1,8 +1,8 @@
 package com.lukeshay.discord
 
+import com.mchange.v2.c3p0.ComboPooledDataSource
 import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.jobs.Job
-import com.mchange.v2.c3p0.ComboPooledDataSource
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.OnlineStatus
 import net.dv8tion.jda.api.hooks.ListenerAdapter

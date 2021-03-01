@@ -1,5 +1,4 @@
-package com.lukeshay.discord
-
+import com.lukeshay.discord.config.Bot
 import com.lukeshay.discord.config.Config
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
 

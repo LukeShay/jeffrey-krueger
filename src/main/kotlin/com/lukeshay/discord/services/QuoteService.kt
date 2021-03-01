@@ -4,6 +4,6 @@ import com.lukeshay.discord.domain.Quote
 
 interface QuoteService {
     fun findAuthors(): Set<String>
-    fun findOneByAuthor(author: String): Quote?
     fun findOne(): Quote?
+    fun findOneByAuthor(author: String): Quote?
 }

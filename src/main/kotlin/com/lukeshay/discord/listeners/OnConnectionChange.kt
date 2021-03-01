@@ -10,10 +10,6 @@ import org.springframework.stereotype.Component
 
 @Component
 class OnConnectionChange : ListenerAdapter() {
-    companion object {
-        private val logger = DBLogger("OnTestClass")
-    }
-
     override fun onReconnected(event: ReconnectedEvent) {
         super.onReconnected(event)
         logger.warning("reconnected")
@@ -32,5 +28,9 @@ class OnConnectionChange : ListenerAdapter() {
     override fun onException(event: ExceptionEvent) {
         super.onException(event)
         logger.warning("exception ${event.cause}")
+    }
+
+    companion object {
+        private val logger = DBLogger("OnTestClass")
     }
 }

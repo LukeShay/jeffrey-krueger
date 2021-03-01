@@ -1,9 +1,9 @@
 package com.lukeshay.discord.services.impl
 
-import com.lukeshay.discord.services.MemberService
 import net.dv8tion.jda.api.entities.Role
 import net.dv8tion.jda.api.events.guild.GenericGuildEvent
 import org.springframework.stereotype.Service
+import com.lukeshay.discord.services.MemberService
 
 @Service
 class MemberServiceImpl : MemberService {

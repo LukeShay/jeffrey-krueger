@@ -4,11 +4,11 @@ import com.lukeshay.discord.domain.WordType
 import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.enums.FeatureStatus
 import com.lukeshay.discord.logging.DBLogger
-import com.lukeshay.discord.services.WordService
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.dao.DataAccessException
 import org.springframework.stereotype.Component
+import com.lukeshay.discord.services.WordService
 
 @Component
 class Adjective @Autowired constructor(
@@ -23,10 +23,6 @@ class Adjective @Autowired constructor(
         environment
     ) {
 
-    companion object {
-        private val logger = DBLogger("Adjective")
-    }
-
     override fun run(event: GuildMessageReceivedEvent) {
         val splitMessage = getRawContent(event).split(" ")
 
@@ -37,18 +33,18 @@ class Adjective @Autowired constructor(
             val singular = splitMessage[1]
 
             try {
-                val word = wordService.new(singular, "", WordType.ADJECTIVE)
-
-                if (word != null) {
+                wordService.new(singular, "", WordType.ADJECTIVE)?.let {
                     event.message.reply("Your adjective has been saved!").queue()
-                } else {
-                    event.message.reply("That adjective already exists").queue()
-                }
+                } ?: event.message.reply("That adjective already exists").queue()
             } catch (e: DataAccessException) {
                 e.printStackTrace()
                 logger.severe("error saving noun: $e")
                 event.message.reply("There was an error saving your adjective!").queue()
             }
         }
+    }
+
+    companion object {
+        private val logger = DBLogger("Adjective")
     }
 }

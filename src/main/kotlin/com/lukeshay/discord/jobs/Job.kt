@@ -8,10 +8,6 @@ import java.time.LocalDateTime
 abstract class Job(private val name: String) : Runnable {
     lateinit var jda: JDA
 
-    companion object {
-        val logger = DBLogger("Job")
-    }
-
     abstract fun execute()
 
     override fun run() {
@@ -27,5 +23,9 @@ abstract class Job(private val name: String) : Runnable {
                 execute()
             }
         }
+    }
+
+    companion object {
+        val logger = DBLogger("Job")
     }
 }

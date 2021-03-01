@@ -2,18 +2,14 @@ package com.lukeshay.discord.services.impl
 
 import com.lukeshay.discord.domain.Quote
 import com.lukeshay.discord.logging.DBLogger
-import com.lukeshay.discord.repositories.QuoteRepository
-import com.lukeshay.discord.services.QuoteService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import com.lukeshay.discord.repositories.QuoteRepository
+import com.lukeshay.discord.services.QuoteService
 
 @Service
 class QuoteServiceImpl @Autowired constructor(private val quoteRepository: QuoteRepository) :
     QuoteService {
-    companion object {
-        private val logger = DBLogger("QuoteServiceImpl")
-    }
-
     override fun findAuthors(): Set<String> {
         return try {
             quoteRepository.findAll().map { it.author }.toSet()
@@ -42,5 +38,9 @@ class QuoteServiceImpl @Autowired constructor(private val quoteRepository: Quote
             logger.warning("error finding quite: $e")
             null
         }
+    }
+
+    companion object {
+        private val logger = DBLogger("QuoteServiceImpl")
     }
 }

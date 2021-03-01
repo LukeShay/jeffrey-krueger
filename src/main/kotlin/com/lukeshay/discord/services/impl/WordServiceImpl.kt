@@ -3,36 +3,22 @@ package com.lukeshay.discord.services.impl
 import com.lukeshay.discord.domain.Word
 import com.lukeshay.discord.domain.WordType
 import com.lukeshay.discord.logging.DBLogger
-import com.lukeshay.discord.repositories.WordRepository
-import com.lukeshay.discord.services.WordService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import com.lukeshay.discord.repositories.WordRepository
+import com.lukeshay.discord.services.WordService
 import javax.transaction.Transactional
 
 @Service
 @Transactional
 class WordServiceImpl @Autowired constructor(private val wordRepository: WordRepository) :
     WordService {
-    companion object {
-        private val logger = DBLogger("WordServiceImpl")
-    }
+    override fun new(singular: String, plural: String, type: WordType): Word? {
+        val newWord = Word(type = type.toString(), singular = singular, plural = plural)
 
-    override fun randomPluralVerb(): String {
-        return try {
-            wordRepository.findAllByType(WordType.VERB.toString()).random().plural
-        } catch (e: Exception) {
-            logger.warning("error getting verb: $e")
-            "summoners"
-        }
-    }
-
-    override fun randomSingularVerb(): String {
-        return try {
-            wordRepository.findAllByType(WordType.VERB.toString()).random().singular
-        } catch (e: Exception) {
-            logger.warning("error getting verb: $e")
-            "summoner"
-        }
+        return wordRepository.findBySlug(newWord.slug)?.let {
+            null
+        } ?: wordRepository.save(newWord)
     }
 
     override fun randomPluralNoun(): String {
@@ -40,6 +26,15 @@ class WordServiceImpl @Autowired constructor(private val wordRepository: WordRep
             wordRepository.findAllByType(WordType.NOUN.toString()).random().plural
         } catch (e: Exception) {
             logger.warning("error getting noun: $e")
+            "summoners"
+        }
+    }
+
+    override fun randomPluralVerb(): String {
+        return try {
+            wordRepository.findAllByType(WordType.VERB.toString()).random().plural
+        } catch (e: Exception) {
+            logger.warning("error getting verb: $e")
             "summoners"
         }
     }
@@ -53,17 +48,26 @@ class WordServiceImpl @Autowired constructor(private val wordRepository: WordRep
         }
     }
 
-    override fun save(singular: String, plural: String, type: WordType): Word {
-        return wordRepository.save(Word(type = type.toString(), singular = singular, plural = plural))
+    override fun randomSingularVerb(): String {
+        return try {
+            wordRepository.findAllByType(WordType.VERB.toString()).random().singular
+        } catch (e: Exception) {
+            logger.warning("error getting verb: $e")
+            "summoner"
+        }
     }
 
-    override fun new(singular: String, plural: String, type: WordType): Word? {
-        val newWord = Word(type = type.toString(), singular = singular, plural = plural)
+    override fun save(singular: String, plural: String, type: WordType): Word {
+        return wordRepository.save(
+            Word(
+                type = type.toString(),
+                singular = singular,
+                plural = plural
+            )
+        )
+    }
 
-        val word = wordRepository.getBySlug(newWord.slug)
-
-        if (word != null) return null
-
-        return wordRepository.save(newWord)
+    companion object {
+        private val logger = DBLogger("WordServiceImpl")
     }
 }

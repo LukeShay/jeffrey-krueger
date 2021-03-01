@@ -4,12 +4,12 @@ import com.lukeshay.discord.domain.WordType
 import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.enums.FeatureStatus
 import com.lukeshay.discord.logging.DBLogger
-import com.lukeshay.discord.services.MemberService
-import com.lukeshay.discord.services.WordService
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.dao.DataAccessException
 import org.springframework.stereotype.Component
+import com.lukeshay.discord.services.MemberService
+import com.lukeshay.discord.services.WordService
 
 @Component
 class Verb @Autowired constructor(
@@ -18,10 +18,6 @@ class Verb @Autowired constructor(
     environment: Environment
 ) :
     Command("verb", "adds the verbs to the database", true, FeatureStatus.PRE_ALPHA, environment) {
-
-    companion object {
-        private val logger = DBLogger("Verb")
-    }
 
     override fun run(event: GuildMessageReceivedEvent) {
         val splitMessage = getRawContent(event).split(" ")
@@ -36,18 +32,18 @@ class Verb @Autowired constructor(
             val plural = splitMessage[2]
 
             try {
-                val word = wordService.new(singular, plural, WordType.VERB)
-
-                if (word != null) {
+                wordService.new(singular, plural, WordType.VERB)?.let {
                     event.message.reply("Your verbs has been saved!").queue()
-                } else {
-                    event.message.reply("Those verbs already exists").queue()
-                }
+                } ?: event.message.reply("Those verbs already exists").queue()
             } catch (e: DataAccessException) {
                 e.printStackTrace()
                 logger.severe("error saving verb: $e")
                 event.message.reply("There was an error saving your verbs!").queue()
             }
         }
+    }
+
+    companion object {
+        private val logger = DBLogger("Verb")
     }
 }

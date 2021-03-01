@@ -22,7 +22,7 @@ abstract class Job(private val name: String) : Runnable {
         while (true) {
             Thread.sleep(1000 * 60 * 60)
 
-            if (LocalDateTime.now(Clock.systemUTC()).hour == 12) {
+            if (LocalDateTime.now(Clock.systemUTC()).hour == 23) {
                 logger.info("executing job - $name")
                 execute()
             }

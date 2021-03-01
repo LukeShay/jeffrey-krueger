@@ -5,7 +5,7 @@ import net.dv8tion.jda.api.entities.Guild
 import net.dv8tion.jda.api.entities.PrivateChannel
 import net.dv8tion.jda.api.entities.User
 import net.dv8tion.jda.api.requests.RestAction
-import java.util.*
+import java.util.EnumSet
 
 class UserImpl(
     private val name: String,

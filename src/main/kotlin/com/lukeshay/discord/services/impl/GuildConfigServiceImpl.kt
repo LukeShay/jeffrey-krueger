@@ -15,7 +15,7 @@ class GuildConfigServiceImpl @Autowired constructor(private val guildConfigRepos
             guildConfigRepository.findAll()
         } catch (e: Exception) {
             e.printStackTrace()
-            logger.warning("error finding guild: $e")
+            logger.warning("error finding guilds: $e")
             listOf()
         }
     }

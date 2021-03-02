@@ -4,5 +4,5 @@ import com.lukeshay.discord.entities.GuildConfig
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface GuildConfigRepository : JpaRepository<GuildConfig, Long> {
-    fun findByGuildId(guildId: String): GuildConfig
+    fun findByGuildId(guildId: String): GuildConfig?
 }

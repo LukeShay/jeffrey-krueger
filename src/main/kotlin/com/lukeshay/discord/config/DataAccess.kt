@@ -46,19 +46,19 @@ class DataAccess {
     }
 
     @Bean
-    fun entityManagerFactory(dataSource: DataSource): LocalContainerEntityManagerFactoryBean {
+    fun entityManagerFactory(): LocalContainerEntityManagerFactoryBean {
         val vendorAdapter = HibernateJpaVendorAdapter()
         vendorAdapter.setGenerateDdl(true)
         val factory = LocalContainerEntityManagerFactoryBean()
         factory.jpaVendorAdapter = vendorAdapter
         factory.setPackagesToScan("com.lukeshay.discord.entities")
-        factory.dataSource = dataSource
+        factory.dataSource = dataSource()
 
         val props = Properties()
 
         props.setProperty("hibernate.hbm2ddl.auto", "update")
+        props.setProperty("hibernate.dialect", "javax.sql.DataSource")
 
-        factory.setJpaProperties(props)
         return factory
     }
 
@@ -70,7 +70,8 @@ class DataAccess {
     }
 
     companion object {
-        const val DB_URL_REGEX = """postgres://(?<username>[^:]+):(?<password>[^@]+)@(?<domain>.*)"""
+        const val DB_URL_REGEX =
+            """postgres://(?<username>[^:]+):(?<password>[^@]+)@(?<domain>.*)"""
         private val logger = DBLogger("DataAccess")
     }
 }

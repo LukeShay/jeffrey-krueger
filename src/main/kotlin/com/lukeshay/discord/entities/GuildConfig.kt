@@ -40,12 +40,12 @@ class GuildConfig(
         name = "owner_id",
         columnDefinition = "VARCHAR(18) NOT NULL default 'REPLACE'"
     ) val ownerId: String = "",
-    @ElementCollection @LazyCollection(LazyCollectionOption.FALSE) val adminRoles: Set<String> = setOf(),
-    @ElementCollection @LazyCollection(LazyCollectionOption.FALSE) val adminIds: Set<String> = setOf()
+    @ElementCollection @LazyCollection(LazyCollectionOption.FALSE) val adminRoleIds: MutableSet<String> = mutableSetOf(),
+    @ElementCollection @LazyCollection(LazyCollectionOption.FALSE) val adminIds: MutableSet<String> = mutableSetOf()
 ) {
     fun canEdit(member: Member): Boolean {
         for (role in member.roles) {
-            if (adminRoles.contains(role.name)) return true
+            if (adminRoleIds.contains(role.name)) return true
         }
 
         return adminIds.contains(member.id) || member.id == ownerId || member.isOwner

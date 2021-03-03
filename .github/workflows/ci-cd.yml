@@ -3,13 +3,7 @@ on: [ push ]
 
 jobs:
   build:
-    strategy:
-      matrix:
-        os:
-          - ubuntu-20.04
-          - macos-10.15
-    name: build-${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-20.04
     services:
       postgres:
         image: library/postgres:13

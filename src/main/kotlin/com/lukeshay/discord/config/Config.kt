@@ -59,8 +59,14 @@ class Config {
 
     @Bean
     fun snowflakeHttpRequest(environment: Environment): HttpRequest {
-        return HttpRequest.newBuilder().uri(URI.create(environment.snowflakeUrl))
-            .setHeader("X-Client-Secret", System.getenv("SNOWFLAKE_CLIENT_SECRET")).build()
+        val builder = HttpRequest.newBuilder().uri(URI.create(environment.snowflakeUrl))
+
+        try {
+            builder.header("X-Client-Secret", System.getenv("SNOWFLAKE_CLIENT_SECRET"))
+        } catch (e: NullPointerException) {
+        }
+
+        return builder.build()
     }
 
     @Bean

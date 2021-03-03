@@ -3,9 +3,10 @@ package com.lukeshay.discord.enums
 import net.dv8tion.jda.api.entities.Guild
 
 enum class Environment(env: String) {
-    LOCAL("dev"), DEVELOPMENT("dev"), STAGING("staging"), PRODUCTION("prod");
+    LOCAL("local"), DEVELOPMENT("dev"), STAGING("staging"), PRODUCTION("prod");
 
-    val snowflakeUrl = "https://jk-snowflakes-$env.herokuapp.com/v1"
+    val snowflakeUrl =
+        if (env == "local") "http://localhost:8080/v1" else "https://jk-snowflakes-$env.herokuapp.com/v1"
 
     companion object {
         fun determineEnv(): Environment {

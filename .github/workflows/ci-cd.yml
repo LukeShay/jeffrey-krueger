@@ -18,7 +18,7 @@ jobs:
           POSTGRES_PASSWORD: password
           POSTGRES_DB: postgres
         ports:
-          - 5432:5432
+          - 5432/tcp
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v1
@@ -34,7 +34,7 @@ jobs:
             ${{ runner.os }}-gradle-
       - run: ./gradlew build -Dapp.version=${{ github.sha }}
         env:
-          DATABASE_URL: postgres://postgres:password@postgres:${{ job.services.postgres.ports[5432] }}/postgres
+          DATABASE_URL: postgres://postgres:password@localhost:${{ job.services.postgres.ports[5432] }}/postgres
   docker:
     runs-on: ubuntu-20.04
     steps:

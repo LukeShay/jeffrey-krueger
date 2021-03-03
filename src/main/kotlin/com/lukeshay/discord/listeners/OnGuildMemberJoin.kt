@@ -1,5 +1,6 @@
 package com.lukeshay.discord.listeners
 
+import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.logging.DBLogger
 import com.lukeshay.discord.services.WordService
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent
@@ -8,9 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class OnGuildMemberJoin @Autowired constructor(private val wordService: WordService) :
+class OnGuildMemberJoin @Autowired constructor(
+    private val wordService: WordService,
+    private val environment: Environment
+) :
     ListenerAdapter() {
     override fun onGuildMemberJoin(event: GuildMemberJoinEvent) {
+        shouldRun(environment, event)
         logger.info(event, "join - ${event.member.effectiveName}")
 
         event.guild.defaultChannel?.sendMessage("Everyone, say hello to the newest ${wordService.randomSingularNoun()} - ${event.member.asMention}")

@@ -23,8 +23,12 @@ import net.dv8tion.jda.api.requests.restaction.InviteAction
 import net.dv8tion.jda.api.requests.restaction.MessageAction
 import net.dv8tion.jda.api.requests.restaction.PermissionOverrideAction
 import net.dv8tion.jda.api.requests.restaction.WebhookAction
+import org.mockito.Mockito
 
-class TextChannelImpl(private val id: Long, private val messageAction: MessageAction) :
+class TextChannelImpl(
+    private val id: Long,
+    private val messageAction: MessageAction = Mockito.mock(MessageAction::class.java)
+) :
     TextChannel {
     override fun sendMessage(text: CharSequence): MessageAction {
         return messageAction

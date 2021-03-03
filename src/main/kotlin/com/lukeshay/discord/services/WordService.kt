@@ -4,10 +4,9 @@ import com.lukeshay.discord.entities.Word
 import com.lukeshay.discord.entities.WordType
 
 interface WordService {
-    fun new(singular: String, plural: String, type: WordType): Word?
-    fun randomPluralNoun(): String
-    fun randomPluralVerb(): String
-    fun randomSingularNoun(): String
-    fun randomSingularVerb(): String
-    fun save(singular: String, plural: String, type: WordType): Word
+    fun new(guildId: Long, singular: String, plural: String, type: WordType): Word?
+    fun randomPluralNoun(guildId: Long = 0): String
+    fun randomPluralVerb(guildId: Long = 0): String
+    fun randomSingularNoun(guildId: Long = 0): String
+    fun randomSingularVerb(guildId: Long = 0): String
 }

@@ -2,7 +2,6 @@ package com.lukeshay.discord.listeners.commands
 
 import com.lukeshay.discord.entities.WordType
 import com.lukeshay.discord.enums.Environment
-import com.lukeshay.discord.enums.FeatureStatus
 import com.lukeshay.discord.services.GuildConfigService
 import com.lukeshay.discord.services.WordService
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,7 +17,6 @@ class Verb @Autowired constructor(
         "verb",
         "adds the verb to the database",
         true,
-        FeatureStatus.PRE_ALPHA,
         environment,
         WordType.VERB,
         guildConfigService,

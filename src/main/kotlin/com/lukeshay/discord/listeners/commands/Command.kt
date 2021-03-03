@@ -2,16 +2,13 @@ package com.lukeshay.discord.listeners.commands
 
 import com.lukeshay.discord.domain.CommandEvent
 import com.lukeshay.discord.enums.Environment
-import com.lukeshay.discord.enums.FeatureStatus
 import com.lukeshay.discord.utils.leaderChar
-import net.dv8tion.jda.api.entities.Category
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
 
 abstract class Command(
     cmd: String,
     desc: String,
     leader: Boolean,
-    val status: FeatureStatus,
     val environment: Environment,
     als: List<String> = listOf()
 ) {
@@ -28,10 +25,6 @@ abstract class Command(
                 ignoreCase = true
             )
         } != null
-    }
-
-    fun isAllowed(category: Category?): Boolean {
-        return status.isAllowed(category)
     }
 
     fun getRawContent(event: GuildMessageReceivedEvent): String {

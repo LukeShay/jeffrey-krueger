@@ -3,8 +3,7 @@ package com.lukeshay.discord.listeners.commands
 import com.lukeshay.discord.domain.CommandEvent
 import com.lukeshay.discord.entities.WordType
 import com.lukeshay.discord.enums.Environment
-import com.lukeshay.discord.enums.FeatureStatus
-import com.lukeshay.discord.logging.DBLogger
+import com.lukeshay.discord.logging.createLogger
 import com.lukeshay.discord.services.GuildConfigService
 import com.lukeshay.discord.services.WordService
 
@@ -12,16 +11,15 @@ open class WordCommand(
     private val cmd: String,
     desc: String,
     leader: Boolean,
-    status: FeatureStatus,
     environment: Environment,
     private val wordType: WordType,
     private val guildConfigService: GuildConfigService,
     private val wordService: WordService
-) : Command(cmd, desc, leader, status, environment) {
+) : Command(cmd, desc, leader, environment) {
     override fun run(event: CommandEvent) {
         val splitMessage = WORD_REGEX.toRegex().matchEntire(event.contentRaw)!!.groups
 
-        guildConfigService.findByGuildId(event.guildId)?.let {
+        guildConfigService.findById(event.guildId)?.let {
             if (event.authorAsMember == null || !it.canEdit(event.authorAsMember)) {
                 return
             }
@@ -35,7 +33,7 @@ open class WordCommand(
                 .queue()
         } else {
             try {
-                wordService.new(singular.value, plural?.value ?: "", wordType)?.let {
+                wordService.new(event.guildId, singular.value, plural?.value ?: "", wordType)?.let {
                     event.reply("Your $cmd has been saved!").queue()
                 } ?: event.reply("That $cmd already exists").queue()
             } catch (e: Exception) {
@@ -48,6 +46,6 @@ open class WordCommand(
 
     companion object {
         private const val WORD_REGEX = """.+"(?<singular>.+)" "(?<plural>.+)"?"""
-        private val logger = DBLogger("WordCommand")
+        private val logger = createLogger("WordCommand")
     }
 }

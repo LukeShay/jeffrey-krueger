@@ -1,7 +1,5 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
-val kotlinVersion = "1.4.31"
 val springVersion = "5.3.4"
 val hibernateVersion = "6.0.0.Alpha6"
 val junit5Version = "5.6.0"
@@ -13,8 +11,9 @@ buildscript {
 }
 
 plugins {
-    kotlin("jvm") version "1.4.31"
     application
+    jacoco
+    id("org.jetbrains.kotlin.jvm") version "1.4.31"
     id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
     id("org.jetbrains.kotlin.plugin.spring") version "1.4.31"
     id("org.jetbrains.kotlin.plugin.jpa") version "1.4.31"
@@ -26,7 +25,7 @@ group = "com.lukeshay.discord"
 version = System.getProperty("app.version", "version")
 
 repositories {
-    mavenCentral()
+//    mavenCentral()
     jcenter()
 }
 
@@ -49,8 +48,13 @@ dependencies {
     implementation("org.postgresql:postgresql:42.2.19")
 
     // Kotlin dependencies
-    runtimeOnly("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    runtimeOnly("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
+
+    // klaxon dependencies
+    implementation("com.beust:klaxon:5.0.1")
 
     // Test dependencies
     // JUnit5 dependencies
@@ -71,12 +75,58 @@ dependencies {
     testImplementation("org.springframework:spring-test:$springVersion")
 }
 
-tasks.test {
-    useJUnitPlatform()
+tasks.jacocoTestReport {
+    // Adjust the output of the test report
+    reports {
+        xml.isEnabled = true
+        html.isEnabled = true
+        csv.isEnabled = true
+        html.destination = file("$buildDir/jacocoHtml")
+    }
 }
 
-tasks.withType<KotlinCompile>() {
-    kotlinOptions.jvmTarget = "11"
+tasks.jacocoTestCoverageVerification {
+    classDirectories.setFrom(
+        files(
+            classDirectories.files.map {
+                fileTree(
+                    mapOf(
+                        "dir" to it,
+                        "exclude" to arrayOf(
+                            "com/lukeshay/discord/repositories/**",
+                            "com/lukeshay/discord/entities/**",
+                            "com/lukeshay/discord/config/**",
+                            "com/lukeshay/discord/logger/**"
+                        )
+                    )
+                )
+            }
+        )
+    )
+
+    violationRules {
+        rule {
+            isFailOnViolation = false
+            element = "BUNDLE"
+            limit {
+                minimum = "0.7".toBigDecimal()
+            }
+        }
+        rule {
+            isFailOnViolation = false
+            element = "SOURCEFILE"
+            limit {
+                minimum = "0.01".toBigDecimal()
+            }
+        }
+    }
+}
+
+tasks.test {
+    useJUnitPlatform()
+
+    finalizedBy(tasks.jacocoTestReport)
+    finalizedBy(tasks.jacocoTestCoverageVerification)
 }
 
 tasks.shadowJar {
@@ -89,13 +139,8 @@ tasks.shadowJar {
     }
 }
 
-configure<JavaPluginConvention> {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-}
-
 application {
-    mainClassName = "com.lukeshay.discord.MainKt"
+    mainClass.set("com.lukeshay.discord.MainKt")
 }
 
 ktlint {
@@ -113,7 +158,8 @@ ktlint {
 heroku {
     appName = System.getProperty("heroku.app.name", "jeffery-krueger-dev")
     jdkVersion = "11"
-    processTypes = mapOf("worker" to "java \$JAVA_OPTS -jar build/libs/jeffery-krueger-$version-all.jar")
+    processTypes =
+        mapOf("worker" to "java \$JAVA_OPTS -jar build/libs/jeffery-krueger-$version-all.jar")
     buildpacks = listOf("heroku/jvm")
     includes = listOf("build/libs/jeffery-krueger-$version-all.jar")
     isIncludeBuildDir = false

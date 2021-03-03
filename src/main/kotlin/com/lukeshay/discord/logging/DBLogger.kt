@@ -22,7 +22,7 @@ class DBLogger(clazz: String) {
     }
 
     fun finest(event: GenericGuildEvent, message: String) {
-        finest("${event.guild.name} | $message")
+        finest("${event.guild.id} | $message")
     }
 
     fun finest(message: String) {
@@ -30,7 +30,7 @@ class DBLogger(clazz: String) {
     }
 
     fun finer(event: GenericGuildEvent, message: String) {
-        finer("${event.guild.name} | $message")
+        finer("${event.guild.id} | $message")
     }
 
     fun finer(message: String) {
@@ -38,7 +38,7 @@ class DBLogger(clazz: String) {
     }
 
     fun fine(event: GenericGuildEvent, message: String) {
-        fine("${event.guild.name} | $message")
+        fine("${event.guild.id} | $message")
     }
 
     fun fine(message: String) {
@@ -46,7 +46,7 @@ class DBLogger(clazz: String) {
     }
 
     fun info(event: GenericGuildEvent, message: String) {
-        info("${event.guild.name}: $message")
+        info("${event.guild.id}: $message")
     }
 
     fun info(message: String) {
@@ -54,7 +54,7 @@ class DBLogger(clazz: String) {
     }
 
     fun warning(event: GenericGuildEvent, message: String) {
-        warning("${event.guild.name} | $message")
+        warning("${event.guild.id} | $message")
     }
 
     fun warning(message: String) {
@@ -62,7 +62,7 @@ class DBLogger(clazz: String) {
     }
 
     fun severe(event: GenericGuildEvent, message: String) {
-        severe("${event.guild.name} | $message")
+        severe("${event.guild.id} | $message")
     }
 
     fun severe(message: String) {

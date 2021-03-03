@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 interface WordRepository : JpaRepository<Word, Long> {
     fun findBySlug(slug: String): Word?
     fun findAllByType(type: String): List<Word>
+    fun findAllByGuildIdAndType(guildId: Long, type: String): List<Word>
 }

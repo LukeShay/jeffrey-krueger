@@ -1,9 +1,11 @@
 package com.lukeshay.discord.enums
 
-import net.dv8tion.jda.api.entities.Category
+import net.dv8tion.jda.api.entities.Guild
 
-enum class Environment {
-    LOCAL, DEVELOPMENT, STAGING, PRODUCTION;
+enum class Environment(env: String) {
+    LOCAL("dev"), DEVELOPMENT("dev"), STAGING("staging"), PRODUCTION("prod");
+
+    val snowflakeUrl = "https://jk-snowflakes-$env.herokuapp.com/v1"
 
     companion object {
         fun determineEnv(): Environment {
@@ -19,25 +21,24 @@ enum class Environment {
     }
 
     /**
-     * Returns the list of the IDs of categories that environment can be used
-     * in. If the list is null, it can be used in all categories.
+     * Returns a list of the IDs of guilds the environment can be used in.
      */
-    fun allowedCategories(): List<String>? {
+    fun allowedGuilds(): List<String>? {
         return when (this) {
-            LOCAL -> listOf("813515790187364383")
-            DEVELOPMENT -> listOf("813515790187364383", "520712780676857867")
-            STAGING -> listOf("813515790187364383", "520712780676857867")
+            LOCAL -> listOf("816344932414521355")
+            DEVELOPMENT -> listOf("816344932414521355")
+            STAGING -> listOf("816344932414521355")
             PRODUCTION -> null
         }
     }
 
     /**
-     * Checks if the environment is allowed in the given category.
+     * Checks if the environment is allowed in the given Guild.
      */
-    fun isAllowed(category: Category?): Boolean {
-        return category != null && (
-            allowedCategories() == null || allowedCategories()?.contains(
-                category.id
+    fun isAllowed(guild: Guild?): Boolean {
+        return guild != null && (
+            allowedGuilds() == null || allowedGuilds()?.contains(
+                guild.id
             ) == true
             )
     }

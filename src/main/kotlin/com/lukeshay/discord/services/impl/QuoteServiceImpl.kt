@@ -1,7 +1,7 @@
 package com.lukeshay.discord.services.impl
 
 import com.lukeshay.discord.entities.Quote
-import com.lukeshay.discord.logging.DBLogger
+import com.lukeshay.discord.logging.createLogger
 import com.lukeshay.discord.repositories.QuoteRepository
 import com.lukeshay.discord.services.QuoteService
 import org.springframework.beans.factory.annotation.Autowired
@@ -41,6 +41,6 @@ class QuoteServiceImpl @Autowired constructor(private val quoteRepository: Quote
     }
 
     companion object {
-        private val logger = DBLogger("QuoteServiceImpl")
+        private val logger = createLogger("QuoteServiceImpl")
     }
 }

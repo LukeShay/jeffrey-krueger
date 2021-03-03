@@ -2,7 +2,6 @@ package com.lukeshay.discord.listeners.commands
 
 import com.lukeshay.discord.domain.CommandEvent
 import com.lukeshay.discord.enums.Environment
-import com.lukeshay.discord.enums.FeatureStatus
 import com.lukeshay.discord.services.WordService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -16,7 +15,6 @@ class HeyJeff @Autowired constructor(
         "hey jeff",
         "I will say hi back to you!",
         false,
-        FeatureStatus.RELEASE,
         environment,
         listOf("hi jeff", "hello jeff")
     ) {

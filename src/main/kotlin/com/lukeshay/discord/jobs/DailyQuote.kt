@@ -16,11 +16,11 @@ class DailyQuote @Autowired constructor(
     }
 
     override suspend fun execute() {
-        quoteService.findOne()?.let {
+        quoteService.findOne()?.let { quote ->
             guildConfigService.findAll().filter { it.dailyQuote }.map { it.defaultChannelId }
                 .forEach {
                     jda.getTextChannelById(it)
-                        ?.sendMessage("Quote of the day: ${it.format()}")?.queue()
+                        ?.sendMessage("Quote of the day: ${quote.format()}")?.queue()
                 }
         } ?: logger.severe("there was an error getting a quote")
     }

@@ -1,7 +1,6 @@
 package com.lukeshay.discord.listeners.commands
 
 import com.lukeshay.discord.SpringTestBase
-import com.lukeshay.discord.enums.FeatureStatus
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -12,6 +11,5 @@ internal class HeyJeffTest @Autowired constructor(private val heyJeff: HeyJeff) 
     fun constructor_correctValues() {
         Assertions.assertEquals("hey jeff", heyJeff.command)
         Assertions.assertEquals(2, heyJeff.aliases.size)
-        Assertions.assertEquals(FeatureStatus.RELEASE, heyJeff.status)
     }
 }

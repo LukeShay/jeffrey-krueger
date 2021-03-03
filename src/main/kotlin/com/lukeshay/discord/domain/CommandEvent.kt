@@ -15,9 +15,9 @@ class CommandEvent(
             ignoreCase = true
         )
     val isBot = event.author.isBot
-    val authorId = event.author.id
+    val authorId = event.author.idLong
     val author = event.author
-    val guildId = event.guild.id
+    val guildId = event.guild.idLong
     val authorAsMember = event.guild.getMember(event.author)
 
     fun reply(content: CharSequence) = event.message.reply(content)

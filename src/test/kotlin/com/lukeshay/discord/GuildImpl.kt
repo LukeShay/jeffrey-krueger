@@ -39,7 +39,8 @@ import java.util.function.Consumer
 
 class GuildImpl(
     private val name: String,
-    private val guildId: String = Math.random().toLong().toString()
+    private val guildId: String = Math.random().toLong().toString(),
+    private val oId: String = Math.random().toLong().toString()
 ) : Guild {
     override fun getIdLong(): Long {
         return guildId.toLongOrNull(10) ?: Math.random().toLong()
@@ -142,7 +143,7 @@ class GuildImpl(
     }
 
     override fun getOwnerIdLong(): Long {
-        TODO("Not yet implemented")
+        return oId.toLong()
     }
 
     override fun getAfkTimeout(): Guild.Timeout {
@@ -222,7 +223,7 @@ class GuildImpl(
     }
 
     override fun getDefaultChannel(): TextChannel? {
-        TODO("Not yet implemented")
+        return TextChannelImpl(1)
     }
 
     override fun getManager(): GuildManager {

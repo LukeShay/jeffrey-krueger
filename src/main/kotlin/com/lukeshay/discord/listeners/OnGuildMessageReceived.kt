@@ -7,7 +7,6 @@ import com.lukeshay.discord.listeners.commands.Help
 import com.lukeshay.discord.listeners.exceptions.NoCommandRuntimeException
 import com.lukeshay.discord.logging.DBLogger
 import com.lukeshay.discord.utils.ListUtils
-import net.dv8tion.jda.api.entities.Category
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.springframework.beans.factory.annotation.Autowired
@@ -30,10 +29,11 @@ class OnGuildMessageReceived @Autowired constructor(
     }
 
     override fun onGuildMessageReceived(e: GuildMessageReceivedEvent) {
+        shouldRun(environment, e)
         val event = CommandEvent(e, environment)
 
         if (event.isBot || (
-            environment != Environment.PRODUCTION && !event.contentRaw.startsWith(
+            environment != Environment.PRODUCTION && !event.event.message.contentRaw.startsWith(
                     environment.toString().toLowerCase()
                 )
             )
@@ -43,24 +43,11 @@ class OnGuildMessageReceived @Autowired constructor(
 
         logger.info(e, "message - ${event.author.name}: ${event.contentRaw}")
 
-        val category = getCategoryOfChannel(
-            e
-        )
         val command = findCommand(e)
 
         if (command != null) {
-            if (!environment.isAllowed(
-                    category
-                )
-            ) {
-                logger.info(
-                    e,
-                    "environment $environment not allowed in this category - ${category?.id}"
-                )
-            } else {
-                logger.info(e, "running command - ${command.command}")
-                command.run(event)
-            }
+            logger.info(e, "running command - ${command.command}")
+            command.run(event)
         } else {
             logger.info(e, "no command found for message - ${event.contentRaw}")
 
@@ -77,27 +64,11 @@ class OnGuildMessageReceived @Autowired constructor(
                         environment.toString().toLowerCase()
                         } "
                     )
-                ) && command.isAllowed(
-                    getCategoryOfChannel(
-                        event
-                    )
                 )
             }
         } catch (e: NoSuchElementException) {
             null
         }
-    }
-
-    private fun getCategoryOfChannel(event: GuildMessageReceivedEvent): Category? {
-        for (category in event.jda.categories) {
-            for (ch in category.channels) {
-                if (ch.id == event.channel.id) {
-                    return category
-                }
-            }
-        }
-
-        return null
     }
 
     companion object {

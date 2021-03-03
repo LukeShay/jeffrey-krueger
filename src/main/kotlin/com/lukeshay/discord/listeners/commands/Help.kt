@@ -2,7 +2,6 @@ package com.lukeshay.discord.listeners.commands
 
 import com.lukeshay.discord.domain.CommandEvent
 import com.lukeshay.discord.enums.Environment
-import com.lukeshay.discord.enums.FeatureStatus
 import net.dv8tion.jda.api.EmbedBuilder
 import java.awt.Color
 
@@ -11,7 +10,6 @@ class Help(private val commands: List<Command>, environment: Environment) :
         "help",
         "Displays this message.",
         true,
-        FeatureStatus.RELEASE,
         environment,
         listOf("options")
     ) {
@@ -23,10 +21,9 @@ class Help(private val commands: List<Command>, environment: Environment) :
         msgEmbedBuilder.descriptionBuilder.append("Hey! My name is Jeffrey Krueger. Here is a list of what I am capable of.")
         msgEmbedBuilder.setFooter("All of my commands are case insensitive. That means !HeLp will work.")
 
-        commands.filter { command -> command.status == FeatureStatus.RELEASE }
-            .sortedBy { command -> command.command }.forEach { command ->
-                msgEmbedBuilder.addField(command.command, command.description, false)
-            }
+        commands.sortedBy { it.command }.forEach {
+            msgEmbedBuilder.addField(it.command, it.description, false)
+        }
 
         msgEmbedBuilder.addField("!help", description, false)
 

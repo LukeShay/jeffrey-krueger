@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service
 class MemberServiceImpl : MemberService {
     override fun getMemberRoles(
         event: GenericGuildEvent,
-        memberId: String
+        memberId: Long
     ): List<Role> {
-        return event.guild.members.find { member -> member.id == memberId }?.roles!!.toList()
+        return event.guild.members.find { member -> member.idLong == memberId }?.roles!!.toList()
     }
 }

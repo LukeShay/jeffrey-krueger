@@ -6,10 +6,8 @@ import com.lukeshay.discord.domain.Snowflake
 import com.lukeshay.discord.entities.GuildConfig
 import com.lukeshay.discord.repositories.GuildConfigRepository
 import com.lukeshay.discord.services.impl.GuildConfigServiceImpl
-import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito

@@ -4,6 +4,8 @@ val springVersion = "5.3.4"
 val hibernateVersion = "6.0.0.Alpha6"
 val junit5Version = "5.6.0"
 
+val mainClass = "com.lukeshay.discord.MainKt"
+
 buildscript {
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-allopen:1.4.31")
@@ -140,7 +142,8 @@ tasks.shadowJar {
 }
 
 application {
-    mainClass.set("com.lukeshay.discord.MainKt")
+    mainClass.set(mainClass)
+    mainClassName = mainClass.toString()
 }
 
 ktlint {

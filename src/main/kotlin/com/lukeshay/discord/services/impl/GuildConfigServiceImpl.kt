@@ -48,6 +48,15 @@ class GuildConfigServiceImpl @Autowired constructor(private val guildConfigRepos
         )
     }
 
+    override fun save(guildConfig: GuildConfig): GuildConfig? {
+        return try {
+            guildConfigRepository.save(guildConfig)
+        } catch (e: Exception) {
+            logger.severe("error saving guild $e")
+            null
+        }
+    }
+
     override fun saveOrUpdate(guild: Guild): GuildConfig? {
         val guildConfig = findById(guild.idLong) ?: return new(guild)
 
@@ -59,15 +68,6 @@ class GuildConfigServiceImpl @Autowired constructor(private val guildConfigRepos
         guildConfig.dailyQuote = true
 
         return save(guildConfig)
-    }
-
-    private fun save(guildConfig: GuildConfig): GuildConfig? {
-        return try {
-            guildConfigRepository.save(guildConfig)
-        } catch (e: Exception) {
-            logger.severe("error saving guild $e")
-            null
-        }
     }
 
     companion object {

@@ -7,5 +7,6 @@ interface GuildConfigService {
     fun findAll(): List<GuildConfig>
     fun findById(guildId: Long): GuildConfig?
     fun new(guild: Guild): GuildConfig?
+    fun save(guildConfig: GuildConfig): GuildConfig?
     fun saveOrUpdate(guild: Guild): GuildConfig?
 }

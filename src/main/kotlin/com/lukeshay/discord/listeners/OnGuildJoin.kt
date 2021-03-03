@@ -18,9 +18,12 @@ class OnGuildJoin @Autowired constructor(
         shouldRun(environment, event)
         logger.info(event, "joined guild - ${event.guild.id}")
 
-        guildConfigService.new(event.guild)
+        val message = guildConfigService.saveOrUpdate(event.guild)?.let {
+            "Thank you for adding me to your server! Send the message '!help' for information on my commands."
+        }
+            ?: "There was an error adding your guild to our database. Please open a ticket here: https://github.com/LukeShay/jeffery-krueger/issues/new?assignees=LukeShay&labels=guild%2C+awaiting+triage&template=guild_ticket.md&title=%5BGUILD%5D+Your+title+here"
 
-        event.guild.defaultChannel?.sendMessage("Thank you for adding me to your server! Send the message '!help' for information on my commands.")
+        event.guild.defaultChannel?.sendMessage(message)
             ?.queue()
     }
 

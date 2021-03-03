@@ -7,18 +7,19 @@ assignees: LukeShay
 
 ---
 
-**Type**
+## Type
 - [ ] Command - COMMAND [aliases]
 - [ ] Job
+- [ ] Event Listener - EVENT
 
-**Is your feature request related to a problem? Please describe.**
+## Is your feature request related to a problem? Please describe.
 
 [comment]: <> (A clear and concise description of what the problem is. Ex. I'm always frustrated when [...])
 
-**Describe the solution you'd like**
+## Describe the solution you'd like
 
 [comment]: <> (A clear and concise description of what you want to happen.)
 
-**Additional context**
+## Additional context
 
 [comment]: <> (Add any other context or screenshots about the feature request here.)

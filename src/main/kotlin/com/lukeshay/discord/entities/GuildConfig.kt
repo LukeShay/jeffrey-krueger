@@ -21,25 +21,25 @@ class GuildConfig(
     @Column(
         name = "default_channel_id",
         columnDefinition = "BIGINT NOT NULL"
-    ) val defaultChannelId: Long = 0,
+    ) var defaultChannelId: Long = 0,
     @Column(
         name = "daily_quote",
         columnDefinition = "BOOLEAN NOT NULL DEFAULT false"
-    ) val dailyQuote: Boolean = true,
+    ) var dailyQuote: Boolean = true,
     @Column(
         name = "daily_greeting",
         columnDefinition = "BOOLEAN NOT NULL DEFAULT true"
-    ) val dailyGreeting: Boolean = true,
+    ) var dailyGreeting: Boolean = true,
     @Column(
         name = "commands",
         columnDefinition = "BOOLEAN NOT NULL DEFAULT true"
-    ) val commands: Boolean = true,
+    ) var commands: Boolean = true,
     @Column(
         name = "owner_id",
         columnDefinition = "BIGINT NOT NULL"
-    ) val ownerId: Long = 0,
-    @ElementCollection @LazyCollection(LazyCollectionOption.FALSE) val adminRoleIds: MutableSet<Long> = mutableSetOf(),
-    @ElementCollection @LazyCollection(LazyCollectionOption.FALSE) val adminIds: MutableSet<Long> = mutableSetOf()
+    ) var ownerId: Long = 0,
+    @ElementCollection @LazyCollection(LazyCollectionOption.FALSE) var adminRoleIds: MutableSet<Long> = mutableSetOf(),
+    @ElementCollection @LazyCollection(LazyCollectionOption.FALSE) var adminIds: MutableSet<Long> = mutableSetOf()
 ) {
     fun canEdit(member: Member): Boolean {
         for (role in member.roles) {

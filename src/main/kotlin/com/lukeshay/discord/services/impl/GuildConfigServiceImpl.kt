@@ -38,14 +38,20 @@ class GuildConfigServiceImpl @Autowired constructor(private val guildConfigRepos
     }
 
     override fun new(guild: Guild): GuildConfig? {
-        return findById(guild.idLong)?.let { null } ?: guildConfigRepository.save(
-            GuildConfig(
-                id = guild.idLong,
-                defaultChannelId = guild.defaultChannel?.idLong ?: 0,
-                ownerId = guild.ownerIdLong,
-                adminIds = mutableSetOf(guild.ownerIdLong),
+        return if (findById(guild.idLong) != null) {
+            logger.info("guild ${guild.idLong} is already in the database")
+            null
+        } else {
+            logger.info("saving guild ${guild.idLong}")
+            save(
+                GuildConfig(
+                    id = guild.idLong,
+                    defaultChannelId = guild.defaultChannel?.idLong ?: 0,
+                    ownerId = guild.ownerIdLong,
+                    adminIds = mutableSetOf(guild.ownerIdLong),
+                )
             )
-        )
+        }
     }
 
     override fun save(guildConfig: GuildConfig): GuildConfig? {

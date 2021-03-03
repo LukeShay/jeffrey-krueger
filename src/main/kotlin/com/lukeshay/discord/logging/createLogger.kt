@@ -6,7 +6,7 @@ import java.util.logging.Logger
 
 fun createLogger(clazz: String): Logger {
     val logger = Logger.getLogger(clazz)
-    logger.level = Level.ALL
+    logger.level = Level.FINEST
     logger.useParentHandlers = false
     logger.handlers.forEach { handler -> logger.removeHandler(handler) }
 

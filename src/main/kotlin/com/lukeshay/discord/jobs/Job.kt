@@ -1,6 +1,6 @@
 package com.lukeshay.discord.jobs
 
-import com.lukeshay.discord.logging.DBLogger
+import com.lukeshay.discord.logging.createLogger
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -31,6 +31,6 @@ abstract class Job(private val name: String) {
     }
 
     companion object {
-        val logger = DBLogger("Job")
+        val logger = createLogger("Job")
     }
 }

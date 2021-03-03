@@ -1,7 +1,6 @@
 package com.lukeshay.discord.listeners
 
 import com.lukeshay.discord.enums.Environment
-import com.lukeshay.discord.logging.DBLogger
 import com.lukeshay.discord.services.WordService
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
@@ -16,12 +15,6 @@ class OnGuildMemberJoin @Autowired constructor(
     ListenerAdapter() {
     override fun onGuildMemberJoin(event: GuildMemberJoinEvent) {
         shouldRun(environment, event)
-        logger.info(event, "join - ${event.member.effectiveName}")
-
         event.guild.defaultChannel?.sendMessage("Everyone, say hello to the newest ${wordService.randomSingularNoun()} - ${event.member.asMention}")
-    }
-
-    companion object {
-        private val logger = DBLogger("OnGuildMemberJoin")
     }
 }

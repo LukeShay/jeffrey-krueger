@@ -5,7 +5,7 @@ import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.listeners.commands.Command
 import com.lukeshay.discord.listeners.commands.Help
 import com.lukeshay.discord.listeners.exceptions.NoCommandRuntimeException
-import com.lukeshay.discord.logging.DBLogger
+import com.lukeshay.discord.logging.createLogger
 import com.lukeshay.discord.utils.ListUtils
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
@@ -41,15 +41,15 @@ class OnGuildMessageReceived @Autowired constructor(
             return
         }
 
-        logger.info(e, "message - ${event.author.name}: ${event.contentRaw}")
+        logger.fine("${event.guildId} | message - ${event.author.name}: ${event.contentRaw}")
 
         val command = findCommand(e)
 
         if (command != null) {
-            logger.info(e, "running command - ${command.command}")
+            logger.fine("${event.guildId} | running command - ${command.command}")
             command.run(event)
         } else {
-            logger.info(e, "no command found for message - ${event.contentRaw}")
+            logger.fine("${event.guildId} | no command found for message - ${event.contentRaw}")
 
             throw NoCommandRuntimeException("no command found for message - ${event.contentRaw}")
         }
@@ -72,6 +72,6 @@ class OnGuildMessageReceived @Autowired constructor(
     }
 
     companion object {
-        private val logger = DBLogger("OnGuildMessageReceived")
+        private val logger = createLogger("OnGuildMessageReceived")
     }
 }

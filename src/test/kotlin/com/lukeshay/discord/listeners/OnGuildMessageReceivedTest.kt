@@ -58,7 +58,7 @@ internal class OnGuildMessageReceivedTest {
     }
 
     @Test
-    fun onGuildMessageReceived_commandFound() {
+    fun `onGuildMessageReceived finds command`() {
         Assertions.assertDoesNotThrow {
             onGuildMessageReceived.onGuildMessageReceived(
                 guildMessageReceivedEvent
@@ -67,7 +67,7 @@ internal class OnGuildMessageReceivedTest {
     }
 
     @Test
-    fun onGuildMessageReceived_commandNotFound() {
+    fun `onGuildMessageReceived doesn't find command`() {
         message = MessageImpl(author, "!not-ping this is not a ping command")
         Mockito.`when`(guildMessageReceivedEvent.message).thenReturn(message)
 

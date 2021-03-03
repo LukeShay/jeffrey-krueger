@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 internal class PingTest @Autowired constructor(private val ping: Ping) :
     SpringTestBase() {
     @Test
-    fun constructor_correctValues() {
+    fun `constructor sets correct values`() {
         Assertions.assertEquals("!ping", ping.command)
         Assertions.assertEquals(0, ping.aliases.size)
     }

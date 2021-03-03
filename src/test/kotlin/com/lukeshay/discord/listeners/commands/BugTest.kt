@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 internal class BugTest @Autowired constructor(private val bug: Bug) :
     SpringTestBase() {
     @Test
-    fun constructor_correctValues() {
+    fun `constructor sets correct values`() {
         Assertions.assertEquals("!bug", bug.command)
         Assertions.assertEquals(0, bug.aliases.size)
     }

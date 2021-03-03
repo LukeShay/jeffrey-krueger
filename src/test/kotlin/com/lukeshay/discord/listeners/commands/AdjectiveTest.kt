@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 internal class AdjectiveTest @Autowired constructor(private val adjective: Adjective) :
     SpringTestBase() {
     @Test
-    fun constructor_correctValues() {
+    fun `constructor sets correct values`() {
         Assertions.assertEquals("!adjective", adjective.command)
         Assertions.assertEquals(0, adjective.aliases.size)
     }

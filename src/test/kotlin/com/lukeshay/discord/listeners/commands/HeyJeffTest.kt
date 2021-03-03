@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 internal class HeyJeffTest @Autowired constructor(private val heyJeff: HeyJeff) :
     SpringTestBase() {
     @Test
-    fun constructor_correctValues() {
+    fun `constructor sets correct values`() {
         Assertions.assertEquals("hey jeff", heyJeff.command)
         Assertions.assertEquals(2, heyJeff.aliases.size)
     }

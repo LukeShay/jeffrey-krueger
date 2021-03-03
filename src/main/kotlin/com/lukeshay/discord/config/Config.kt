@@ -59,7 +59,8 @@ class Config {
 
     @Bean
     fun snowflakeHttpRequest(environment: Environment): HttpRequest {
-        return HttpRequest.newBuilder().uri(URI.create(environment.snowflakeUrl)).build()
+        return HttpRequest.newBuilder().uri(URI.create(environment.snowflakeUrl))
+            .setHeader("X-Client-Secret", System.getenv("SNOWFLAKE_CLIENT_SECRET")).build()
     }
 
     @Bean

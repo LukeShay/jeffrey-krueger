@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 
 internal class QuoteTest {
     @Test
-    fun format_withDate() {
+    fun `format has date`() {
         Assertions.assertEquals(
             "\"This is a test\" - Turkey Sandwich, January 12th, 2021",
             Quote(
@@ -17,7 +17,7 @@ internal class QuoteTest {
     }
 
     @Test
-    fun format_noDate() {
+    fun `format does not have date`() {
         Assertions.assertEquals(
             "\"This is a test\" - Turkey Sandwich",
             Quote(

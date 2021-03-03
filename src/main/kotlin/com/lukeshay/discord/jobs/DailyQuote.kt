@@ -1,6 +1,6 @@
 package com.lukeshay.discord.jobs
 
-import com.lukeshay.discord.logging.DBLogger
+import com.lukeshay.discord.logging.createLogger
 import com.lukeshay.discord.services.GuildConfigService
 import com.lukeshay.discord.services.QuoteService
 import org.springframework.beans.factory.annotation.Autowired
@@ -12,7 +12,7 @@ class DailyQuote @Autowired constructor(
     private val quoteService: QuoteService
 ) : Job("daily quote") {
     companion object {
-        private val logger = DBLogger("DailyQuote")
+        private val logger = createLogger("DailyQuote")
     }
 
     override suspend fun execute() {

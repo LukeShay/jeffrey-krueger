@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 internal class NounTest @Autowired constructor(private val noun: Noun) :
     SpringTestBase() {
     @Test
-    fun constructor_correctValues() {
+    fun `constructor sets correct values`() {
         Assertions.assertEquals("!noun", noun.command)
         Assertions.assertEquals(0, noun.aliases.size)
     }

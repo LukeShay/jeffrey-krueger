@@ -18,6 +18,7 @@ class CommandEvent(
     val authorId = event.author.idLong
     val author = event.author
     val guildId = event.guild.idLong
+    val guild = event.guild
     val authorAsMember = event.guild.getMember(event.author)
 
     fun reply(content: CharSequence) = event.message.reply(content)

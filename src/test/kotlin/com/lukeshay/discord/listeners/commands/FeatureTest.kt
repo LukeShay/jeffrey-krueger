@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 internal class FeatureTest @Autowired constructor(private val feature: Feature) :
     SpringTestBase() {
     @Test
-    fun constructor_correctValues() {
+    fun `constructor sets correct values`() {
         Assertions.assertEquals("!feature", feature.command)
         Assertions.assertEquals(0, feature.aliases.size)
     }

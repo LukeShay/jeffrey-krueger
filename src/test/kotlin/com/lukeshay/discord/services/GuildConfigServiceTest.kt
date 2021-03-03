@@ -81,7 +81,7 @@ internal class GuildConfigServiceTest @Autowired constructor(
     }
 
     @Test
-    fun `new return null if a GuildConfig already exists`() {
+    fun `new returns null when a GuildConfig already exists`() {
         val guildImpl = GuildImpl("my guild", snowflake.id.toString())
 
         Assertions.assertNull(guildConfigService.new(guildImpl))
@@ -135,7 +135,7 @@ internal class GuildConfigServiceTest @Autowired constructor(
     }
 
     @Test
-    fun `findById returns null when no guild`() {
+    fun `findById returns null when no GuildConfig`() {
         Assertions.assertNull(guildConfigService.findById(snowflakeService.getSnowflakeId()))
     }
 

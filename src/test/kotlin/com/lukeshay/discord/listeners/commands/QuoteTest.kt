@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 internal class QuoteTest @Autowired constructor(private val quote: Quote) :
     SpringTestBase() {
     @Test
-    fun constructor_correctValues() {
+    fun `constructor sets correct values`() {
         Assertions.assertEquals("!quote", quote.command)
         Assertions.assertEquals(0, quote.aliases.size)
     }

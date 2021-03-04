@@ -31,6 +31,6 @@ abstract class Job(private val name: String) {
     }
 
     companion object {
-        val logger = createLogger("Job")
+        val logger = createLogger(Job::class.java)
     }
 }

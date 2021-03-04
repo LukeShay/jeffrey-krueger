@@ -38,7 +38,7 @@ open class WordCommand(
                 } ?: event.reply("That $cmd already exists").queue()
             } catch (e: Exception) {
                 e.printStackTrace()
-                logger.severe("error saving $cmd: $e")
+                logger.error("error saving $cmd: $e")
                 event.reply("There was an error saving your $cmd!").queue()
             }
         }
@@ -46,6 +46,6 @@ open class WordCommand(
 
     companion object {
         private const val WORD_REGEX = """.+"(?<singular>.+)" "(?<plural>.+)"?"""
-        private val logger = createLogger("WordCommand")
+        private val logger = createLogger(WordCommand::class.java)
     }
 }

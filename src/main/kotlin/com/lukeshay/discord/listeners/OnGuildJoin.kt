@@ -22,7 +22,7 @@ class OnGuildJoin @Autowired constructor(
         val message = if (guildConfigService.saveOrUpdate(event.guild) != null) {
             "Thank you for adding me to your server! Send the message '!help' for information on my commands."
         } else {
-            logger.severe("there was an error adding guild ${event.guild.id} to the database")
+            logger.error("there was an error adding guild ${event.guild.id} to the database")
             "There was an error adding your guild to our database. Please open a ticket here: ${Issue.GUILD_TICKET}"
         }
 
@@ -30,6 +30,6 @@ class OnGuildJoin @Autowired constructor(
     }
 
     companion object {
-        private val logger = createLogger("OnGuildJoin")
+        private val logger = createLogger(OnGuildJoin::class.java)
     }
 }

@@ -11,17 +11,17 @@ class DailyQuote @Autowired constructor(
     private val guildConfigService: GuildConfigService,
     private val quoteService: QuoteService
 ) : Job("daily quote") {
-    companion object {
-        private val logger = createLogger("DailyQuote")
-    }
-
     override suspend fun execute() {
         guildConfigService.findAll().filter { it.dailyQuote }.map { it.defaultChannelId }
             .forEach {
                 quoteService.findOne(it)?.let { quote ->
                     jda.getTextChannelById(it)
                         ?.sendMessage("Quote of the day: ${quote.format()}")?.queue()
-                } ?: logger.severe("there was an error getting a quote")
+                } ?: logger.error("there was an error getting a quote")
             }
+    }
+
+    companion object {
+        private val logger = createLogger(DailyQuote::class.java)
     }
 }

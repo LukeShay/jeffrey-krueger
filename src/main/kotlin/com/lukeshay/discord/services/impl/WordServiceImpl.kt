@@ -38,7 +38,7 @@ class WordServiceImpl @Autowired constructor(
             wordRepository.findAllByGuildIdAndType(guildId, WordType.NOUN.toString())
                 .random().plural
         } catch (e: Exception) {
-            logger.warning("error getting noun: $e")
+            logger.warn("error getting noun: $e")
             "summoners"
         }
     }
@@ -48,7 +48,7 @@ class WordServiceImpl @Autowired constructor(
             wordRepository.findAllByGuildIdAndType(guildId, WordType.VERB.toString())
                 .random().plural
         } catch (e: Exception) {
-            logger.warning("error getting verb: $e")
+            logger.warn("error getting verb: $e")
             "summoners"
         }
     }
@@ -58,7 +58,7 @@ class WordServiceImpl @Autowired constructor(
             wordRepository.findAllByGuildIdAndType(guildId, WordType.NOUN.toString())
                 .random().singular
         } catch (e: Exception) {
-            logger.warning("error getting noun: $e")
+            logger.warn("error getting noun: $e")
             "summoner"
         }
     }
@@ -68,12 +68,12 @@ class WordServiceImpl @Autowired constructor(
             wordRepository.findAllByGuildIdAndType(guildId, WordType.VERB.toString())
                 .random().singular
         } catch (e: Exception) {
-            logger.warning("error getting verb: $e")
+            logger.warn("error getting verb: $e")
             "summoner"
         }
     }
 
     companion object {
-        private val logger = createLogger("WordServiceImpl")
+        private val logger = createLogger(WordServiceImpl::class.java)
     }
 }

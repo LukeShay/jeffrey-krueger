@@ -3,6 +3,7 @@ import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 val springVersion = "5.3.4"
 val hibernateVersion = "6.0.0.Alpha6"
 val junit5Version = "5.6.0"
+val log4jVersion = "2.14.0"
 
 buildscript {
     dependencies {
@@ -55,6 +56,11 @@ dependencies {
 
     // klaxon dependencies
     implementation("com.beust:klaxon:5.0.1")
+
+    // Log4j dependencies
+    implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
+    implementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
+    implementation("org.apache.logging.log4j:log4j-slf4j-impl:$log4jVersion")
 
     // Test dependencies
     // JUnit5 dependencies

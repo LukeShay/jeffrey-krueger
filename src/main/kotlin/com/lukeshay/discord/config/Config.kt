@@ -31,7 +31,7 @@ import javax.sql.DataSource
 @ComponentScan("com.lukeshay.discord")
 @EnableJpaRepositories("com.lukeshay.discord.repositories")
 @EnableTransactionManagement
-@PropertySource("classpath:application-\${ENVIRONMENT:local}.properties")
+@PropertySource("classpath:application.properties")
 class Config {
 
     @Value("\${discord.token}")
@@ -48,7 +48,7 @@ class Config {
 
     @Bean
     fun jdaBuilder(listeners: List<ListenerAdapter>, jobs: List<Job>): JDABuilder {
-        logger.info("discord token: $discordToken")
+        logger.debug("discord token: $discordToken")
 
         val builder = JDABuilder.createDefault(discordToken)
 
@@ -75,8 +75,8 @@ class Config {
 
     @Bean
     fun snowflakeHttpRequest(environment: Environment): HttpRequest {
-        logger.info("snowflake url: $snowflakeURL")
-        logger.info("snowflake client secret: $snowflakeClientSecret")
+        logger.debug("snowflake url: $snowflakeURL")
+        logger.debug("snowflake client secret: $snowflakeClientSecret")
 
         val builder = HttpRequest.newBuilder().uri(URI.create(snowflakeURL))
 
@@ -90,7 +90,7 @@ class Config {
 
     @Bean
     fun dataSource(): DataSource {
-        logger.info("database url: $databaseURL")
+        logger.debug("database url: $databaseURL")
 
         val groups = DB_URL_REGEX.toRegex().matchEntire(databaseURL)!!.groups
 
@@ -135,6 +135,6 @@ class Config {
     companion object {
         const val DB_URL_REGEX =
             """postgres://(?<username>[^:]+):(?<password>[^@]+)@(?<domain>.*)"""
-        private val logger = createLogger("Config")
+        private val logger = createLogger(Config::class.java)
     }
 }

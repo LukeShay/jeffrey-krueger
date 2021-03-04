@@ -79,6 +79,6 @@ class OnGuildMessageReceived @Autowired constructor(
     }
 
     companion object {
-        private val logger = createLogger("OnGuildMessageReceived")
+        private val logger = createLogger(OnGuildMessageReceived::class.java)
     }
 }

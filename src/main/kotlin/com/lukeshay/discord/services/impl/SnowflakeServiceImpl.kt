@@ -25,7 +25,7 @@ class SnowflakeServiceImpl @Autowired constructor(
             return klaxon.parse<Snowflake>(response.body()) ?: throw Exception("snowflake is null")
         } catch (e: Exception) {
             e.printStackTrace()
-            logger.severe("there was an error getting a snowflake: $e")
+            logger.error("there was an error getting a snowflake: $e")
             throw RuntimeException(e)
         }
     }
@@ -35,6 +35,6 @@ class SnowflakeServiceImpl @Autowired constructor(
     }
 
     companion object {
-        private val logger = createLogger("SnowflakeServiceImpl")
+        private val logger = createLogger(SnowflakeServiceImpl::class.java)
     }
 }

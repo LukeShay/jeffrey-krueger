@@ -17,7 +17,7 @@ class GuildConfigServiceImpl @Autowired constructor(private val guildConfigRepos
             guildConfigRepository.findAll()
         } catch (e: Exception) {
             e.printStackTrace()
-            logger.warning("error finding guilds: $e")
+            logger.warn("error finding guilds: $e")
             listOf()
         }
     }
@@ -33,7 +33,7 @@ class GuildConfigServiceImpl @Autowired constructor(private val guildConfigRepos
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            logger.warning("error finding guild: $e")
+            logger.warn("error finding guild: $e")
             null
         }
     }
@@ -63,7 +63,7 @@ class GuildConfigServiceImpl @Autowired constructor(private val guildConfigRepos
         return try {
             guildConfigRepository.save(guildConfig)
         } catch (e: Exception) {
-            logger.severe("error saving guild $e")
+            logger.error("error saving guild $e")
             null
         }
     }
@@ -82,6 +82,6 @@ class GuildConfigServiceImpl @Autowired constructor(private val guildConfigRepos
     }
 
     companion object {
-        private val logger = createLogger("GuildConfigServiceImpl")
+        private val logger = createLogger(GuildConfigServiceImpl::class.java)
     }
 }

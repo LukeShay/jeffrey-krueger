@@ -12,25 +12,25 @@ import org.springframework.stereotype.Component
 class OnConnectionChange : ListenerAdapter() {
     override fun onReconnected(event: ReconnectedEvent) {
         super.onReconnected(event)
-        logger.warning("reconnected")
+        logger.warn("reconnected")
     }
 
     override fun onDisconnect(event: DisconnectEvent) {
         super.onDisconnect(event)
-        logger.warning("disconnected ${event.closeCode}")
+        logger.warn("disconnected ${event.closeCode}")
     }
 
     override fun onShutdown(event: ShutdownEvent) {
         super.onShutdown(event)
-        logger.warning("shutdown ${event.closeCode}")
+        logger.warn("shutdown ${event.closeCode}")
     }
 
     override fun onException(event: ExceptionEvent) {
         super.onException(event)
-        logger.warning("exception ${event.cause}")
+        logger.warn("exception ${event.cause}")
     }
 
     companion object {
-        private val logger = createLogger("OnTestClass")
+        private val logger = createLogger(OnConnectionChange::class.java)
     }
 }

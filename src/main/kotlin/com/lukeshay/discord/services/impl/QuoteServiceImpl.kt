@@ -15,12 +15,12 @@ class QuoteServiceImpl @Autowired constructor(private val quoteRepository: Quote
             quoteRepository.findAllByGuildId(guildId).randomOrNull()
         } catch (e: Exception) {
             e.printStackTrace()
-            logger.warning("error finding quite: $e")
+            logger.warn("error finding quite: $e")
             null
         }
     }
 
     companion object {
-        private val logger = createLogger("QuoteServiceImpl")
+        private val logger = createLogger(QuoteServiceImpl::class.java)
     }
 }

@@ -29,7 +29,6 @@ jobs:
       - run: ./gradlew build -Dapp.version=${{ github.sha }}
         env:
           DATABASE_URL: postgres://postgres:password@localhost:${{ job.services.postgres.ports[5432] }}/postgres
-          SNOWFLAKE
           ENVIRONMENT: development
       - if: always()
         run: bash <(curl -s https://codecov.io/bash)

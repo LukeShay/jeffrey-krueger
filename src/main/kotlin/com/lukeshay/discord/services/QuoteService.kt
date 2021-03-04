@@ -3,7 +3,5 @@ package com.lukeshay.discord.services
 import com.lukeshay.discord.entities.Quote
 
 interface QuoteService {
-    fun findAuthors(): Set<String>
-    fun findOne(): Quote?
-    fun findOneByAuthor(author: String): Quote?
+    fun findOne(guildId: Long = 0): Quote?
 }

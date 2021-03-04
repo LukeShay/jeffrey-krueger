@@ -10,29 +10,9 @@ import org.springframework.stereotype.Service
 @Service
 class QuoteServiceImpl @Autowired constructor(private val quoteRepository: QuoteRepository) :
     QuoteService {
-    override fun findAuthors(): Set<String> {
+    override fun findOne(guildId: Long): Quote? {
         return try {
-            quoteRepository.findAll().map { it.author }.toSet()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            logger.warning("error finding quite: $e")
-            setOf()
-        }
-    }
-
-    override fun findOne(): Quote? {
-        return try {
-            quoteRepository.findAll().randomOrNull()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            logger.warning("error finding quite: $e")
-            null
-        }
-    }
-
-    override fun findOneByAuthor(author: String): Quote? {
-        return try {
-            quoteRepository.findAllByAuthor(author).random()
+            quoteRepository.findAllByGuildId(guildId).randomOrNull()
         } catch (e: Exception) {
             e.printStackTrace()
             logger.warning("error finding quite: $e")

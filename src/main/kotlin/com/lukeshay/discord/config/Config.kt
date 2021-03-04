@@ -8,9 +8,11 @@ import com.mchange.v2.c3p0.ComboPooledDataSource
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.OnlineStatus
 import net.dv8tion.jda.api.hooks.ListenerAdapter
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.PropertySource
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.orm.jpa.JpaTransactionManager
@@ -29,12 +31,26 @@ import javax.sql.DataSource
 @ComponentScan("com.lukeshay.discord")
 @EnableJpaRepositories("com.lukeshay.discord.repositories")
 @EnableTransactionManagement
+@PropertySource("classpath:application-\${ENVIRONMENT:local}.properties")
 class Config {
+
+    @Value("\${discord.token}")
+    private lateinit var discordToken: String
+
+    @Value("\${snowflake.url}")
+    private lateinit var snowflakeURL: String
+
+    @Value("\${snowflake.client.secret}")
+    private lateinit var snowflakeClientSecret: String
+
+    @Value("\${database.url}")
+    private lateinit var databaseURL: String
 
     @Bean
     fun jdaBuilder(listeners: List<ListenerAdapter>, jobs: List<Job>): JDABuilder {
-        val builder =
-            JDABuilder.createDefault(System.getenv("DISCORD_TOKEN").orEmpty())
+        logger.info("discord token: $discordToken")
+
+        val builder = JDABuilder.createDefault(discordToken)
 
         builder.setAutoReconnect(true)
         builder.setStatus(OnlineStatus.ONLINE)
@@ -59,10 +75,13 @@ class Config {
 
     @Bean
     fun snowflakeHttpRequest(environment: Environment): HttpRequest {
-        val builder = HttpRequest.newBuilder().uri(URI.create(environment.snowflakeUrl))
+        logger.info("snowflake url: $snowflakeURL")
+        logger.info("snowflake client secret: $snowflakeClientSecret")
+
+        val builder = HttpRequest.newBuilder().uri(URI.create(snowflakeURL))
 
         try {
-            builder.header("X-Client-Secret", System.getenv("SNOWFLAKE_CLIENT_SECRET"))
+            builder.header("X-Client-Secret", snowflakeClientSecret)
         } catch (e: NullPointerException) {
         }
 
@@ -71,17 +90,9 @@ class Config {
 
     @Bean
     fun dataSource(): DataSource {
-        val dbURL = try {
-            System.getenv("DATABASE_URL") ?: "postgres://postgres:password@localhost:5432/postgres"
-        } catch (e: Exception) {
-            e.printStackTrace()
-            logger.severe("error getting database url from env: $e")
-            "postgres://postgres:password@localhost:5432/postgres"
-        }
+        logger.info("database url: $databaseURL")
 
-        logger.info("using database url: $dbURL")
-
-        val groups = DB_URL_REGEX.toRegex().matchEntire(dbURL)!!.groups
+        val groups = DB_URL_REGEX.toRegex().matchEntire(databaseURL)!!.groups
 
         val dataSource = ComboPooledDataSource()
         dataSource.jdbcUrl = "jdbc:postgresql://${groups["domain"]!!.value}"

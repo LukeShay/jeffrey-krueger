@@ -2,15 +2,12 @@ package com.lukeshay.discord.enums
 
 import net.dv8tion.jda.api.entities.Guild
 
-enum class Environment(env: String) {
-    LOCAL("local"), DEVELOPMENT("dev"), STAGING("staging"), PRODUCTION("prod");
-
-    val snowflakeUrl =
-        if (env == "local") "http://localhost:8080/v1" else "https://jk-snowflakes-$env.herokuapp.com/v1"
+enum class Environment {
+    LOCAL, DEVELOPMENT, STAGING, PRODUCTION;
 
     companion object {
         fun determineEnv(): Environment {
-            val env = System.getenv("ENVIRONMENT") ?: ""
+            val env = System.getProperty("environment", "local")
 
             return when (env.toLowerCase()) {
                 "production" -> PRODUCTION

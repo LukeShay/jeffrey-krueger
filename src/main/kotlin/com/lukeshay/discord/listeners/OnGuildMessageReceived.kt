@@ -34,16 +34,12 @@ class OnGuildMessageReceived @Autowired constructor(
         shouldRun(environment, e)
         val event = CommandEvent(e, environment)
 
-        if (event.isBot || (
-            environment != Environment.PRODUCTION && !event.event.message.contentRaw.startsWith(
-                    environment.toString().toLowerCase()
-                )
-            )
-        ) {
+        if (!event.shouldRun) {
+            logger.info("${event.guildId}, ${event.authorId} | message is from a bot or not for this env")
             return
         }
 
-        logger.fine("${event.guildId}, ${event.authorId} | message - ${event.author.name}: ${event.contentRaw}")
+        logger.info("${event.guildId}, ${event.authorId} | message - ${event.author.name}: ${event.contentRaw}")
 
         val command = findCommand(e)
 
@@ -53,14 +49,14 @@ class OnGuildMessageReceived @Autowired constructor(
                     event.authorAsMember
                 )
             ) {
-                logger.fine("${event.guildId}, ${event.authorId} | running command - ${command.command}")
+                logger.info("${event.guildId}, ${event.authorId} | running command - ${command.command}")
                 command.run(event)
             } else {
-                logger.fine("${event.guildId}, ${event.authorId} | unauthorized command - ${command.command}")
+                logger.info("${event.guildId}, ${event.authorId} | unauthorized command - ${command.command}")
                 event.reply("You must be an admin to run that command XD").queue()
             }
         } else {
-            logger.fine("${event.guildId}, ${event.authorId} | no command found for message - ${event.contentRaw}")
+            logger.info("${event.guildId}, ${event.authorId} | no command found for message - ${event.contentRaw}")
 
             throw NoCommandRuntimeException("no command found for message - ${event.contentRaw}")
         }

@@ -27,7 +27,11 @@ class Help(
             "Hey! My name is Jeffrey Krueger. Here is a list of what I am capable of."
         )
 
-        if (guildConfigService.isAdmin(event.guild, event.authorAsMember)) {
+        if (event.authorAsMember?.isOwner == true && guildConfigService.isAdmin(
+                event.guild,
+                event.authorAsMember
+            )
+        ) {
             sendHelpMessage(
                 event,
                 true,

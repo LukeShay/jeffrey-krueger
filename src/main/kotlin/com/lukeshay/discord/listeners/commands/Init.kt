@@ -17,7 +17,7 @@ class Init @Autowired constructor(
         true,
         environment,
         listOf("setup"),
-        true
+        false
     ) {
     override fun run(event: CommandEvent) {
         val message = if (event.authorAsMember == null || !event.authorAsMember.isOwner) {

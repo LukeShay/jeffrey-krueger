@@ -166,7 +166,9 @@ heroku {
     appName = System.getProperty("heroku.app.name", "jeffery-krueger-dev")
     jdkVersion = "11"
     processTypes =
-        mapOf("worker" to "java \$JAVA_OPTS -jar build/libs/jeffery-krueger-$version-all.jar")
+        mapOf(
+            "worker" to "java \$JAVA_OPTS -Dsnowflake.url=\$SNOWFLAKE_URL -Dsnowflake.client.secret=\$SNOWFLAKE_CLIENT_SECRET -Ddatabase.url=\$DATABASE_URL -Ddiscord.token=\$DISCORD_TOKEN -Denvironment=\$ENVIRONMENT -jar build/libs/jeffery-krueger-$version-all.jar"
+        )
     buildpacks = listOf("heroku/jvm")
     includes = listOf("build/libs/jeffery-krueger-$version-all.jar")
     isIncludeBuildDir = false

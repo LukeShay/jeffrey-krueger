@@ -60,7 +60,9 @@ class Config {
 
     @Bean
     fun environment(): Environment {
-        return Environment.determineEnv()
+        val env = Environment.determineEnv()
+        logger.debug("environment is $env")
+        return env
     }
 
     @Bean

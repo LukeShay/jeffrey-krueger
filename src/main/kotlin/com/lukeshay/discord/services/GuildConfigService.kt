@@ -2,6 +2,7 @@ package com.lukeshay.discord.services
 
 import com.lukeshay.discord.entities.GuildConfig
 import net.dv8tion.jda.api.entities.Guild
+import net.dv8tion.jda.api.entities.Member
 
 interface GuildConfigService {
     /**
@@ -16,6 +17,16 @@ interface GuildConfigService {
      * @return GuildConfig if one is found or null if one is not found
      */
     fun findById(guildId: Long): GuildConfig?
+
+    /**
+     * Checks if the user is an admin of the guild with the ID given. If the
+     * guild has not been set up, this will always return false.
+     *
+     * @param guild the guild
+     * @param member the member of the guild
+     * @return true if they are an admin, false if not
+     */
+    fun isAdmin(guild: Guild, member: Member?): Boolean
 
     /**
      * Creates a new GuildConfig if one does not exist.

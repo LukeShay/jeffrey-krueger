@@ -15,7 +15,9 @@ class Init @Autowired constructor(
         "init",
         "I will setup your guild if it hasn't been. You must own the guild to run this command.",
         true,
-        environment
+        environment,
+        listOf("setup"),
+        true
     ) {
     override fun run(event: CommandEvent) {
         val message = if (event.authorAsMember == null || !event.authorAsMember.isOwner) {

@@ -15,7 +15,7 @@ class Adjective @Autowired constructor(
 ) :
     WordCommand(
         "adjective",
-        "adds the adjective to the database",
+        "I will add the adjective to the database. Usage: \"singular\" \"plural\"",
         true,
         environment,
         WordType.ADJECTIVE,

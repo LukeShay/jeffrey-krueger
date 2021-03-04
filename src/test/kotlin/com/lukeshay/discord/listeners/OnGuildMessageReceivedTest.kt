@@ -9,6 +9,7 @@ import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.listeners.commands.Command
 import com.lukeshay.discord.listeners.commands.Ping
 import com.lukeshay.discord.listeners.exceptions.NoCommandRuntimeException
+import com.lukeshay.discord.services.GuildConfigService
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.entities.Category
 import net.dv8tion.jda.api.entities.Guild
@@ -25,6 +26,7 @@ import org.mockito.Mockito
 internal class OnGuildMessageReceivedTest {
 
     private val guildMessageReceivedEvent = Mockito.mock(GuildMessageReceivedEvent::class.java)
+    private val guildConfigService = Mockito.mock(GuildConfigService::class.java)
     private val messageAction = Mockito.mock(MessageAction::class.java)
     private val jda = Mockito.mock(JDA::class.java)
     private val environment = Environment.PRODUCTION
@@ -40,13 +42,15 @@ internal class OnGuildMessageReceivedTest {
 
     @BeforeEach
     fun setUp() {
-        onGuildMessageReceived = OnGuildMessageReceived(commands, environment)
+        onGuildMessageReceived = OnGuildMessageReceived(commands, environment, guildConfigService)
 
         author = UserImpl("Tyler Krueger", false)
         message = MessageImpl(author, "!ping this is a ping command")
         guild = GuildImpl("the guild")
         channel = TextChannelImpl(12345, messageAction)
         category = CategoryImpl(1234, listOf(channel))
+
+        Mockito.`when`(guildConfigService.isAdmin(guild, null)).thenReturn(true)
 
         Mockito.`when`(jda.categories).thenReturn(listOf(category))
 

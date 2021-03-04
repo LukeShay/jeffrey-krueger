@@ -5,6 +5,7 @@ import com.lukeshay.discord.logging.createLogger
 import com.lukeshay.discord.repositories.GuildConfigRepository
 import com.lukeshay.discord.services.GuildConfigService
 import net.dv8tion.jda.api.entities.Guild
+import net.dv8tion.jda.api.entities.Member
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -35,6 +36,10 @@ class GuildConfigServiceImpl @Autowired constructor(private val guildConfigRepos
             logger.warning("error finding guild: $e")
             null
         }
+    }
+
+    override fun isAdmin(guild: Guild, member: Member?): Boolean {
+        return member != null && findById(guild.idLong)?.canEdit(member) ?: false
     }
 
     override fun new(guild: Guild): GuildConfig? {

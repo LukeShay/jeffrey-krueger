@@ -15,7 +15,7 @@ open class WordCommand(
     private val wordType: WordType,
     private val guildConfigService: GuildConfigService,
     private val wordService: WordService
-) : Command(cmd, desc, leader, environment) {
+) : Command(cmd, desc, leader, environment, listOf(), true) {
     override fun run(event: CommandEvent) {
         val splitMessage = WORD_REGEX.toRegex().matchEntire(event.contentRaw)!!.groups
 

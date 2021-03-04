@@ -15,7 +15,7 @@ class Noun @Autowired constructor(
 ) :
     WordCommand(
         "noun",
-        "adds the noun to the database",
+        "I will add the noun to the database. Usage: \"singular\" \"plural\"",
         true,
         environment,
         WordType.NOUN,

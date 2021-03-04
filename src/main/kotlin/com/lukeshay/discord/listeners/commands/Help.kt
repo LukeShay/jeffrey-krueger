@@ -2,10 +2,15 @@ package com.lukeshay.discord.listeners.commands
 
 import com.lukeshay.discord.domain.CommandEvent
 import com.lukeshay.discord.enums.Environment
+import com.lukeshay.discord.services.GuildConfigService
 import net.dv8tion.jda.api.EmbedBuilder
 import java.awt.Color
 
-class Help(private val commands: List<Command>, environment: Environment) :
+class Help(
+    private val commands: List<Command>,
+    environment: Environment,
+    private val guildConfigService: GuildConfigService
+) :
     Command(
         "help",
         "Displays this message.",
@@ -15,13 +20,36 @@ class Help(private val commands: List<Command>, environment: Environment) :
     ) {
 
     override fun run(event: CommandEvent) {
-        val msgEmbedBuilder = EmbedBuilder()
-        msgEmbedBuilder.setTitle("Available Commands")
-        msgEmbedBuilder.setColor(Color.GREEN)
-        msgEmbedBuilder.descriptionBuilder.append("Hey! My name is Jeffrey Krueger. Here is a list of what I am capable of.")
-        msgEmbedBuilder.setFooter("All of my commands are case insensitive. That means !HeLp will work.")
+        sendHelpMessage(
+            event,
+            false,
+            "Available Commands",
+            "Hey! My name is Jeffrey Krueger. Here is a list of what I am capable of."
+        )
 
-        commands.sortedBy { it.command }.forEach {
+        if (guildConfigService.isAdmin(event.guild, event.authorAsMember)) {
+            sendHelpMessage(
+                event,
+                true,
+                "Admin Only Commands",
+                "This is a list of commands only admins can run.",
+                Color.ORANGE
+            )
+        }
+    }
+
+    private fun sendHelpMessage(
+        event: CommandEvent,
+        adminOnly: Boolean,
+        title: String,
+        description: String,
+        color: Color = Color.GREEN
+    ) {
+        val msgEmbedBuilder = EmbedBuilder().setTitle(title).setColor(color)
+            .setFooter("All of my commands are case insensitive. That means !HeLp will work.")
+        msgEmbedBuilder.descriptionBuilder.append(description)
+
+        commands.filter { it.adminOnly == adminOnly }.sortedBy { it.command }.forEach {
             msgEmbedBuilder.addField(it.command, it.description, false)
         }
 

@@ -15,7 +15,7 @@ class Verb @Autowired constructor(
 ) :
     WordCommand(
         "verb",
-        "adds the verb to the database",
+        "I will add the verb to the database. Usage: \"singular\" \"plural\"",
         true,
         environment,
         WordType.VERB,

@@ -6,6 +6,7 @@ import com.lukeshay.discord.listeners.commands.Command
 import com.lukeshay.discord.listeners.commands.Help
 import com.lukeshay.discord.listeners.exceptions.NoCommandRuntimeException
 import com.lukeshay.discord.logging.createLogger
+import com.lukeshay.discord.services.GuildConfigService
 import com.lukeshay.discord.utils.ListUtils
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
@@ -15,14 +16,15 @@ import org.springframework.stereotype.Component
 @Component
 class OnGuildMessageReceived @Autowired constructor(
     cmds: MutableList<Command>,
-    private val environment: Environment
+    private val environment: Environment,
+    private val guildConfigService: GuildConfigService
 ) :
     ListenerAdapter() {
 
     private lateinit var commands: List<Command>
 
     init {
-        cmds.add(Help(cmds.toList(), environment))
+        cmds.add(Help(cmds.toList(), environment, guildConfigService))
         commands = cmds.toList()
 
         logger.info("available commands -\n\n${ListUtils.toString(commands, ",", "    ", true)}\n")
@@ -41,15 +43,24 @@ class OnGuildMessageReceived @Autowired constructor(
             return
         }
 
-        logger.fine("${event.guildId} | message - ${event.author.name}: ${event.contentRaw}")
+        logger.fine("${event.guildId}, ${event.authorId} | message - ${event.author.name}: ${event.contentRaw}")
 
         val command = findCommand(e)
 
         if (command != null) {
-            logger.fine("${event.guildId} | running command - ${command.command}")
-            command.run(event)
+            if (!command.adminOnly || guildConfigService.isAdmin(
+                    event.guild,
+                    event.authorAsMember
+                )
+            ) {
+                logger.fine("${event.guildId}, ${event.authorId} | running command - ${command.command}")
+                command.run(event)
+            } else {
+                logger.fine("${event.guildId}, ${event.authorId} | unauthorized command - ${command.command}")
+                event.reply("You must be an admin to run that command XD").queue()
+            }
         } else {
-            logger.fine("${event.guildId} | no command found for message - ${event.contentRaw}")
+            logger.fine("${event.guildId}, ${event.authorId} | no command found for message - ${event.contentRaw}")
 
             throw NoCommandRuntimeException("no command found for message - ${event.contentRaw}")
         }

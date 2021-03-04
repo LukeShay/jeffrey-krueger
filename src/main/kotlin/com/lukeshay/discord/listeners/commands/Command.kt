@@ -10,7 +10,8 @@ abstract class Command(
     desc: String,
     leader: Boolean,
     val environment: Environment,
-    als: List<String> = listOf()
+    als: List<String> = listOf(),
+    val adminOnly: Boolean = false
 ) {
     val command = "${if (leader) leaderChar else ""}${cmd.toLowerCase()}"
     val aliases = als.map { alias -> "${if (leader) leaderChar else ""}${alias.toLowerCase()}" }
@@ -41,7 +42,7 @@ abstract class Command(
 
             l.forEach { i -> str += "$i, " }
 
-            return if (str.length < 2) "" else " - aliases: ${str.substring(0, str.length - 2)}"
+            return if (str.length < 2) "" else " Aliases: ${str.substring(0, str.length - 2)}"
         }
     }
 }

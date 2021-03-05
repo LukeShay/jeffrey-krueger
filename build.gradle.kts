@@ -134,13 +134,17 @@ tasks.jacocoTestCoverageVerification {
     }
 }
 
+fun passSystemProperties(jfo: JavaForkOptions) {
+    jfo.systemProperty("database.url", System.getProperty("database.url"))
+    jfo.systemProperty("environment", System.getProperty("environment"))
+    jfo.systemProperty("akeyless.access.id", System.getProperty("akeyless.access.id"))
+    jfo.systemProperty("akeyless.access.key", System.getProperty("akeyless.access.key"))
+}
+
 tasks.test {
     useJUnitPlatform()
 
-    systemProperty("database.url", System.getProperty("database.url"))
-    systemProperty("environment", System.getProperty("environment"))
-    systemProperty("akeyless.access.id", System.getProperty("akeyless.access.id"))
-    systemProperty("akeyless.access.key", System.getProperty("akeyless.access.key"))
+    passSystemProperties(this)
 
     finalizedBy(tasks.jacocoTestReport)
     finalizedBy(tasks.jacocoTestCoverageVerification)
@@ -153,7 +157,14 @@ tasks.shadowJar {
         include(dependency("org.postgresql:postgresql:.*"))
         include(dependency("org.hibernate.orm:hibernate-core:.*"))
         include(dependency("com.mchange:c3p0:.*"))
+        include(dependency("io.akeyless:akeyless-java:.*"))
+        include(dependency("org.apache.logging.log4j:.*"))
+        include(dependency("com.beust:klaxon:.*"))
     }
+}
+
+tasks.runShadow {
+    passSystemProperties(this)
 }
 
 application {

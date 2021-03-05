@@ -20,7 +20,7 @@ class Quote @Autowired constructor(
     ) {
     override fun run(event: CommandEvent) {
         event.reply(
-            quoteService.findOne()?.format() ?: "A quote could not be found ${Emoji.CRY}"
+            quoteService.findOne(event.guildId)?.format() ?: "A quote could not be found ${Emoji.CRY}"
         )
             .queue()
     }

@@ -28,6 +28,9 @@ version = System.getProperty("app.version", "version")
 repositories {
 //    mavenCentral()
     jcenter()
+    jcenter {
+        url = uri("https://akeyless.jfrog.io/artifactory/akeyless-java")
+    }
 }
 
 dependencies {
@@ -61,6 +64,9 @@ dependencies {
     implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
     implementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
     implementation("org.apache.logging.log4j:log4j-slf4j-impl:$log4jVersion")
+
+    // AKEYLESS dependencies
+    implementation("io.akeyless:akeyless-java:2.2.1")
 
     // Test dependencies
     // JUnit5 dependencies
@@ -167,7 +173,7 @@ heroku {
     jdkVersion = "11"
     processTypes =
         mapOf(
-            "worker" to "java \$JAVA_OPTS -Dsnowflake.url=\$SNOWFLAKE_URL -Dsnowflake.client.secret=\$SNOWFLAKE_CLIENT_SECRET -Ddatabase.url=\$DATABASE_URL -Ddiscord.token=\$DISCORD_TOKEN -Denvironment=\$ENVIRONMENT -jar build/libs/jeffery-krueger-$version-all.jar"
+            "worker" to "java \$JAVA_OPTS -Ddatabase.url=\$DATABASE_URL -Denvironment=\$ENVIRONMENT -Dakeyless.access.id=\$AKEYLESS_ACCESS_ID -Dakeyless.access.key=\$AKEYLESS_ACCESS_KEY -jar build/libs/jeffery-krueger-$version-all.jar"
         )
     buildpacks = listOf("heroku/jvm")
     includes = listOf("build/libs/jeffery-krueger-$version-all.jar")

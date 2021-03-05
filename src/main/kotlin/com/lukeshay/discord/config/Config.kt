@@ -3,7 +3,6 @@ package com.lukeshay.discord.config
 import com.beust.klaxon.Klaxon
 import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.jobs.Job
-import com.lukeshay.discord.logging.createLogger
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.OnlineStatus
 import net.dv8tion.jda.api.hooks.ListenerAdapter

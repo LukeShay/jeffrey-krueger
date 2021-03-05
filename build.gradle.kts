@@ -137,6 +137,11 @@ tasks.jacocoTestCoverageVerification {
 tasks.test {
     useJUnitPlatform()
 
+    systemProperty("database.url", System.getProperty("database.url"))
+    systemProperty("environment", System.getProperty("environment"))
+    systemProperty("akeyless.access.id", System.getProperty("akeyless.access.id"))
+    systemProperty("akeyless.access.key", System.getProperty("akeyless.access.key"))
+
     finalizedBy(tasks.jacocoTestReport)
     finalizedBy(tasks.jacocoTestCoverageVerification)
 }

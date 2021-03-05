@@ -5,22 +5,18 @@ import io.akeyless.client.ApiClient
 import io.akeyless.client.api.V2Api
 import io.akeyless.client.model.Configure
 import io.akeyless.client.model.GetSecretValue
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
 class AKeyless {
-    @Value("\${akeyless.access.id}")
-    private lateinit var aKeylessAccessId: String
-
-    @Value("\${akeyless.access.key}")
-    private lateinit var aKeylessAccessKey: String
+    private val aKeylessAccessId = System.getProperty("akeyless.access.id") ?: throw Exception("akeyless.access.id not found")
+    private val aKeylessAccessKey = System.getProperty("akeyless.access.key") ?: throw Exception("akeyless.access.key not found")
 
     @Bean
     fun apiClient(): ApiClient {
         val client = io.akeyless.client.Configuration.getDefaultApiClient()
-        // default: public API Gateway
+
         client.basePath = "https://api.akeyless.io"
 
         return client

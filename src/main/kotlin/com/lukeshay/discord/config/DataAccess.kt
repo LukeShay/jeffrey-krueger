@@ -1,7 +1,7 @@
 package com.lukeshay.discord.config
 
 import com.mchange.v2.c3p0.ComboPooledDataSource
-import org.springframework.beans.factory.annotation.Value
+import org.apache.logging.log4j.LogManager
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.jdbc.core.JdbcTemplate
@@ -16,11 +16,11 @@ import javax.sql.DataSource
 @Configuration
 class DataAccess {
 
-    @Value("\${database.url}")
-    private lateinit var databaseURL: String
+    private val databaseURL = System.getProperty("database.url") ?: throw Exception("database.url not found")
 
     @Bean
     fun dataSource(): DataSource {
+        logger.info("database url: $databaseURL")
         val groups = DB_URL_REGEX.toRegex().matchEntire(databaseURL)!!.groups
 
         val dataSource = ComboPooledDataSource()
@@ -64,5 +64,6 @@ class DataAccess {
     companion object {
         const val DB_URL_REGEX =
             """postgres://(?<username>[^:]+):(?<password>[^@]+)@(?<domain>.*)"""
+        private val logger = LogManager.getLogger(DataAccess::class.java)
     }
 }

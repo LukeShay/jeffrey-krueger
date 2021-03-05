@@ -47,8 +47,6 @@ class QuoteServiceClassTest @Autowired constructor(
         Assertions.assertEquals(quote.author, foundQuote.author)
         Assertions.assertEquals(quote.quote, foundQuote.quote)
         Assertions.assertEquals(quote.date, foundQuote.date)
-        Assertions.assertEquals(quote.lastModifiedDate, foundQuote.lastModifiedDate)
-        Assertions.assertEquals(quote.createdDate, foundQuote.createdDate)
     }
 
     @Test

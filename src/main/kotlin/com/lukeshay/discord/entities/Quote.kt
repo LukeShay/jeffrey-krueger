@@ -17,7 +17,7 @@ class Quote(
     @Column(
         name = "guild_id",
         columnDefinition = "BIGINT NOT NULL DEFAULT 0"
-    ) @LastModifiedDate val guildId: Long = 0,
+    ) val guildId: Long = 0,
     @Column(
         name = "author",
         columnDefinition = "VARCHAR(50) NOT NULL"

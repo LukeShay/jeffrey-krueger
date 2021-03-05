@@ -18,7 +18,7 @@ class Word(
     @Column(
         name = "guild_id",
         columnDefinition = "BIGINT NOT NULL DEFAULT 0"
-    ) @LastModifiedDate val guildId: Long = 0,
+    ) val guildId: Long = 0,
     @Column(name = "type", columnDefinition = "VARCHAR(9) NOT NULL") val type: String = "NOUN",
     @Column(name = "singular", columnDefinition = "VARCHAR(30) NOT NULL") val singular: String = "",
     @Column(name = "plural", columnDefinition = "VARCHAR(32)") val plural: String = ""

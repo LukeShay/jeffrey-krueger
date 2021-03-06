@@ -4,6 +4,7 @@ val springVersion = "5.3.4"
 val hibernateVersion = "6.0.0.Alpha6"
 val junit5Version = "5.6.0"
 val log4jVersion = "2.14.0"
+val exposedVersion = "0.29.1"
 
 buildscript {
     dependencies {
@@ -67,6 +68,11 @@ dependencies {
 
     // AKEYLESS dependencies
     implementation("io.akeyless:akeyless-java:2.2.1")
+
+    // Exposed dependencies
+    implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
 
     // Test dependencies
     // JUnit5 dependencies

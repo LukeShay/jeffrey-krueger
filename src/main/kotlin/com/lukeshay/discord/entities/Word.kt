@@ -1,33 +1,25 @@
 package com.lukeshay.discord.entities
 
-import com.lukeshay.discord.utils.specialCharacters
-import org.springframework.data.annotation.CreatedDate
-import org.springframework.data.annotation.LastModifiedDate
-import java.time.Instant
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Table
+object Words : org.jetbrains.exposed.sql.Table("words") {
+    val id = long("id")
+    val type = varchar("type", 9)
+    val singular = varchar("singular", 30)
+    val plural = varchar("plural", 32).nullable()
+    val guildId = long("guild_id") references GuildConfigs.id
+    override val primaryKey = PrimaryKey(GuildConfigs.id, name = "pk_words_id")
+}
 
-@Entity
-@Table(name = "words")
-class Word(
-    @Id val id: Long = 0,
-    @Column(name = "created_date") @CreatedDate val createdDate: Instant = Instant.now(),
-    @Column(name = "last_modified_date") @LastModifiedDate val lastModifiedDate: Instant = Instant.now(),
-    @Column(
-        name = "guild_id",
-        columnDefinition = "BIGINT NOT NULL DEFAULT 0"
-    ) val guildId: Long = 0,
-    @Column(name = "type", columnDefinition = "VARCHAR(9) NOT NULL") val type: String = "NOUN",
-    @Column(name = "singular", columnDefinition = "VARCHAR(30) NOT NULL") val singular: String = "",
-    @Column(name = "plural", columnDefinition = "VARCHAR(32)") val plural: String = ""
-) {
-    @Column(name = "slug", columnDefinition = "VARCHAR(71) NOT NULL UNIQUE")
-    val slug = "${specialCharacters.replace(singular.toLowerCase(), "")}-${
-    specialCharacters.replace(
-        plural.toLowerCase(),
-        ""
-    )
-    }-$type-$guildId"
+enum class WordType {
+    VERB, ADJECTIVE, NOUN;
+
+    companion object {
+        fun fromString(str: String): WordType? {
+            return when (str) {
+                VERB.toString() -> VERB
+                ADJECTIVE.toString() -> ADJECTIVE
+                NOUN.toString() -> NOUN
+                else -> null
+            }
+        }
+    }
 }

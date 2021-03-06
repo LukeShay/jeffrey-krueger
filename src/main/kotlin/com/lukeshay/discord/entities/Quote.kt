@@ -1,31 +1,12 @@
 package com.lukeshay.discord.entities
 
-import org.springframework.data.annotation.CreatedDate
-import org.springframework.data.annotation.LastModifiedDate
-import java.time.Instant
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Table
+import org.jetbrains.exposed.sql.Table
 
-@Entity
-@Table(name = "quotes")
-class Quote(
-    @Id val id: Long = 0,
-    @Column(name = "created_date") @CreatedDate val createdDate: Instant = Instant.now(),
-    @Column(name = "last_modified_date") @LastModifiedDate val lastModifiedDate: Instant = Instant.now(),
-    @Column(
-        name = "guild_id",
-        columnDefinition = "BIGINT NOT NULL DEFAULT 0"
-    ) val guildId: Long = 0,
-    @Column(
-        name = "author",
-        columnDefinition = "VARCHAR(50) NOT NULL"
-    ) val author: String = "",
-    @Column(name = "quote", columnDefinition = "VARCHAR(255) NOT NULL") val quote: String = "",
-    @Column(name = "date", columnDefinition = "VARCHAR(17)") val date: String? = "",
-) {
-    fun format(): String {
-        return "\"$quote\" - $author${if (date != null && date != "") ", $date" else ""}"
-    }
+object Quotes : Table("quotes") {
+    val id = long("id")
+    val author = varchar("author", 50).nullable()
+    val quote = varchar("quote", 255)
+    val date = varchar("date", 17).nullable()
+    val guildId = long("guild_id") references GuildConfigs.id
+    override val primaryKey = PrimaryKey(GuildConfigs.id, name = "pk_quotes_id")
 }

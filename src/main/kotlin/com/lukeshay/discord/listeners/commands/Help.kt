@@ -2,14 +2,13 @@ package com.lukeshay.discord.listeners.commands
 
 import com.lukeshay.discord.domain.CommandEvent
 import com.lukeshay.discord.enums.Environment
-import com.lukeshay.discord.services.GuildConfigService
+import com.lukeshay.discord.utils.isAdmin
 import net.dv8tion.jda.api.EmbedBuilder
 import java.awt.Color
 
 class Help(
     private val commands: List<Command>,
     environment: Environment,
-    private val guildConfigService: GuildConfigService
 ) :
     Command(
         "help",
@@ -27,7 +26,7 @@ class Help(
             "Hey! My name is Jeffrey Krueger. Here is a list of what I am capable of."
         )
 
-        if (event.authorAsMember?.isOwner == true && guildConfigService.isAdmin(
+        if (event.authorAsMember?.isOwner == true && isAdmin(
                 event.guild,
                 event.authorAsMember
             )

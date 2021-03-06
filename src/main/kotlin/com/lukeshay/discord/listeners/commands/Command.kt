@@ -2,7 +2,6 @@ package com.lukeshay.discord.listeners.commands
 
 import com.lukeshay.discord.domain.CommandEvent
 import com.lukeshay.discord.enums.Environment
-import com.lukeshay.discord.utils.leaderChar
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
 
 abstract class Command(
@@ -13,8 +12,8 @@ abstract class Command(
     als: List<String> = listOf(),
     val adminOnly: Boolean = false
 ) {
-    val command = "${if (leader) leaderChar else ""}${cmd.toLowerCase()}"
-    val aliases = als.map { alias -> "${if (leader) leaderChar else ""}${alias.toLowerCase()}" }
+    val command = "${if (leader) "!" else ""}${cmd.toLowerCase()}"
+    val aliases = als.map { alias -> "${if (leader) "!" else ""}${alias.toLowerCase()}" }
     val description = "$desc${listToAliasesStr(aliases)}"
 
     abstract fun run(event: CommandEvent)

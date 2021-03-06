@@ -4,8 +4,9 @@ import com.lukeshay.discord.domain.CommandEvent
 import com.lukeshay.discord.entities.WordType
 import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.logging.createLogger
-import com.lukeshay.discord.services.GuildConfigService
-import com.lukeshay.discord.services.WordService
+import com.lukeshay.discord.utils.getSnowflakeId
+import com.lukeshay.discord.utils.insertWord
+import com.lukeshay.discord.utils.isAdmin
 
 open class WordCommand(
     private val cmd: String,
@@ -13,16 +14,12 @@ open class WordCommand(
     leader: Boolean,
     environment: Environment,
     private val wordType: WordType,
-    private val guildConfigService: GuildConfigService,
-    private val wordService: WordService
 ) : Command(cmd, desc, leader, environment, listOf(), true) {
     override fun run(event: CommandEvent) {
         val splitMessage = WORD_REGEX.toRegex().matchEntire(event.contentRaw)!!.groups
 
-        guildConfigService.findById(event.guildId)?.let {
-            if (event.authorAsMember == null || !it.canEdit(event.authorAsMember)) {
-                return
-            }
+        if (event.authorAsMember == null || !isAdmin(event.guild, event.authorAsMember)) {
+            return
         }
 
         val singular = splitMessage["singular"]
@@ -33,9 +30,19 @@ open class WordCommand(
                 .queue()
         } else {
             try {
-                wordService.new(event.guildId, singular.value, plural?.value ?: "", wordType)?.let {
-                    event.reply("Your $cmd has been saved!").queue()
-                } ?: event.reply("That $cmd already exists").queue()
+                val message =
+                    insertWord(
+                        getSnowflakeId(),
+                        event.guildId,
+                        singular.value,
+                        plural?.value ?: "",
+                        wordType
+                    )
+                        ?.let {
+                            "Your $cmd has been saved!"
+                        } ?: "That $cmd already exists"
+
+                event.reply(message).queue()
             } catch (e: Exception) {
                 e.printStackTrace()
                 logger.error("error saving $cmd: $e")

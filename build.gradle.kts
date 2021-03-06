@@ -43,7 +43,6 @@ dependencies {
     // Spring dependencies
     implementation("org.springframework:spring-context:$springVersion")
     implementation("org.springframework:spring-beans:$springVersion")
-    implementation("org.springframework.data:spring-data-jpa:2.4.5")
 
     // Hibernate dependencies
     implementation("org.hibernate.orm:hibernate-core:$hibernateVersion")

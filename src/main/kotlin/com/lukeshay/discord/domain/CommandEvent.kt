@@ -14,14 +14,13 @@ class CommandEvent(
             "",
             ignoreCase = true
         )
-    val isBot = event.author.isBot
     val authorId = event.author.idLong
     val author = event.author
     val guildId = event.guild.idLong
     val guild = event.guild
     val authorAsMember = event.guild.getMember(event.author)
     val forThisEnv = event.message.contentRaw.startsWith(environment.toString().toLowerCase()) || environment == Environment.PRODUCTION
-    val shouldRun = !isBot && forThisEnv
+    val shouldRun = !event.author.isBot && forThisEnv
 
     fun reply(content: CharSequence) = event.message.reply(content)
 

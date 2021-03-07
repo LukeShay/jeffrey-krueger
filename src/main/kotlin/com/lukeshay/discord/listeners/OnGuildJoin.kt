@@ -7,11 +7,8 @@ import com.lukeshay.discord.utils.insertOrUpdateGuildConfig
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Component
 
-@Component
-class OnGuildJoin @Autowired constructor(private val environment: Environment) :
+class OnGuildJoin(private val environment: Environment) :
     ListenerAdapter() {
     override fun onGuildJoin(event: GuildJoinEvent) {
         shouldRun(environment, event)

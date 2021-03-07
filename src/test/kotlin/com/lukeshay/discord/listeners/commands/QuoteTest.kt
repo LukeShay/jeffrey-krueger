@@ -1,14 +1,14 @@
 package com.lukeshay.discord.listeners.commands
 
-import com.lukeshay.discord.SpringTestBase
+import com.lukeshay.discord.enums.Environment
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
 
-internal class QuoteTest @Autowired constructor(private val quote: Quote) :
-    SpringTestBase() {
+internal class QuoteTest() {
     @Test
     fun `constructor sets correct values`() {
+        val quote = Quote(Environment.determineEnvironment())
+
         Assertions.assertEquals("!quote", quote.command)
         Assertions.assertEquals(0, quote.aliases.size)
     }

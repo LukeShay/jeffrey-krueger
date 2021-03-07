@@ -17,8 +17,6 @@ plugins {
     jacoco
     id("org.jetbrains.kotlin.jvm") version "1.4.31"
     id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
-    id("org.jetbrains.kotlin.plugin.spring") version "1.4.31"
-    id("org.jetbrains.kotlin.plugin.jpa") version "1.4.31"
     id("com.heroku.sdk.heroku-gradle") version "2.0.0"
     id("com.github.johnrengelman.shadow") version "6.1.0"
 }
@@ -39,10 +37,6 @@ dependencies {
     implementation("net.dv8tion:JDA:4.2.0_228") {
         exclude("opus-java")
     }
-
-    // Spring dependencies
-    implementation("org.springframework:spring-context:$springVersion")
-    implementation("org.springframework:spring-beans:$springVersion")
 
     // Hibernate dependencies
     implementation("org.hibernate.orm:hibernate-core:$hibernateVersion")
@@ -72,6 +66,7 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-jodatime:$exposedVersion")
 
     // Test dependencies
     // JUnit5 dependencies
@@ -87,9 +82,6 @@ dependencies {
 
     // Mockito dependencies
     testImplementation("org.mockito:mockito-core:2.+")
-
-    // Spring dependencies
-    testImplementation("org.springframework:spring-test:$springVersion")
 }
 
 tasks.jacocoTestReport {
@@ -110,10 +102,9 @@ tasks.jacocoTestCoverageVerification {
                     mapOf(
                         "dir" to it,
                         "exclude" to arrayOf(
-                            "com/lukeshay/discord/repositories/**",
                             "com/lukeshay/discord/entities/**",
-                            "com/lukeshay/discord/config/**",
-                            "com/lukeshay/discord/logger/**"
+                            "com/lukeshay/discord/logging/**",
+                            "com/lukeshay/discord/MainKt.class"
                         )
                     )
                 )
@@ -155,18 +146,18 @@ tasks.test {
     finalizedBy(tasks.jacocoTestCoverageVerification)
 }
 
-tasks.shadowJar {
-    minimize {
-        exclude(dependency(".*:.*:.*"))
-        include(dependency("net.dv8tion:.*:.*"))
-        include(dependency("org.postgresql:postgresql:.*"))
-        include(dependency("org.hibernate.orm:hibernate-core:.*"))
-        include(dependency("com.mchange:c3p0:.*"))
-        include(dependency("io.akeyless:akeyless-java:.*"))
-        include(dependency("org.apache.logging.log4j:.*"))
-        include(dependency("com.beust:klaxon:.*"))
-    }
-}
+// tasks.shadowJar {
+//    minimize {
+//        exclude(dependency(".*:.*:.*"))
+//        include(dependency("net.dv8tion:.*:.*"))
+//        include(dependency("org.postgresql:postgresql:.*"))
+//        include(dependency("org.hibernate.orm:hibernate-core:.*"))
+//        include(dependency("com.mchange:c3p0:.*"))
+//        include(dependency("io.akeyless:akeyless-java:.*"))
+//        include(dependency("org.apache.logging.log4j:.*"))
+//        include(dependency("com.beust:klaxon:.*"))
+//    }
+// }
 
 tasks.runShadow {
     passSystemProperties(this)

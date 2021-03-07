@@ -1,22 +1,60 @@
 package com.lukeshay.discord
 
-import com.lukeshay.discord.config.Bot
-import com.lukeshay.discord.config.Config
 import com.lukeshay.discord.entities.GuildConfigAdminIds
 import com.lukeshay.discord.entities.GuildConfigAdminRoleIds
 import com.lukeshay.discord.entities.GuildConfigs
 import com.lukeshay.discord.entities.Quotes
 import com.lukeshay.discord.enums.Environment
+import com.lukeshay.discord.jobs.DailyGreeting
+import com.lukeshay.discord.jobs.DailyQuote
+import com.lukeshay.discord.jobs.Job
+import com.lukeshay.discord.listeners.OnConnectionChange
+import com.lukeshay.discord.listeners.OnGuildJoin
+import com.lukeshay.discord.listeners.OnGuildMemberJoin
+import com.lukeshay.discord.listeners.OnGuildMessageReceived
+import com.lukeshay.discord.listeners.commands.Adjective
+import com.lukeshay.discord.listeners.commands.Bug
+import com.lukeshay.discord.listeners.commands.Feature
+import com.lukeshay.discord.listeners.commands.HeyJeff
+import com.lukeshay.discord.listeners.commands.Init
+import com.lukeshay.discord.listeners.commands.Noun
+import com.lukeshay.discord.listeners.commands.Ping
+import com.lukeshay.discord.listeners.commands.Quote
+import com.lukeshay.discord.listeners.commands.Verb
+import com.mchange.v2.c3p0.ComboPooledDataSource
 import io.akeyless.client.api.V2Api
 import io.akeyless.client.model.Configure
 import io.akeyless.client.model.GetSecretValue
+import net.dv8tion.jda.api.JDA
+import net.dv8tion.jda.api.JDABuilder
+import net.dv8tion.jda.api.OnlineStatus
+import net.dv8tion.jda.api.hooks.ListenerAdapter
+import org.apache.logging.log4j.LogManager
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.StdOutSqlLogger
 import org.jetbrains.exposed.sql.addLogger
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import javax.sql.DataSource
+
+private val databaseURL =
+    System.getProperty("database.url") ?: throw Exception("database.url not found")
+
+private const val DB_URL_REGEX =
+    """postgres://(?<username>[^:]+):(?<password>[^@]+)@(?<domain>.*)"""
+
+fun dataSource(): DataSource {
+    LogManager.getLogger("dataSource").info("database url: $databaseURL")
+    val groups = DB_URL_REGEX.toRegex().matchEntire(databaseURL)!!.groups
+
+    val dataSource = ComboPooledDataSource()
+    dataSource.jdbcUrl = "jdbc:postgresql://${groups["domain"]!!.value}"
+    dataSource.user = groups["username"]!!.value
+    dataSource.password = groups["password"]!!.value
+    dataSource.driverClass = "org.postgresql.Driver"
+
+    return dataSource
+}
 
 fun loadSecrets() {
     val apiClient = io.akeyless.client.Configuration.getDefaultApiClient()
@@ -36,7 +74,8 @@ fun loadSecrets() {
     ).token
         ?: throw Exception("error getting v2 api token")
 
-    val secretsPath = "jeffery-krueger/${Environment.determineEnv().toString().toLowerCase()}"
+    val secretsPath =
+        "jeffery-krueger/${Environment.determineEnvironment().toString().toLowerCase()}"
 
     val body = GetSecretValue().addNamesItem("$secretsPath/discord-token")
         .addNamesItem("$secretsPath/snowflake-url")
@@ -57,11 +96,41 @@ fun loadSecrets() {
     System.setProperty("snowflake.client.secret", snowflakeClientSecret)
 }
 
+fun jdaBuilder(): JDABuilder {
+    val builder = JDABuilder.createDefault(System.getProperty("discord.token"))
+
+    builder.setAutoReconnect(true)
+    builder.setStatus(OnlineStatus.ONLINE)
+
+    return builder
+}
+
+fun start(
+    listeners: List<ListenerAdapter>,
+    jobs: List<Job>,
+    builder: JDABuilder = jdaBuilder()
+): JDA {
+    for (listener in listeners) {
+        builder.addEventListeners(listener)
+    }
+
+    val jda = builder.build()
+
+    jobs.forEach { job ->
+        run {
+            job.jda = jda
+            job.run()
+        }
+    }
+
+    return jda
+}
+
 fun main() {
+    val environment = Environment.determineEnvironment()
     loadSecrets()
 
-    val ctx = AnnotationConfigApplicationContext(Config::class.java)
-    Database.connect(ctx.getBean(DataSource::class.java))
+    Database.connect(dataSource())
 
     transaction {
         addLogger(StdOutSqlLogger)
@@ -69,7 +138,30 @@ fun main() {
         SchemaUtils.create(GuildConfigs, GuildConfigAdminIds, GuildConfigAdminRoleIds, Quotes)
     }
 
-    val jda = ctx.getBean(Bot::class.java).start()
-
-    jda.awaitReady()
+    start(
+        listeners = listOf(
+            OnConnectionChange(),
+            OnGuildJoin(environment),
+            OnGuildMemberJoin(environment),
+            OnGuildMessageReceived(
+                cmds = mutableListOf(
+                    Adjective(environment),
+                    Bug(environment),
+                    Feature(environment),
+                    HeyJeff(environment),
+                    Init(environment),
+                    Noun(environment),
+                    Ping(environment),
+                    Quote(environment),
+                    Verb(environment),
+                ),
+                environment = environment,
+            ),
+        ),
+        jobs = listOf(
+            DailyGreeting(),
+            DailyQuote(),
+        ),
+        builder = jdaBuilder(),
+    ).awaitReady()
 }

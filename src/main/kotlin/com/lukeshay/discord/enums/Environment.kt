@@ -6,7 +6,7 @@ enum class Environment {
     LOCAL, DEVELOPMENT, STAGING, PRODUCTION;
 
     companion object {
-        fun determineEnv(): Environment {
+        fun determineEnvironment(): Environment {
             val env = System.getProperty("environment", "local")
 
             return when (env.toLowerCase()) {

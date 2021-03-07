@@ -4,11 +4,8 @@ import com.lukeshay.discord.domain.CommandEvent
 import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.utils.insertOrUpdateGuildConfig
 import com.lukeshay.discord.utils.selectGuildConfigById
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Component
 
-@Component
-class Init @Autowired constructor(environment: Environment) :
+class Init(environment: Environment) :
     Command(
         "init",
         "I will setup your guild if it hasn't been. You must own the guild to run this command.",

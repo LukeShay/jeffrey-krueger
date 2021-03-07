@@ -1,14 +1,14 @@
 package com.lukeshay.discord.listeners.commands
 
-import com.lukeshay.discord.SpringTestBase
+import com.lukeshay.discord.enums.Environment
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
 
-internal class BugTest @Autowired constructor(private val bug: Bug) :
-    SpringTestBase() {
+internal class BugTest() {
     @Test
     fun `constructor sets correct values`() {
+        val bug = Bug(Environment.determineEnvironment())
+
         Assertions.assertEquals("!bug", bug.command)
         Assertions.assertEquals(0, bug.aliases.size)
     }

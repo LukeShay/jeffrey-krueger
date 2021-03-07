@@ -6,28 +6,25 @@ import com.lukeshay.discord.listeners.commands.Command
 import com.lukeshay.discord.listeners.commands.Help
 import com.lukeshay.discord.listeners.exceptions.NoCommandRuntimeException
 import com.lukeshay.discord.logging.createLogger
-import com.lukeshay.discord.utils.ListUtils
 import com.lukeshay.discord.utils.isAdmin
+import com.lukeshay.discord.utils.listToString
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Component
 
-@Component
-class OnGuildMessageReceived @Autowired constructor(
+class OnGuildMessageReceived(
     cmds: MutableList<Command>,
     private val environment: Environment,
 ) :
     ListenerAdapter() {
 
-    private lateinit var commands: List<Command>
+    private var commands: List<Command>
 
     init {
         cmds.add(Help(cmds.toList(), environment))
         commands = cmds.toList()
 
-        logger.info("available commands -\n\n${ListUtils.toString(commands, ",", "    ", true)}\n")
+        logger.info("available commands -\n\n${listToString(commands, ",", "    ", true)}\n")
     }
 
     override fun onGuildMessageReceived(e: GuildMessageReceivedEvent) {

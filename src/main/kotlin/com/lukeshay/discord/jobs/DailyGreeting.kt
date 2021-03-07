@@ -6,9 +6,7 @@ import com.lukeshay.discord.utils.formatQuote
 import com.lukeshay.discord.utils.selectAllGuildConfigs
 import com.lukeshay.discord.utils.selectOneQuoteByGuildId
 import org.apache.logging.log4j.LogManager
-import org.springframework.stereotype.Component
 
-@Component
 class DailyGreeting : Job("daily greeting") {
     override suspend fun execute() {
         selectAllGuildConfigs().forEach { gc ->

@@ -4,11 +4,8 @@ import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.utils.selectOneNounByGuildId
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Component
 
-@Component
-class OnGuildMemberJoin @Autowired constructor(private val environment: Environment) :
+class OnGuildMemberJoin(private val environment: Environment) :
     ListenerAdapter() {
     override fun onGuildMemberJoin(event: GuildMemberJoinEvent) {
         shouldRun(environment, event)

@@ -1,14 +1,14 @@
 package com.lukeshay.discord.listeners.commands
 
-import com.lukeshay.discord.SpringTestBase
+import com.lukeshay.discord.enums.Environment
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
 
-internal class NounTest @Autowired constructor(private val noun: Noun) :
-    SpringTestBase() {
+internal class NounTest() {
     @Test
     fun `constructor sets correct values`() {
+        val noun = Noun(Environment.determineEnvironment())
+
         Assertions.assertEquals("!noun", noun.command)
         Assertions.assertEquals(0, noun.aliases.size)
     }

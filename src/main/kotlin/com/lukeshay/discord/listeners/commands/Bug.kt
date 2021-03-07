@@ -3,11 +3,8 @@ package com.lukeshay.discord.listeners.commands
 import com.lukeshay.discord.domain.CommandEvent
 import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.enums.Issue
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Component
 
-@Component
-class Bug @Autowired constructor(environment: Environment) :
+class Bug(environment: Environment) :
     Command(
         "bug",
         "I will reply with the bug report link.",

@@ -25,7 +25,6 @@ group = "com.lukeshay.discord"
 version = System.getProperty("app.version", "version")
 
 repositories {
-//    mavenCentral()
     jcenter()
     jcenter {
         url = uri("https://akeyless.jfrog.io/artifactory/akeyless-java")
@@ -83,8 +82,8 @@ dependencies {
     // H2 dependencies
     implementation("com.h2database:h2:1.4.200")
 
-    // Mockito dependencies
-    testImplementation("org.mockito:mockito-core:2.+")
+    // Mockk dependencies
+    testImplementation("io.mockk:mockk:1.10.6")
 }
 
 tasks.jacocoTestReport {

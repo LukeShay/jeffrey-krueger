@@ -1,19 +1,16 @@
-package com.lukeshay.discord.snowflake
+package com.lukeshay.discord.utils
 
-import com.lukeshay.discord.utils.Snowflake
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
-class SnowflakeTest {
+class SnowflakeUtilsTest {
     @Test
     fun `generate returns unique IDs`() = runBlocking {
-        val snowflake = Snowflake(1)
-
         val ids = mutableListOf<Long>()
 
         for (i in 1..100000) {
-            ids.add(snowflake.generate())
+            ids.add(SnowflakeUtils.getSnowflakeId())
         }
 
         Assertions.assertEquals(ids.toSet().size, ids.size)

@@ -13,6 +13,7 @@ import com.lukeshay.discord.listeners.OnConnectionChange
 import com.lukeshay.discord.listeners.OnGuildJoin
 import com.lukeshay.discord.listeners.OnGuildMemberJoin
 import com.lukeshay.discord.listeners.OnGuildMessageReceived
+import com.lukeshay.discord.listeners.commands.AddQuote
 import com.lukeshay.discord.listeners.commands.Adjective
 import com.lukeshay.discord.listeners.commands.Bug
 import com.lukeshay.discord.listeners.commands.Feature
@@ -127,17 +128,27 @@ fun start(
     return jda
 }
 
-fun main() {
-    val environment = Environment.determineEnvironment()
-    loadSecrets()
-
+fun setupExposed() {
     Database.connect(dataSource())
 
     transaction {
         addLogger(StdOutSqlLogger)
 
-        SchemaUtils.create(GuildConfigs, GuildConfigAdminIds, GuildConfigAdminRoleIds, Quotes, Words)
+        SchemaUtils.create(
+            GuildConfigs,
+            GuildConfigAdminIds,
+            GuildConfigAdminRoleIds,
+            Quotes,
+            Words
+        )
     }
+}
+
+fun main() {
+    val environment = Environment.determineEnvironment()
+    loadSecrets()
+
+    setupExposed()
 
     start(
         listeners = listOf(
@@ -155,6 +166,7 @@ fun main() {
                     Ping(environment),
                     Quote(environment),
                     Verb(environment),
+                    AddQuote(environment),
                 ),
                 environment = environment,
             ),

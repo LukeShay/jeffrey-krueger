@@ -9,7 +9,7 @@ class Snowflake(
     private val stepBits: Int = 12,
     private val epochTime: Long = 1288834974657,
 ) {
-    private val mutex = Mutex(true)
+    private val mutex = Mutex(false)
     private val nodeMax = -1 xor (-1 shl nodeBits)
     private val stepMask = -1 xor (-1 shl stepBits)
     private val timeShift = nodeBits + stepBits
@@ -22,8 +22,6 @@ class Snowflake(
         if (nodeId < 0 || nodeId > nodeMax) {
             throw Exception("Node number must be between 0 and $nodeMax")
         }
-
-        mutex.unlock()
     }
 
     suspend fun generate(): Long {

@@ -3,7 +3,7 @@ package com.lukeshay.discord.listeners.commands
 import com.lukeshay.discord.domain.CommandEvent
 import com.lukeshay.discord.enums.Emoji
 import com.lukeshay.discord.enums.Environment
-import com.lukeshay.discord.utils.selectOneQuoteByGuildId
+import com.lukeshay.discord.utils.QuoteUtils
 
 class Quote(environment: Environment) :
     Command(
@@ -14,7 +14,7 @@ class Quote(environment: Environment) :
     ) {
     override suspend fun run(event: CommandEvent) {
         event.reply(
-            selectOneQuoteByGuildId(event.guildId)?.format()
+            QuoteUtils.selectOneQuoteByGuildId(event.guildId)?.format()
                 ?: "A quote could not be found ${Emoji.CRY}"
         ).queue()
     }

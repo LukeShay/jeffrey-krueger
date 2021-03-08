@@ -1,13 +1,14 @@
 package com.lukeshay.discord.listeners
 
 import com.lukeshay.discord.domain.CommandEvent
+import com.lukeshay.discord.enums.Emoji
 import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.listeners.commands.Command
 import com.lukeshay.discord.listeners.commands.Help
 import com.lukeshay.discord.listeners.exceptions.NoCommandRuntimeException
 import com.lukeshay.discord.logging.createLogger
-import com.lukeshay.discord.utils.isAdmin
-import com.lukeshay.discord.utils.listToString
+import com.lukeshay.discord.utils.GuildConfigUtils
+import com.lukeshay.discord.utils.ListUtils
 import kotlinx.coroutines.runBlocking
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
@@ -25,7 +26,16 @@ class OnGuildMessageReceived(
         cmds.add(Help(cmds.toList(), environment))
         commands = cmds.toList()
 
-        logger.info("available commands -\n\n${listToString(commands, ",", "    ", true)}\n")
+        logger.info(
+            "available commands -\n\n${
+            ListUtils.toString(
+                commands,
+                ",",
+                "    ",
+                true
+            )
+            }\n"
+        )
     }
 
     override fun onGuildMessageReceived(e: GuildMessageReceivedEvent) {
@@ -42,7 +52,7 @@ class OnGuildMessageReceived(
         val command = findCommand(e)
 
         if (command != null) {
-            if (!command.adminOnly || event.authorAsMember?.isOwner == true || isAdmin(
+            if (!command.adminOnly || event.authorAsMember?.isOwner == true || GuildConfigUtils.isAdmin(
                     event.guild,
                     event.authorAsMember
                 )
@@ -50,7 +60,13 @@ class OnGuildMessageReceived(
                 logger.info("${event.guildId}, ${event.authorId} | running command - ${command.command}")
                 transaction {
                     runBlocking {
-                        command.run(event)
+                        try {
+                            command.run(event)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            logger.fatal("there us an error running a command $e")
+                            event.reply("There was an unexpected error ${Emoji.CRY}").queue()
+                        }
                     }
                 }
             } else {

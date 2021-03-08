@@ -14,7 +14,7 @@ class Init(environment: Environment) :
         listOf("setup"),
         true,
     ) {
-    override fun run(event: CommandEvent) {
+    override suspend fun run(event: CommandEvent) {
         val message = if (selectGuildConfigById(event.guild) != null) {
             "Your guild has already been set up!"
         } else if (insertOrUpdateGuildConfig(event.guild) == null) {

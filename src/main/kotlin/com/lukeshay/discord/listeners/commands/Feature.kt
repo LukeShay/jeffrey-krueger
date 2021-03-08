@@ -11,7 +11,7 @@ class Feature(environment: Environment) :
         true,
         environment
     ) {
-    override fun run(event: CommandEvent) {
+    override suspend fun run(event: CommandEvent) {
         event.reply(Issue.FEATURE_REQUEST.toString()).queue()
     }
 }

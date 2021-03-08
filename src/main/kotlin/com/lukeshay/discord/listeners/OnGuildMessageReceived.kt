@@ -8,6 +8,7 @@ import com.lukeshay.discord.listeners.exceptions.NoCommandRuntimeException
 import com.lukeshay.discord.logging.createLogger
 import com.lukeshay.discord.utils.isAdmin
 import com.lukeshay.discord.utils.listToString
+import kotlinx.coroutines.runBlocking
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -48,7 +49,9 @@ class OnGuildMessageReceived(
             ) {
                 logger.info("${event.guildId}, ${event.authorId} | running command - ${command.command}")
                 transaction {
-                    command.run(event)
+                    runBlocking {
+                        command.run(event)
+                    }
                 }
             } else {
                 logger.info("${event.guildId}, ${event.authorId} | unauthorized command - ${command.command}")

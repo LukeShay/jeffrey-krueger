@@ -68,6 +68,9 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-jodatime:$exposedVersion")
 
+    // JodaTime dependencies
+    implementation("joda-time:joda-time:2.10.10")
+
     // Test dependencies
     // JUnit5 dependencies
     testImplementation(kotlin("test-junit5"))

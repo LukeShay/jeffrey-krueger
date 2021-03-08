@@ -10,3 +10,13 @@ object Quotes : Table("quotes") {
     val guildId = long("guild_id") references GuildConfigs.id
     override val primaryKey = PrimaryKey(GuildConfigs.id, name = "pk_quotes_id")
 }
+
+data class Quote(
+    val id: Long,
+    val author: String?,
+    val quote: String,
+    val date: String?,
+    val guildId: Long
+) {
+    fun format() = "\"${quote}\" - ${author}${if (date != null && date != "") ", $date" else ""}"
+}

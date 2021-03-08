@@ -18,7 +18,7 @@ class Help(
         listOf("options")
     ) {
 
-    override fun run(event: CommandEvent) {
+    override suspend fun run(event: CommandEvent) {
         sendHelpMessage(
             event,
             false,

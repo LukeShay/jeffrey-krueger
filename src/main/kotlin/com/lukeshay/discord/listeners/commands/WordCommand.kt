@@ -4,7 +4,6 @@ import com.lukeshay.discord.domain.CommandEvent
 import com.lukeshay.discord.entities.WordType
 import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.logging.createLogger
-import com.lukeshay.discord.utils.getSnowflakeId
 import com.lukeshay.discord.utils.insertWord
 import com.lukeshay.discord.utils.isAdmin
 
@@ -15,7 +14,7 @@ open class WordCommand(
     environment: Environment,
     private val wordType: WordType,
 ) : Command(cmd, desc, leader, environment, listOf(), true) {
-    override fun run(event: CommandEvent) {
+    override suspend fun run(event: CommandEvent) {
         val splitMessage = WORD_REGEX.toRegex().matchEntire(event.contentRaw)!!.groups
 
         if (event.authorAsMember == null || !isAdmin(event.guild, event.authorAsMember)) {
@@ -32,7 +31,6 @@ open class WordCommand(
             try {
                 val message =
                     insertWord(
-                        getSnowflakeId(),
                         event.guildId,
                         singular.value,
                         plural?.value ?: "",
@@ -52,7 +50,7 @@ open class WordCommand(
     }
 
     companion object {
-        private const val WORD_REGEX = """.+"(?<singular>.+)" "(?<plural>.+)"?"""
+        private const val WORD_REGEX = """.+"(?<singular>.+)" ("(?<plural>.+)")?"""
         private val logger = createLogger(WordCommand::class.java)
     }
 }

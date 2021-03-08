@@ -4,6 +4,7 @@ import com.lukeshay.discord.entities.GuildConfigAdminIds
 import com.lukeshay.discord.entities.GuildConfigAdminRoleIds
 import com.lukeshay.discord.entities.GuildConfigs
 import com.lukeshay.discord.entities.Quotes
+import com.lukeshay.discord.entities.Words
 import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.jobs.DailyGreeting
 import com.lukeshay.discord.jobs.DailyQuote
@@ -135,7 +136,7 @@ fun main() {
     transaction {
         addLogger(StdOutSqlLogger)
 
-        SchemaUtils.create(GuildConfigs, GuildConfigAdminIds, GuildConfigAdminRoleIds, Quotes)
+        SchemaUtils.create(GuildConfigs, GuildConfigAdminIds, GuildConfigAdminRoleIds, Quotes, Words)
     }
 
     start(

@@ -12,6 +12,17 @@ object GuildConfigs : Table("guild_configs") {
     override val primaryKey = PrimaryKey(id, name = "pk_guild_configs_id")
 }
 
+data class GuildConfig(
+    val id: Long,
+    val defaultChannelId: Long,
+    val dailyGreeting: Boolean,
+    val dailyQuote: Boolean,
+    val commands: Boolean,
+    val ownerId: Long,
+    val adminIds: List<Long> = listOf(),
+    val adminRoleIds: List<Long> = listOf(),
+)
+
 object GuildConfigAdminIds : Table("guild_config_admin_ids") {
     val adminId = long("admin_id")
     val guildConfigId = long("guild_config_id") references GuildConfigs.id

@@ -2,7 +2,7 @@ package com.lukeshay.discord.listeners.commands
 
 import com.lukeshay.discord.domain.CommandEvent
 import com.lukeshay.discord.enums.Environment
-import com.lukeshay.discord.utils.selectOneNounByGuildId
+import com.lukeshay.discord.utils.selectOneSingularNounByGuildId
 
 class HeyJeff(environment: Environment) :
     Command(
@@ -12,7 +12,7 @@ class HeyJeff(environment: Environment) :
         environment,
         listOf("hi jeff", "hello jeff")
     ) {
-    override fun run(event: CommandEvent) {
-        event.reply("Hey ${selectOneNounByGuildId(event.guildId)}").queue()
+    override suspend fun run(event: CommandEvent) {
+        event.reply("Hey ${selectOneSingularNounByGuildId(event.guildId)}").queue()
     }
 }

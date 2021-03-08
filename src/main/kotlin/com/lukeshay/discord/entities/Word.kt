@@ -9,6 +9,14 @@ object Words : org.jetbrains.exposed.sql.Table("words") {
     override val primaryKey = PrimaryKey(GuildConfigs.id, name = "pk_words_id")
 }
 
+data class Word(
+    val id: Long,
+    val type: WordType,
+    val singular: String,
+    val plural: String?,
+    val guildId: Long
+)
+
 enum class WordType {
     VERB, ADJECTIVE, NOUN;
 

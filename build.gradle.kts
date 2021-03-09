@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 val springVersion = "5.3.4"
@@ -195,4 +196,8 @@ heroku {
     buildpacks = listOf("heroku/jvm")
     includes = listOf("build/libs/jeffery-krueger-$version-all.jar")
     isIncludeBuildDir = false
+}
+
+tasks.withType<KotlinCompile>() {
+    kotlinOptions.jvmTarget = "11"
 }

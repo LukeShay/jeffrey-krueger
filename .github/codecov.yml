@@ -4,7 +4,7 @@ codecov:
 flags:
   bot:
     paths:
-      - src
+      - jeffery-bot/src
 
 coverage:
   precision: 2
@@ -16,10 +16,6 @@ coverage:
         target: 80%
         threshold: 0%
         base: auto
-        flags:
-          - unit
-        paths:
-          - "src"
         branches:
           - master
         if_ci_failed: error

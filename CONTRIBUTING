@@ -9,9 +9,10 @@ Docker
 Required environment variables:
 
 ```bash
-DISCORD_TOKEN=<get from discord> // Create your own app for testing
-DATABASE_URL=postgres://username:password@localhost:5432/postgres // This can be ran where every you want
+DATABASE_URL=postgres://postgres:password@localhost:5432/postgres
 ENVIRONMENT=local
+AKEYLESS_ACCESS_ID=<Ask Luke>
+AKEYLESS_ACCESS_KEY=<Ask Luke>
 ```
 
 ```bash
@@ -114,3 +115,9 @@ docker run --rm \
 ./gradlew ktlintFormat
 ```
 
+# Technologies
+
+- [JetBrains/Exposed](https://github.com/JetBrains/Exposed)
+- [mockk/mockk](https://github.com/mockk/mockk)
+- [kotest/kotest](https://github.com/kotest/kotest)
+- [DV8FromTheWorld/JDA](https://github.com/DV8FromTheWorld/JDA)

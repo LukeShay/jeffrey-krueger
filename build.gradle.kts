@@ -72,20 +72,12 @@ dependencies {
     implementation("joda-time:joda-time:2.10.10")
 
     // Test dependencies
-    // JUnit5 dependencies
-    testImplementation(kotlin("test-junit5"))
-    testImplementation("org.junit.jupiter:junit-jupiter-api:$junit5Version")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junit5Version")
-
     // Kotest dependencies
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
 
     // Hibernate dependencies
     testImplementation("org.hibernate.orm:hibernate-testing:$hibernateVersion")
-
-    // H2 dependencies
-    implementation("com.h2database:h2:1.4.200")
 
     // Mockk dependencies
     testImplementation("io.mockk:mockk:1.10.6")

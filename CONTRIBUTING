@@ -117,7 +117,8 @@ docker run --rm \
 
 # Technologies
 
-- [JetBrains/Exposed](https://github.com/JetBrains/Exposed)
-- [mockk/mockk](https://github.com/mockk/mockk)
-- [kotest/kotest](https://github.com/kotest/kotest)
+- [Kotlin](https://kotlinlang.org/)
 - [DV8FromTheWorld/JDA](https://github.com/DV8FromTheWorld/JDA)
+- [JetBrains/Exposed](https://github.com/JetBrains/Exposed)
+- [kotest/kotest](https://github.com/kotest/kotest)
+- [mockk/mockk](https://github.com/mockk/mockk)

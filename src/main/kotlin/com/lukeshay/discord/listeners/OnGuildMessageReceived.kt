@@ -9,6 +9,7 @@ import com.lukeshay.discord.listeners.commands.Help
 import com.lukeshay.discord.listeners.exceptions.NoCommandRuntimeException
 import com.lukeshay.discord.logging.createLogger
 import com.lukeshay.discord.utils.toJSONString
+import io.sentry.Sentry
 import kotlinx.coroutines.runBlocking
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
@@ -60,9 +61,9 @@ class OnGuildMessageReceived(
                 transaction {
                     runBlocking {
                         try {
-                            command.run(event)
-                        } catch (e: Exception) {
-                            e.printStackTrace()
+                            throw Exception("i am testing")
+                        } catch (e: Throwable) {
+                            Sentry.captureException(e)
                             logger.fatal("there us an error running a command $e")
                             event.reply("There was an unexpected error ${Emoji.CRY}").queue()
                         }

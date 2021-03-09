@@ -71,6 +71,9 @@ dependencies {
     // JodaTime dependencies
     implementation("joda-time:joda-time:2.10.10")
 
+    // Sentry dependencies
+    implementation("io.sentry:sentry-log4j2:4.3.0")
+
     // Test dependencies
     // Kotest dependencies
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
@@ -82,6 +85,7 @@ dependencies {
     // Mockk dependencies
     testImplementation("io.mockk:mockk:1.10.6")
 
+    // Kotlin dependencies
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.2")
 }
 

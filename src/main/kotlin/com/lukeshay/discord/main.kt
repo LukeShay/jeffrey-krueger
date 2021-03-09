@@ -27,6 +27,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource
 import io.akeyless.client.api.V2Api
 import io.akeyless.client.model.Configure
 import io.akeyless.client.model.GetSecretValue
+import io.sentry.Sentry
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.OnlineStatus
@@ -58,7 +59,7 @@ fun dataSource(): DataSource {
     return dataSource
 }
 
-fun loadSecrets() {
+fun loadSecrets(environment: Environment) {
     val apiClient = io.akeyless.client.Configuration.getDefaultApiClient()
 
     apiClient.basePath = "https://api.akeyless.io"
@@ -77,11 +78,12 @@ fun loadSecrets() {
         ?: throw Exception("error getting v2 api token")
 
     val secretsPath =
-        "jeffery-krueger/${Environment.determineEnvironment().toString().toLowerCase()}"
+        "jeffery-krueger/${environment.toString().toLowerCase()}"
 
     val body = GetSecretValue().addNamesItem("$secretsPath/discord-token")
         .addNamesItem("$secretsPath/snowflake-url")
         .addNamesItem("$secretsPath/snowflake-client-secret")
+        .addNamesItem("$secretsPath/sentry-dsn")
         .token(aKeylessToken)
 
     val result = v2Api.getSecretValue(body)
@@ -92,10 +94,18 @@ fun loadSecrets() {
         ?: throw Exception("discord token secret not found")
     val snowflakeClientSecret = result["$secretsPath/snowflake-client-secret"]
         ?: throw Exception("discord token secret not found")
+    val sentryDsn = result["$secretsPath/sentry-dsn"]
+        ?: throw Exception("sentry dsn secret not found")
 
     System.setProperty("discord.token", discordToken)
     System.setProperty("snowflake.url", snowflakeUrl)
     System.setProperty("snowflake.client.secret", snowflakeClientSecret)
+    System.setProperty("sentry.dsn", sentryDsn)
+
+    Sentry.init { options ->
+        options.dsn = sentryDsn
+        options.environment = environment.toString().toLowerCase()
+    }
 }
 
 fun jdaBuilder(): JDABuilder {
@@ -146,7 +156,7 @@ fun setupExposed() {
 
 fun main() {
     val environment = Environment.determineEnvironment()
-    loadSecrets()
+    loadSecrets(environment)
 
     setupExposed()
 

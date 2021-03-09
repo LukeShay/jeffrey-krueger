@@ -5,6 +5,7 @@ val hibernateVersion = "6.0.0.Alpha6"
 val junit5Version = "5.6.0"
 val log4jVersion = "2.14.0"
 val exposedVersion = "0.29.1"
+val kotestVersion = "4.4.3"
 
 buildscript {
     dependencies {
@@ -76,6 +77,10 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junit5Version")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junit5Version")
 
+    // Kotest dependencies
+    testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
+    testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
+
     // Hibernate dependencies
     testImplementation("org.hibernate.orm:hibernate-testing:$hibernateVersion")
 
@@ -84,6 +89,8 @@ dependencies {
 
     // Mockk dependencies
     testImplementation("io.mockk:mockk:1.10.6")
+
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.2")
 }
 
 tasks.jacocoTestReport {
@@ -139,7 +146,7 @@ fun passSystemProperties(jfo: JavaForkOptions) {
     jfo.systemProperty("akeyless.access.key", System.getProperty("akeyless.access.key"))
 }
 
-tasks.test {
+tasks.withType<Test> {
     useJUnitPlatform()
 
     passSystemProperties(this)

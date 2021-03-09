@@ -2,10 +2,10 @@ package com.lukeshay.discord.listeners.commands
 
 import com.lukeshay.discord.domain.CommandEvent
 import com.lukeshay.discord.entities.WordType
+import com.lukeshay.discord.entities.Words
 import com.lukeshay.discord.enums.Emoji
 import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.logging.createLogger
-import com.lukeshay.discord.utils.WordUtils
 
 open class WordCommand(
     private val cmd: String,
@@ -25,7 +25,7 @@ open class WordCommand(
                 .queue()
         } else {
             val message =
-                if (WordUtils.insertWord(
+                if (Words.insertWord(
                         event.guildId,
                         singular.value,
                         plural?.value,

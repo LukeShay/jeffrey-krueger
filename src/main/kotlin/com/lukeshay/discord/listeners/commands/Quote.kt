@@ -1,9 +1,9 @@
 package com.lukeshay.discord.listeners.commands
 
 import com.lukeshay.discord.domain.CommandEvent
+import com.lukeshay.discord.entities.Quotes
 import com.lukeshay.discord.enums.Emoji
 import com.lukeshay.discord.enums.Environment
-import com.lukeshay.discord.utils.QuoteUtils
 
 class Quote(environment: Environment) :
     Command(
@@ -14,7 +14,7 @@ class Quote(environment: Environment) :
     ) {
     override suspend fun run(event: CommandEvent) {
         event.reply(
-            QuoteUtils.selectOneQuoteByGuildId(event.guildId)?.format()
+            Quotes.selectOneQuoteByGuildId(event.guildId)?.format()
                 ?: "A quote could not be found ${Emoji.CRY}"
         ).queue()
     }

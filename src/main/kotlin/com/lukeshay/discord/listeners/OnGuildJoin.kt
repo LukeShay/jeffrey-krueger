@@ -1,9 +1,9 @@
 package com.lukeshay.discord.listeners
 
+import com.lukeshay.discord.entities.GuildConfigs
 import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.enums.Issue
 import com.lukeshay.discord.logging.createLogger
-import com.lukeshay.discord.utils.GuildConfigUtils
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -15,7 +15,7 @@ class OnGuildJoin(private val environment: Environment) :
         logger.info("joined guild - ${event.guild.id}")
 
         transaction {
-            val message = if (GuildConfigUtils.insertOrUpdate(event.guild) != null) {
+            val message = if (GuildConfigs.insertOrUpdate(event.guild) != null) {
                 "Thank you for adding me to your server! Send the message '!help' for information on my commands."
             } else {
                 logger.error("there was an error adding guild ${event.guild.id} to the database")

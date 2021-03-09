@@ -1,15 +1,16 @@
 package com.lukeshay.discord.listeners.commands
 
 import com.lukeshay.discord.enums.Environment
+import io.kotest.core.spec.style.ShouldSpec
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
 
-internal class FeatureTest() {
-    @Test
-    fun `constructor sets correct values`() {
-        val feature = Feature(Environment.determineEnvironment())
+internal class FeatureTest : ShouldSpec({
+    context("constructor") {
+        should("set correct values") {
+            val feature = Feature(Environment.determineEnvironment())
 
-        Assertions.assertEquals("!feature", feature.command)
-        Assertions.assertEquals(0, feature.aliases.size)
+            Assertions.assertEquals("!feature", feature.command)
+            Assertions.assertEquals(0, feature.aliases.size)
+        }
     }
-}
+})

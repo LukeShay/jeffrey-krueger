@@ -1,15 +1,16 @@
 package com.lukeshay.discord.listeners.commands
 
 import com.lukeshay.discord.enums.Environment
+import io.kotest.core.spec.style.ShouldSpec
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
 
-internal class BugTest() {
-    @Test
-    fun `constructor sets correct values`() {
-        val bug = Bug(Environment.determineEnvironment())
+internal class BugTest : ShouldSpec({
+    context("constructor") {
+        should("set correct values") {
+            val bug = Bug(Environment.determineEnvironment())
 
-        Assertions.assertEquals("!bug", bug.command)
-        Assertions.assertEquals(0, bug.aliases.size)
+            Assertions.assertEquals("!bug", bug.command)
+            Assertions.assertEquals(0, bug.aliases.size)
+        }
     }
-}
+})

@@ -3,10 +3,10 @@ package com.lukeshay.discord.utils
 import kotlinx.coroutines.sync.Mutex
 import org.joda.time.DateTime
 
-class Snowflake(
+private class SnowflakeClass(
     private val nodeId: Int,
-    private val nodeBits: Int = 10,
-    private val stepBits: Int = 12,
+    nodeBits: Int = 10,
+    stepBits: Int = 12,
     private val epochTime: Long = 1288834974657,
 ) {
     private val mutex = Mutex(false)
@@ -46,5 +46,20 @@ class Snowflake(
         mutex.unlock(this)
 
         return (now.millis shl timeShift or ((nodeId shl nodeShift).toLong()) or step.toLong()) % 1000000000000000000
+    }
+}
+
+object Snowflake {
+    private val snowflake = SnowflakeClass(
+        Integer.parseInt(
+            System.getProperty(
+                "node.id",
+                "1"
+            )
+        )
+    )
+
+    suspend fun getSnowflakeId(): Long {
+        return snowflake.generate()
     }
 }

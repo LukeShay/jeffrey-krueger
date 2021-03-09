@@ -1,14 +1,14 @@
 package com.lukeshay.discord.listeners
 
 import com.lukeshay.discord.domain.CommandEvent
+import com.lukeshay.discord.entities.GuildConfigs
 import com.lukeshay.discord.enums.Emoji
 import com.lukeshay.discord.enums.Environment
 import com.lukeshay.discord.listeners.commands.Command
 import com.lukeshay.discord.listeners.commands.Help
 import com.lukeshay.discord.listeners.exceptions.NoCommandRuntimeException
 import com.lukeshay.discord.logging.createLogger
-import com.lukeshay.discord.utils.GuildConfigUtils
-import com.lukeshay.discord.utils.ListUtils
+import com.lukeshay.discord.utils.toJSONString
 import kotlinx.coroutines.runBlocking
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
@@ -28,8 +28,7 @@ class OnGuildMessageReceived(
 
         logger.info(
             "available commands -\n\n${
-            ListUtils.toString(
-                commands,
+            cmds.toJSONString(
                 ",",
                 "    ",
                 true
@@ -52,7 +51,7 @@ class OnGuildMessageReceived(
         val command = findCommand(e)
 
         if (command != null) {
-            if (!command.adminOnly || event.authorAsMember?.isOwner == true || GuildConfigUtils.isAdmin(
+            if (!command.adminOnly || event.authorAsMember?.isOwner == true || GuildConfigs.isAdmin(
                     event.guild,
                     event.authorAsMember
                 )

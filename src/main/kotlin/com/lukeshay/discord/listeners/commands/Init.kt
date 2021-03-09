@@ -1,8 +1,8 @@
 package com.lukeshay.discord.listeners.commands
 
 import com.lukeshay.discord.domain.CommandEvent
+import com.lukeshay.discord.entities.GuildConfigs
 import com.lukeshay.discord.enums.Environment
-import com.lukeshay.discord.utils.GuildConfigUtils
 
 class Init(environment: Environment) :
     Command(
@@ -14,12 +14,10 @@ class Init(environment: Environment) :
         true,
     ) {
     override suspend fun run(event: CommandEvent) {
-        val message = if (GuildConfigUtils.selectById(event.guild) != null) {
-            "Your guild has already been set up!"
-        } else if (GuildConfigUtils.insertOrUpdate(event.guild) == null) {
-            "There was an error saving your guild"
-        } else {
-            "Your guild has bee set up!"
+        val message = when {
+            GuildConfigs.selectById(event.guild) != null -> "Your guild has already been set up!"
+            GuildConfigs.insertOrUpdate(event.guild) == null -> "There was an error saving your guild"
+            else -> "Your guild has bee set up!"
         }
 
         event.reply(message).queue()

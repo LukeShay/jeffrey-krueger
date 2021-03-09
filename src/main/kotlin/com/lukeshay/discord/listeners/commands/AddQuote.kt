@@ -1,9 +1,9 @@
 package com.lukeshay.discord.listeners.commands
 
 import com.lukeshay.discord.domain.CommandEvent
+import com.lukeshay.discord.entities.Quotes
 import com.lukeshay.discord.enums.Emoji
 import com.lukeshay.discord.enums.Environment
-import com.lukeshay.discord.utils.QuoteUtils
 
 class AddQuote(environment: Environment) : Command(
     cmd = "add-quote",
@@ -23,7 +23,7 @@ class AddQuote(environment: Environment) : Command(
             event.reply("A quote is required")
         } else {
             val message =
-                QuoteUtils.insertQuote(
+                Quotes.insertQuote(
                     event.guildId,
                     quote.value,
                     author?.value,

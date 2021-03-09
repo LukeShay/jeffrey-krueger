@@ -1,8 +1,8 @@
 package com.lukeshay.discord.listeners.commands
 
 import com.lukeshay.discord.domain.CommandEvent
+import com.lukeshay.discord.entities.GuildConfigs
 import com.lukeshay.discord.enums.Environment
-import com.lukeshay.discord.utils.GuildConfigUtils
 import net.dv8tion.jda.api.EmbedBuilder
 import java.awt.Color
 
@@ -26,7 +26,7 @@ class Help(
             "Hey! My name is Jeffrey Krueger. Here is a list of what I am capable of."
         )
 
-        if (event.authorAsMember?.isOwner == true && GuildConfigUtils.isAdmin(
+        if (event.authorAsMember?.isOwner == true && GuildConfigs.isAdmin(
                 event.guild,
                 event.authorAsMember
             )

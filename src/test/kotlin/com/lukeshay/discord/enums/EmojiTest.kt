@@ -1,11 +1,12 @@
 package com.lukeshay.discord.enums
 
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.ShouldSpec
+import io.kotest.matchers.shouldBe
 
-class EmojiTest {
-    @Test
-    fun `toString returns the discord emoji`() {
-        Assertions.assertEquals(":ping_pong:", Emoji.PING_PONG.toString())
+class EmojiTest : ShouldSpec({
+    context("toString") {
+        should("return the discord emoji") {
+            Emoji.PING_PONG.toString() shouldBe ":ping_pong:"
+        }
     }
-}
+})

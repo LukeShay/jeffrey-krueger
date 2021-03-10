@@ -1,10 +1,16 @@
 codecov:
   require_ci_to_pass: yes
 
-flags:
-  bot:
-    paths:
-      - jeffery-bot/src
+#flags:
+#  bot:
+#    paths:
+#      - jeffery-bot/src
+#  entities:
+#    paths:
+#      - jeffery-entities/src
+#  lib:
+#    paths:
+#      - jeffery-lib/src
 
 coverage:
   precision: 2
@@ -21,8 +27,6 @@ coverage:
         if_ci_failed: error
         informational: false
         only_pulls: false
-      bot:
-        target: 80%
 
 parsers:
   gcov:

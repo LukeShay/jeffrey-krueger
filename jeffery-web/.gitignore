@@ -1,0 +1,5 @@
+node_modules/
+.routify/
+dist/
+
+.DS_Store

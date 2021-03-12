@@ -1,10 +1,20 @@
 import com.lukeshay.discord.gradle.passSystemProperties
+import gradle.kotlin.dsl.accessors._4c137f78e7a759b3056af35daeb34c6d.implementation
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val hibernateVersion = "6.0.0.Alpha6"
-val log4jVersion = "2.14.0"
-val exposedVersion = "0.29.1"
-val kotestVersion = "4.4.3"
+val aKeylessVersion: String by project
+val c3p0Version: String by project
+val exposedVersion: String by project
+val hibernateVersion: String by project
+val jdaVersion: String by project
+val jodaTimeVersion: String by project
+val kotestVersion: String by project
+val kotlinVersion: String by project
+val kotlinxCoroutinesVersion: String by project
+val log4jVersion: String by project
+val mockkVersion: String by project
+val postgresqlVersion: String by project
+val sentryVersion: String by project
 
 group = "com.lukeshay.discord"
 version = System.getProperty("app.version", "version")
@@ -23,15 +33,15 @@ repositories {
 
 dependencies {
     // Discord dependencies
-    implementation("net.dv8tion:JDA:4.2.0_228") {
+    implementation("net.dv8tion:JDA:$jdaVersion") {
         exclude("opus-java")
     }
 
-    implementation("org.jetbrains.kotlin:kotlin-bom")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib")
-    runtimeOnly("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
+    implementation("org.jetbrains.kotlin:kotlin-bom:$kotlinVersion")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
+    runtimeOnly("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
 
     // Log4j dependencies
     implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
@@ -45,14 +55,20 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-jodatime:$exposedVersion")
 
     // JodaTime dependencies
-    implementation("joda-time:joda-time:2.10.10")
+    implementation("joda-time:joda-time:$jodaTimeVersion")
 
     // Hibernate dependencies
     implementation("org.hibernate.orm:hibernate-core:$hibernateVersion")
-    implementation("com.mchange:c3p0:0.9.5.5")
+    implementation("com.mchange:c3p0:$c3p0Version")
 
     // Postgres dependencies
-    implementation("org.postgresql:postgresql:42.2.19")
+    implementation("org.postgresql:postgresql:$postgresqlVersion")
+
+    // AKEYLESS dependencies
+    implementation("io.akeyless:akeyless-java:$aKeylessVersion")
+
+    // Sentry dependencies
+    implementation("io.sentry:sentry-log4j2:$sentryVersion")
 
     // Test dependencies
     // Kotest dependencies
@@ -60,10 +76,10 @@ dependencies {
     testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
 
     // Mockk dependencies
-    testImplementation("io.mockk:mockk:1.10.6")
+    testImplementation("io.mockk:mockk:$mockkVersion")
 
     // Kotlin dependencies
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.2")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinxCoroutinesVersion")
 }
 
 tasks.jacocoTestReport {

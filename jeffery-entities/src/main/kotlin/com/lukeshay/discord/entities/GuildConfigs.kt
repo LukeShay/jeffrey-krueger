@@ -28,7 +28,7 @@ object GuildConfigs : Table("guild_configs") {
             result.ownerId == member.idLong ||
                 GuildConfigAdminRoleIds.selectByRoleIdAndGuildId(
                 member.idLong,
-                guild.idLong
+                guild.idLong,
             ) != null ||
                 GuildConfigAdminIds.selectByAdminIdAndGuildId(
                 member.idLong,
@@ -64,6 +64,9 @@ object GuildConfigs : Table("guild_configs") {
 
     fun all(): List<GuildConfig> =
         selectAll().map(::fromResultRow)
+
+    fun selectAllByAdminId(adminId: Long): List<GuildConfig> =
+        GuildConfigs.select { ownerId eq adminId }.map(::fromResultRow)
 
     private fun fromResultRow(it: ResultRow): GuildConfig =
         GuildConfig(

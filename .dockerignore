@@ -1,9 +1,4 @@
-*
-
-!*.gradle.kts
-!gradle.properties
-
-!src/
-!gradlew
-!gradle/
-!.git/
+.run/
+.gradle/
+.idea/
+.github/

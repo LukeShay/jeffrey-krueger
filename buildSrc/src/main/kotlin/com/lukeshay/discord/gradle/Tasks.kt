@@ -2,7 +2,13 @@ package com.lukeshay.discord.gradle
 
 import org.gradle.api.Project
 
-class HerokuProps(project: String, version: String, defaultAppName: String, processType: String) {
+class HerokuProps(
+    project: String,
+    version: String,
+    defaultAppName: String,
+    processType: String,
+    programArguments: String = ""
+) {
     val appName: String = System.getProperty("heroku.app.name", defaultAppName)
     val jdkVersion = "11"
     val processTypes = mapOf(
@@ -11,7 +17,8 @@ class HerokuProps(project: String, version: String, defaultAppName: String, proc
             "-Denvironment=\$ENVIRONMENT " +
             "-Dakeyless.access.id=\$AKEYLESS_ACCESS_ID " +
             "-Dakeyless.access.key=\$AKEYLESS_ACCESS_KEY " +
-            "-jar $project/build/libs/$project-$version-all.jar"
+            "-Dapp.version=${System.getProperty("app.version")}" +
+            "-jar $project/build/libs/$project-$version-all.jar $programArguments"
     )
     val buildpacks = listOf("heroku/jvm")
     val includes = listOf("$project/build/libs/$project-$version-all.jar")
@@ -22,6 +29,7 @@ fun Project.setupHeroku(
     project: String,
     version: String,
     defaultAppName: String,
-    processType: String
+    processType: String,
+    programArguments: String = ""
 ): HerokuProps =
-    HerokuProps(project, version, defaultAppName, processType)
+    HerokuProps(project, version, defaultAppName, processType, programArguments)

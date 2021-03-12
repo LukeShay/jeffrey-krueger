@@ -9,6 +9,9 @@ plugins {
     id("com.github.johnrengelman.shadow") version "6.1.0" apply true
 }
 
+group = "com.lukeshay.discord.bot"
+version = System.getProperty("app.version", "version")
+
 dependencies {
     implementation(project(":jeffery-entities"))
     implementation(project(":jeffery-lib"))

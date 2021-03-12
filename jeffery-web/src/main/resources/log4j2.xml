@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" packages="org.apache.logging.log4j.core,io.sentry.log4j2">
+    <Appenders>
+        <Console name="LogToConsole" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36}.%M | %msg%n"/>
+        </Console>
+        <Sentry name="Sentry"
+                minimumBreadcrumbLevel="DEBUG"
+                minimumEventLevel="DEBUG"/>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.lukeshay" level="debug" additivity="false">
+            <AppenderRef ref="Sentry"/>
+            <AppenderRef ref="LogToConsole"/>
+        </Logger>
+        <Logger name="Application" level="info" additivity="false">
+            <AppenderRef ref="Sentry"/>
+            <AppenderRef ref="LogToConsole"/>
+        </Logger>
+        <Root level="error" additivity="false">
+            <AppenderRef ref="Sentry"/>
+            <AppenderRef ref="LogToConsole"/>
+        </Root>
+    </Loggers>
+</Configuration>

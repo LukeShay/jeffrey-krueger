@@ -1,0 +1,50 @@
+.navbar a:not(.btn) {
+  text-decoration: none;
+  color: #B8BBBE;
+}
+
+.navbar a:hover {
+  color: #FFFFFF;
+}
+
+.navbar {
+  background: #2e3236;
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.wrapper {
+  padding: 0.625rem;
+  max-width: 1300px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 1.75rem;
+  padding: 0 1rem;
+  color: #FFFFFF;
+}
+
+.section {
+  display: inline-flex;
+  justify-content: space-evenly;
+  padding: 0 1rem;
+}
+
+.item {
+  font-size: 16px;
+  text-align: center;
+  height: initial;
+  width: 3rem;
+}
+
+.link a img {
+  color: #E4E4E7;
+}

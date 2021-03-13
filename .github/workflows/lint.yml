@@ -6,7 +6,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: denolib/setup-deno@v2
-      - name: Run fmt check script
-        run: deno fmt *.ts src/** --check
-    # - name: Run lint script
-    #   run: deno lint *.ts src/** --unstable --ignore=./src/types/
+      - run: deno lint *.ts src/** --unstable --ignore=./src/types/

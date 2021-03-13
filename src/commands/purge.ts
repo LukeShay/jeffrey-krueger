@@ -30,7 +30,7 @@ createCommand({
       await deleteMessages(
         message.channelID,
         // + 1 to include the message that triggered the command
-        messagesToDelete.slice(0, args.count + 1).map((m) => m.id),
+        messagesToDelete.slice(0, args.count + 1).map((m) => m.id)
       );
 
       const embed = new Embed()

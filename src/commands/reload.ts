@@ -21,7 +21,7 @@ const folderPaths = new Map([
 
 createCommand({
   name: `reload`,
-  permissionLevels: [PermissionLevels.BOT_OWNER],
+  permissionLevels: [PermissionLevels.BOT_OWNER, PermissionLevels.BOT_DEVS],
   botChannelPermissions: ["SEND_MESSAGES"],
   arguments: [
     {
@@ -45,7 +45,7 @@ createCommand({
       const path = folderPaths.get(args.folder);
       if (!path) {
         return message.reply(
-          "The folder you provided did not have a path available.",
+          "The folder you provided did not have a path available."
         );
       }
 
@@ -54,16 +54,12 @@ createCommand({
         await importDirectory(Deno.realPathSync(path));
         await fileLoader();
         registerTasks();
-        return message.reply(
-          `The **${args.folder}** have been reloaded.`,
-        );
+        return message.reply(`The **${args.folder}** have been reloaded.`);
       }
 
       if (args.folder === "languages") {
         await reloadLang();
-        return message.reply(
-          `The **${args.folder}** have been reloaded.`,
-        );
+        return message.reply(`The **${args.folder}** have been reloaded.`);
       }
 
       await importDirectory(Deno.realPathSync(path));
@@ -76,7 +72,7 @@ createCommand({
     await Promise.all(
       [...folderPaths.values()].map((path) =>
         importDirectory(Deno.realPathSync(path))
-      ),
+      )
     );
     await fileLoader();
     registerTasks();

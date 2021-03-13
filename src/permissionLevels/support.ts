@@ -5,6 +5,8 @@ import { configs } from "../../configs.ts";
 // The member using the command must be one of the bots support team
 botCache.permissionLevels.set(
   PermissionLevels.BOT_SUPPORT,
+  // deno-lint-ignore ban-ts-comment
+  // @ts-expect-error
   // deno-lint-ignore require-await
   async (message) => configs.userIDs.botSupporters.includes(message.author.id),
 );
